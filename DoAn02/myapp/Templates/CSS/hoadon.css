@@ -1,0 +1,952 @@
+/* Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Thiết lập body */
+body {
+  min-height: 100vh;
+  background: #e7e7e7;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header ngang */
+.header {
+  width: 100%;
+  height: 60px;
+  background: #6796be;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.menu-toggle {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Sidebar dọc */
+/* Sidebar dọc */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100% - 60px);
+  width: 60px; /* Chiều rộng mặc định */
+  background: #fff;
+  margin-left: 6px;
+  padding: 10px 5px;
+  transition: width 0.3s ease; /* Hiệu ứng mở rộng mượt mà */
+  box-shadow: 5px 3px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  z-index: 900;
+}
+
+.sidebar.active {
+  width: 240px; /* Chiều rộng khi mở rộng */
+}
+
+/* Nội dung chính */
+.content {
+  margin-top: 10px;
+  margin-left: 70px; /* Khoảng cách ban đầu lớn hơn width của sidebar (60px + padding) */
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease; /* Chỉ điều chỉnh margin-left */
+  width: calc(100% -70px); /* Đảm bảo chiếm toàn bộ chiều rộng còn lại */
+  max-width: calc(100vw - 70px);
+}
+
+.sidebar.active ~ .content {
+  margin-left: 170px; /* Dịch sang phải tương ứng với sidebar mở rộng (240px + padding) */
+  width: calc(100% - 250px); /* Điều chỉnh lại chiều rộng */
+  max-width: calc(100vw - 250px);
+}
+.logo_content {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo .icon img {
+  width: 40px; /* Kích thước logo nhỏ hơn và đồng đều */
+  height: 40px;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+.logo_name {
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .logo_name {
+  opacity: 1;
+}
+
+.nav_list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.nav_list li {
+  display: flex;
+  align-items: center;
+  height: 50px; /* Giảm height để khoảng cách đều hơn */
+  margin: 26px 0; /* Khoảng cách giữa các mục */
+}
+
+.nav_list li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  padding: 0 10px; /* Khoảng cách bên trong thẻ a */
+  transition: font-weight 0.3s ease, transform 0.3s ease; /* Thêm transition cho hiệu ứng */
+}
+.nav_list li a:hover {
+  transform: scale(1.05); /* Phóng to 5% khi hover */
+}
+.nav_list li .icon {
+  font-size: 24px; /* Icon đồng đều kích thước */
+  width: 40px; /* Đảm bảo icon căn đều */
+  text-align: center;
+}
+
+.link_name {
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .link_name {
+  opacity: 1;
+}
+
+/* Nội dung chính */
+.content {
+  margin-top: 10px;
+  margin-left: 60px;
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  width: calc(100% - 60px);
+  max-width: calc(100vw - 60px);
+}
+
+
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 90px;
+  transition: width 0.3s ease;
+}
+
+.search-bar input:focus {
+  width: 270px;
+}
+
+.search-bar button {
+  background-color: #eeaff3;
+  border: none;
+  color: #1c1919;
+  padding: 5px 10px;
+  height: 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #f186f1;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.button-group .dathue:hover {
+  background: rgb(167, 222, 214);
+  color: black;
+}
+
+.button-group .phongtrong:hover {
+  background: rgb(246, 237, 156);
+  color: black;
+}
+
+.button-group .hientatca:hover {
+  background: rgba(249, 205, 158, 0.952);
+  color: black;
+}
+
+/* Đăng xuất */
+.logout-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1c1919;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+/* Đăng xuất */
+.logout-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1c1919;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease; /* Thêm transition cho font-weight */
+}
+.logout-link .icon {
+  font-size: 24px; /* Đồng đều với các icon khác */
+  width: 40px;
+  text-align: center;
+  color: #eeaff3;
+  transition: transform 0.3s ease;
+}
+
+.logout-link .link_name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.logout-link:hover {
+  background-color: #f6cff3;
+  transform: scale(1.05);
+}
+
+.logout-link:hover .icon {
+  transform: rotate(-20deg);
+  color: #d94bd3;
+}
+
+
+
+
+
+/* ============================================================================== */
+/*                         THÂN                             */
+/* ============================================================================== */
+.khachhang {
+  width: 105%;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+
+}
+.container {
+  max-width: 140%; /* Loại bỏ giới hạn chiều rộng mặc định của container */
+  width: 1200px; /* Đặt chiều rộng cố định lớn hơn, bạn có thể tùy chỉnh */
+}
+h2 {
+    text-align: center;
+}
+table {
+    width: 100px;
+    
+    border-collapse: collapse;
+
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    height: 50px;
+    width: 20px;
+}
+
+/* Chỉnh nhỏ cột Dãy Phòng & Số Phòng */
+.table th:first-child, /* Dãy Phòng */
+.table td:first-child{
+    width: 4%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center;
+   
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+.table th:nth-child(2), /* Dãy Phòng */
+.table th:nth-child(3), /* Số Phòng */
+
+.table td:nth-child(2), 
+.table td:nth-child(3)
+
+{
+    width: 9%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center;
+   
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4){
+    width: 16%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center;
+   
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5){
+    width: 11%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center;
+   
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+.table th:nth-child(6),
+.table td:nth-child(6){
+ 
+    width: 30%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center; 
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7){
+    width: 25%; /* Để trình duyệt tự điều chỉnh nhỏ nhất có thể */
+    min-width: 40px; /* Đảm bảo không nhỏ hơn mức đọc được */
+    max-width: 50px;
+    text-align: center;
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden;
+}
+
+
+/* Cố định độ rộng bảng */
+.table {
+    table-layout: fixed; /* Giữ bố cục bảng không co giãn */
+    width: 100%;
+   
+}
+
+/* Tạo tiêu đề nổi bật */
+.table thead th {
+    background-color: #ebe7e7 !important;
+    
+    color: rgb(51, 50, 50) !important;
+    
+    text-align: center;
+    border: 1px solid #ccc !important;
+    text-shadow: 1px 1.5px 3.5px rgba(0, 0, 0, 0.3);
+}
+
+.table thead {
+    background-color: #dcdcdc !important;
+    
+}
+
+
+/* ===============================ĐỔ BÓNG KHUNG VÀ BO GÓC======================= */
+
+.table {
+    border-collapse: separate; /* Giúp bo góc hiển thị đúng */
+    border-spacing: 0; /* Loại bỏ khoảng cách giữa các ô */
+    border-radius: 10px; /* Bo tròn góc bảng */
+    overflow: hidden; /* Đảm bảo góc bo không bị mất */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+}
+
+/* Bo góc cho tiêu đề bảng */
+.table thead tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table thead tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Bo góc cho hàng cuối cùng của bảng */
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+/* Bo góc cho nút chỉnh sửa */
+.btn {
+    border-radius: 5px; /* Bo góc nhẹ */
+    padding: 5px 10px;
+}
+
+.chinhsua {
+    background-color: #ff9800;
+    color: white;
+    border-radius: 8px; /* Bo góc nút */
+    padding: 5px 10px;
+}
+.thanhtoan-btn{
+  height: 37.5px;
+  background-color: #2e854e;
+  color: white;
+  border-radius: 8px; /* Bo góc nút */
+  padding: 5px 10px;
+  border: none; /* Bỏ viền hoàn toàn */
+  outline: none; /* Bỏ viền khi focus */
+
+}
+.thanhtoan-btn:hover{
+  background: #34a264;
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.xemchitiet {
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 8px; /* Bo góc nút */
+    padding: 5px 10px;
+}
+
+/* ============================================================================================= */
+/* =================bo góc============== */
+/* ============================================================================================= */
+    /* Bo góc toàn bộ bảng
+    .table {
+        border-collapse: separate; /* Cho phép bo góc 
+      
+        border-radius: 10px; /* Bo góc bảng 
+      
+    }
+
+/* Bo góc tiêu đề bảng 
+.table thead th {
+    background-color: #ebe7e7 !important;
+    color: rgb(51, 50, 50) !important;
+    text-align: center;
+    border: 1px solid #ccc !important;
+    text-shadow: 1px 1.5px 3.5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px; /* Bo góc cho từng ô 
+}
+*/
+.btn.btn.xemchitiet{
+  background: #8fd1f3; /* Light Sky Blue  */
+  color: #252424;
+  width: 132px;
+}
+
+.btn.btn.xemchitiet:hover {
+  background: #9cd2fc;
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+/* -------------------------------------------------------------------------------------------------------------------------------------- */
+.khachhang {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+h2 {
+  text-align: center;
+}
+
+
+.completed {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+tr.completed {
+  background-color: #e6ffe6;
+}
+tr.pending {
+  background-color: #fff3f3;
+}
+.debt-info {
+  color: red;
+  font-size: 0.9em;
+}
+/* ============================================================================================ */
+/*                                     3 nút button                         */
+/* ============================================================================================ */
+.btn.chinhsua {
+    background: #f4cda1e8; /* Baby Blue */
+    color: #353434;
+    height: 40px;
+    width: 125px;
+  }
+  
+  .btn.chinhsua:hover {
+    background: #e9b47c;
+    color:#343333 ;
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  /* Nút xem hợp đồng - Xanh nước biển nhạt */
+  .btn.taotaikhoan {
+    background: #87f3a9d0; /* Light Sky Blue */
+    color: #252424;
+  }
+  
+  .btn.taotaikhoan:hover {
+    background: #98f5c8;
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+/* ========================== */
+/*      BỘ LỌC */
+/* ========================== */
+
+.day {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  .rong {
+    font-size: 20px;
+    padding-left: 20px;
+  }
+  
+  
+  .doi {
+    display: flex;
+    flex-wrap: wrap;  /* Để đảm bảo responsive */
+    align-items: center;  /* Căn giữa theo chiều dọc */
+    gap: 9px; /* Tăng khoảng cách giữa các nhóm label + select */
+   
+    
+   
+    padding-left: 100px;/* Khoảng cách giữa menu với hàng dãy */
+  
+  }
+  
+  .doi label {
+    font-weight: bold;
+    min-width: 40px; /* Đảm bảo tất cả label có cùng độ rộng */
+    text-align: right; /* Căn chữ về bên phải */
+  }
+  
+  .doi select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-width: 150px; /* Giữ kích thước dropdown không quá nhỏ */
+    height: 37px;
+  }
+  
+  
+  
+  select {
+    padding: 3px 10px;
+  
+    width: 170px;
+    height: 35px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  
+  }
+  
+  select:hover {
+    border-color: #007bff;
+  }
+  
+  select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  /* ================= */
+  /*    Nút thêm phòng */
+  /* ================== */
+  /* .themphong {
+      background-color: #646dd2e4; /* Hồng pastel 
+      color: rgb(246, 245, 245);
+      font-size: 15px;
+      width: 160px;
+      height: 40px;
+      font-weight: bold;
+      padding: 10px 18px ;
+      margin-bottom: 9px;
+      margin-left: 435px;
+      border: none; /* Bỏ viền 
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 3px 3px 8px rgba(255, 182, 193, 0.4);
+      display: inline-block; /* Đảm bảo không bị lỗi 
+      text-align: center;
+  }
+  
+  .themphong:hover 
+      background-color: #4d45e2; /* Màu đậm hơn khi di chuột 
+      box-shadow: 3px 3px 12px rgba(169, 167, 235, 0.5);
+  }
+  
+  .themphong:active {
+      background-color: #f2f1f6; /* Màu đậm khi bấm 
+      transform: scale(0.96);
+      box-shadow: 2px 2px 5px rgba(252, 251, 251, 0.6);
+  }
+  
+  .themphong:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(255, 146, 165, 0.6);
+  }
+  
+  
+  
+  h6 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* Chữ màu trắng 
+    text-shadow: 0 0 10px #bae3f2, 0 0 20px #dee7ef, 0 0 30px #b0d7fa;
+  } 
+   */
+  /* ============================================== */
+  /*                       icon                        */
+  /* =============================================== */
+  .select-container {
+    position: relative;
+    display: inline-block;
+  }
+  .select-container select {
+    padding-left: 56px;
+  }
+  .select-container .icon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    color: black;
+  }
+  
+  /*        icon phòng */
+  .select-container .ico {
+    position: absolute;
+    left: 5px;
+    top: 55%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    color: black;
+  }
+
+  
+  /* ============================ */
+  /*     icon tìm kiếm phía dưới */
+  /* ============================= */
+  
+  
+  
+  
+  .search-btn {
+    background-color: #FDDC9B;
+    border: none;
+    width: 49px;
+    margin-bottom: 3px;
+    height: 36px;
+    border-radius: 10px;
+  margin-left: 15px;
+  text-shadow: 1px 2px 2px rgb(139, 187, 215); 
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  .search-btn i {
+    font-size: 18px;
+    color: #5E3582;
+  }
+  
+  .search-btn:hover {
+    background-color: #fefefe;
+    border: none;
+  
+    transform: scale(1.2); /* Phóng to 1.2 lần */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Tạo hiệu ứng nổi */
+  }
+  
+
+/* tìm kiếm thanh phía trên */
+/* Phong cách cho thanh tìm kiếm */
+.search-bar {
+    display: flex; /* Sắp xếp theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    height: 37.5px;
+    margin-left: auto; /* Đẩy thanh tìm kiếm sang bên phải */
+    background-color: #fff; /* Nền trắng */
+    border-radius: 15px; /* Bo góc thanh tìm kiếm */
+    padding: 5px; /* Khoảng cách giữa các phần tử bên trong */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+    border: 2px solid #5E3582; /* Viền màu tím đậm */
+  }
+
+/* Phong cách cho ô nhập liệu */
+.search-bar input {
+    border: none; /* Loại bỏ viền */
+    outline: none; /* Loại bỏ viền xanh khi chọn */
+    padding: 5px 5px; /* Khoảng cách bên trong ô nhập liệu */
+    border-radius: 8px; /* Bo góc ô nhập liệu */
+    font-size: 14px; /* Kích thước chữ */
+    width: 200px; /* Chiều rộng ô tìm kiếm */
+    
+    transition: width 0.3s ease; /* Hiệu ứng khi nhập */
+  }
+  
+  /* Khi ô nhập được chọn, mở rộng chiều rộng */
+  .search-bar input:focus {
+    width: 300px;
+  }
+  
+  /* Phong cách cho nút tìm kiếm */
+  .search-bar button {
+    background-color: #eeaff3; /* Màu hồng đậm */
+    border: none; /* Loại bỏ viền */
+    color: #1c1919; /* Màu chữ trắng */
+    padding: 5px 10px; /* Khoảng cách nút */
+  height: 28px;
+    border-radius: 10px; /* Bo góc nút */
+    font-size: 14px; /* Kích thước chữ */
+    cursor: pointer; /* Con trỏ thành bàn tay khi hover */
+    margin-left: 5px; /* Khoảng cách giữa nút và ô nhập liệu */
+    transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+  }
+  
+  /* Hiệu ứng hover cho nút tìm kiếm */
+  .search-bar button:hover {
+    background-color: #f186f1; /* Màu hồng đậm hơn khi hover */
+   
+  }
+  
+  .search-bar :active:hover {
+    background-color: white; /* Màu hồng đậm hơn khi hover */
+  }
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  /* ===CODFE HEADING STYLE #12 === */
+   
+  .cf-title-12 {
+    position: relative; /* Đảm bảo vị trí tương đối cho phần tử con */
+}
+
+.cf-title-12 h3 {
+    font-size: 20px; 
+    font-weight: 700;  
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+    width: 160px; 
+    margin-left: 100px;
+    white-space: nowrap; 
+    padding-bottom: 13px;
+    position: relative; /* Để căn chỉnh phần tử con */
+}
+
+.cf-title-12 h3:before {
+    background-color: #c5000078;
+    content: '';
+    display: block;
+    height: 2px;
+    width: 75px;
+    margin-bottom: 5px;
+}
+
+.cf-title-12 h3:after {
+    background-color: #c5000078;
+    content: '';
+    display: block;
+    height: 2px;
+    width: 75px;
+    margin-top: 5px;
+    margin-left: auto; /* Đẩy về bên phải */
+}
+/* ===============================Thanh================================== */
+.thanh{
+  display:none; 
+  position:fixed; top:20%; 
+  left:50%;
+   transform:translate(-50%,-20%); 
+   background:#fff; padding:20px;
+    border:1px solid #ccc;
+}
+/* CSS cho paymentForm */
+.thanh {
+  display: none; /* Ẩn mặc định */
+  position: fixed; /* Đặt cố định trên màn hình */
+  top: 50%; /* Căn giữa theo chiều dọc */
+  left: 50%; /* Căn giữa theo chiều ngang */
+  transform: translate(-50%, -50%); /* Dịch chuyển để chính xác giữa */
+  background-color: #ffffff; /* Nền trắng */
+  padding: 20px;
+  border-radius: 10px; /* Bo góc */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+  width: 350px; /* Độ rộng cố định */
+  z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
+}
+
+/* Tiêu đề */
+.thanh h3 {
+  text-align: center;
+  color: #333; /* Màu chữ đậm */
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Label và radio */
+.thanh label {
+  display: block;
+  margin: 1px 0;
+  color: #555; /* Màu chữ nhạt hơn */
+  font-size: 16px;
+}
+
+.thanh input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #007bff; /* Màu xanh cho radio button */
+}
+
+/* Khu vực chi tiết nợ */
+#debtDetails {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f9f9f9; /* Nền nhạt */
+  border-radius: 5px;
+}
+
+#debtDetails input[type="number"],
+#debtDetails input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ddd; /* Viền nhẹ */
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box; /* Đảm bảo padding không làm tràn */
+}
+
+#debtDetails input[type="number"]:focus,
+#debtDetails input[type="date"]:focus {
+  border-color: #007bff; /* Viền xanh khi focus */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Hiệu ứng sáng nhẹ */
+}
+
+/* Nút bấm */
+/* CSS đã chỉnh sửa nút button */
+.thanh {
+    display: none; /* Ẩn mặc định */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    z-index: 1000;
+}
+
+/* Căn giữa các nút */
+.thanh .button-container {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên */
+}
+
+/* Giữ nguyên style cho button */
+.thanh button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt */
+}
+
+.thanh button:first-of-type { /* Nút Xác nhận */
+  background-color: #007bff; /* Màu xanh dương */
+  color: white;
+}
+
+.thanh button:first-of-type:hover {
+  background-color: #0056b3; /* Đậm hơn khi hover */
+}
+
+.thanh button:last-of-type { /* Nút Hủy */
+  background-color: #dc3545; /* Màu đỏ */
+  color: white;
+}
+
+.thanh button:last-of-type:hover {
+  background-color: #b02a37; /* Đậm hơn khi hover */
+}
+
+/* Tùy chỉnh placeholder */
+#debtDetails input::placeholder {
+  color: #aaa; /* Màu xám nhạt */
+  font-style: italic;
+}
+
+.conlai{
+  width: 288px;
+  background-color: white;
+  height: 36px;
+  border-radius: 3px; /* Bo góc 8px */
+}

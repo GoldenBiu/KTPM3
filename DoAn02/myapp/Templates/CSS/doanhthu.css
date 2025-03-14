@@ -1,0 +1,554 @@
+/* Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Thiết lập body */
+body {
+  min-height: 100vh;
+  background: #e7e7e7;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header ngang */
+.header {
+  width: 100%;
+  height: 60px;
+  background: #6796be;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.menu-toggle {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Sidebar dọc */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100% - 60px);
+  width: 60px;
+  background: #fff;
+  margin-left: 6px;
+  padding: 10px 5px;
+  transition: width 0.3s ease;
+  box-shadow: 5px 3px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  z-index: 900;
+}
+
+.sidebar.active {
+  width: 240px;
+}
+
+.logo_content {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo .icon img {
+  width: 40px; /* Kích thước logo nhỏ hơn và đồng đều */
+  height: 40px;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+.logo_name {
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .logo_name {
+  opacity: 1;
+}
+
+.nav_list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.nav_list li {
+  display: flex;
+  align-items: center;
+  height: 50px; /* Giảm height để khoảng cách đều hơn */
+  margin: 26px 0; /* Khoảng cách giữa các mục */
+}
+
+.nav_list li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  padding: 0 10px; /* Khoảng cách bên trong thẻ a */
+  transition: font-weight 0.3s ease, transform 0.3s ease; /* Thêm transition cho hiệu ứng */
+}
+.nav_list li a:hover {
+  transform: scale(1.05); /* Phóng to 5% khi hover */
+}
+.nav_list li .icon {
+  font-size: 24px; /* Icon đồng đều kích thước */
+  width: 40px; /* Đảm bảo icon căn đều */
+  text-align: center;
+}
+
+.link_name {
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .link_name {
+  opacity: 1;
+}
+
+/* Nội dung chính */
+.content {
+  margin-top: 60px;
+  margin-left: 60px;
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  width: calc(100% - 60px);
+  max-width: calc(100vw - 60px);
+}
+
+.sidebar.active ~ .content {
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  max-width: calc(100vw - 240px);
+}
+
+/* Thanh tìm kiếm */
+.search-bar {
+  display: flex;
+  align-items: center;
+  height: 38.5px;
+  margin-left: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid #5E3582;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 90px;
+  transition: width 0.3s ease;
+}
+
+.search-bar input:focus {
+  width: 270px;
+}
+
+.search-bar button {
+  background-color: #eeaff3;
+  border: none;
+  color: #1c1919;
+  padding: 5px 10px;
+  height: 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #f186f1;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.button-group .dathue:hover {
+  background: rgb(167, 222, 214);
+  color: black;
+}
+
+.button-group .phongtrong:hover {
+  background: rgb(246, 237, 156);
+  color: black;
+}
+
+.button-group .hientatca:hover {
+  background: rgba(249, 205, 158, 0.952);
+  color: black;
+}
+
+/* Đăng xuất */
+.logout-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1c1919;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+/* Đăng xuất */
+.logout-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1c1919;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease; /* Thêm transition cho font-weight */
+}
+.logout-link .icon {
+  font-size: 24px; /* Đồng đều với các icon khác */
+  width: 40px;
+  text-align: center;
+  color: #eeaff3;
+  transition: transform 0.3s ease;
+}
+
+.logout-link .link_name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.logout-link:hover {
+  background-color: #f6cff3;
+  transform: scale(1.05);
+}
+
+.logout-link:hover .icon {
+  transform: rotate(-20deg);
+  color: #d94bd3;
+}
+
+
+
+  /* ================================================================================ */
+  .dau {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    padding: 20px;
+}
+
+/* .container{
+    display: flex;
+    /* justify-content: center;
+    align-items: center; 
+    width: 90%;
+    max-width: 800px;
+    /* background: white; 
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+} */
+
+ .tai {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  width: 90%;
+  max-width: 800px;
+
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-box{
+    width: 100%;
+    max-width: 700px;
+    
+height: 400px;
+    /* text-align: center; */
+}
+
+.chart-container {
+  display: flex; /* Sắp xếp các phần tử con theo hàng ngang */
+  justify-content: space-between; /* Căn đều khoảng cách */
+  gap: 20px; /* Tạo khoảng cách giữa 2 biểu đồ */
+  flex-wrap: wrap; /* Nếu màn hình nhỏ, tự động xuống dòng */
+}
+
+.chart-box {
+  flex: 1; /* Chia đều không gian */
+  min-width: 300px; /* Đảm bảo không quá nhỏ trên màn hình nhỏ */
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* =======================phần bản đồ 2====================== */
+/* .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Tạo khoảng cách giữa các biểu đồ 
+  padding: 20px;
+  /* background: rgb(202, 93, 93); 
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+} */
+
+.chart-box {
+  width: 55%; /* Để hai biểu đồ cân đối trên cùng một hàng */
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+ 
+}
+
+
+
+
+
+/* =================================================================bản tháng===================================== */
+.wrapper {
+  display: flex;
+  justify-content: space-between; /* Canh hai phần về hai phía */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 20px; /* Khoảng cách giữa hai phần */
+  padding: 20px;
+}
+
+/* Biểu đồ */
+.tai {
+  flex: 1; /* Chiếm không gian cân đối */
+  max-width: 60%; /* Giới hạn chiều rộng */
+  background: #eef1f4;
+  padding: 20px;
+
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Lịch năm */
+.calendar-container {
+  flex: 1;
+  max-width: 500px;
+  height: 260px;
+  background: #e6f1fb;
+  padding: 20px;
+
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header của lịch */
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Mũi tên chuyển thập kỷ */
+.arrow {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* Danh sách năm */
+.year-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.year {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+
+
+
+
+.year {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    transition: 0.3s;
+}
+
+.year:hover {
+    background: #d1e7ff;
+}
+
+.selected-year {
+    background: #0095ff !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+
+
+
+
+
+.box {
+  width: 100%;
+  max-width: 500px;
+
+}
+
+.title, .tit {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.show-all, .all {
+    color: blue;
+    text-decoration: none;
+    float: right;
+}
+
+/* =================Chỉnh bên trong bản đồ năm */
+.box {
+  width: 100%;
+  max-width: 900px; /* Định kích thước tối đa */
+  padding: 20px;
+  background: #fff;
+}
+
+#lineChart {
+  width: 100% !important;
+  height: 350px !important;
+}
+
+/* ======================================================================== */
+/* =============================3 cột ở trên ============================ */
+/* ===================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+.coner{
+  padding: 20px;
+}
+.coner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Tạo khoảng cách giữa các biểu đồ */
+  padding: 20px;
+  /* background: rgb(202, 93, 93); */
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.thang {
+  font-size: 20px;
+  font-weight: bold;
+
+}
+.dashboard {
+  display: flex;
+  gap: 25px;
+  padding-right: 150px;
+}
+.card {
+  background: #f8fbfe;
+  padding: 20px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.card i {
+  font-size: 30px;
+  color: #008cff;
+}
+/* .card-content {
+  text-align: right;
+} */
+.card-content h3 {
+  font-size: 14px;
+  color: #777;
+}
+.card-content p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+/* ===== */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 10px 15px;
+  padding-right: 50px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  width: fit-content;
+}
+
+.calendar-header i {
+  color: #0095ff;
+  font-size: 20px;
+}

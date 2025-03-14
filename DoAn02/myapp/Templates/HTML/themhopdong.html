@@ -1,0 +1,464 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'CSS/themhopdong.css' %}">
+
+        <!--css-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
+        <!-- js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+      
+        <script src="{% static 'app/js/s3.js' %}"> </script>
+        <script src="{% static 'app/js/all.min.js' %}"> </script>
+        <script src="{% static 'app/js/mýcript.js' %}"> </script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    </head>
+   
+    <body>
+        <header class="header">
+            <div class="menu-toggle">☰</div>
+            <div class="header-title">Nhà trọ Cần Thơ</div>
+
+            
+          </div>
+
+          <div>
+        <!--   <div class="tren">
+                <button class="btn btn-warning" type="submit">Quay lại</button>
+                <button class="btn btn-success" type="submit">Xuất file Excel </button>
+                <button class="btn btn-secondary" type="submit">Máy in</button>   
+              </div>--> 
+              <div class="tren">
+                <button class="btn file" type="submit">Xuất file Excel </button>
+                <button class="btn mayin" type="submit">Máy in</button>    
+               <!-- <button class="btn quaylai" type="submit">Quay lại</button>-->
+
+              </div>
+            </div>
+          </header>
+        
+          <div class="sidebar">
+               <div class="logo_content">
+                
+                <div class="logo">
+                  <div class="icon">
+                    <img src="../imag/moi.jpg" alt="Logo">
+                  </div>
+                  <div class="logo_name">Xin chào, admin</div>
+                </div>
+                
+            </div>
+
+           <!--<div class="logo_name">Xin chào, Admin</div> -->
+
+           <ul class="nav_list">
+            {% comment %} <li>
+              <a href="menu.html">
+                <span class="icon">🏠</span>
+                <span class="link_name">Trang chủ</span>
+              </a>
+            </li>
+            <ul class="nav_list">
+              <li>
+                <a href="Quanlykhachhang.html">
+                  <span class="icon">🧑‍💼</span>
+                  <span class="link_name">Quản lý khách hàng</span>
+                </a>
+              </li>
+            <li>
+              <a href="doanhthu.html">
+                <span class="icon"> 💰</span>
+                <span class="link_name"> doanh thu</span>
+              </a>
+            </li>
+            <li>
+              <a href="dichvu.html">
+                <span class="icon">💡</span>
+                <span class="link_name">Dịch vụ</span>
+              </a>
+            </li> {% endcomment %}
+            
+            <!-- <li>
+              <a href="dichvu.html">
+                <span class="icon">📊</span>
+                <span class="link_name">Chỉ số điện nước</span>
+              </a>
+            </li> -->
+            <li>
+              <a href="hoadon.html">
+                <span class="icon">🧾</span>
+                <span class="link_name">Hóa đơn</span>
+              </a>
+            </li>
+        
+            <li>
+              <a href="quanlihopdong.html">
+                <span class="icon">📂</span>
+                <span class="link_name">Quản lý hợp đồng</span>
+              </a>
+            </li>
+            <li>
+              <a href="dangxuat.html" class="logout-link">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="link_name">Đăng Xuất</span>
+              </a>
+            </li>
+          </ul>
+          </div>
+    
+<!--Thân-->
+<!-- Nội dung chính -->
+<div class="content flex-grow-1 p-4">
+    <!-- Thanh công cụ phía trên -->
+   <br> <div class="topbar d-flex justify-content-between align-items-center mb-4">
+        <h5 class="title">Hợp Đồng</h5> 
+    </div>
+
+        <script src="" async defer></script>
+        <div class="contract-form">
+          <form method="post" action="{% url 'them_hop_dong' phong_id=phong.PhongID %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="phong_id" value="{{ phong.PhongID }}">
+            <!-- Các trường khác -->
+            <!-- Các trường khác giữ nguyên -->
+              <h3 class="tieude"><span class="green-circle">🟢</span> Thông tin khách thuê:</h3>
+              <div class="form-group">
+                  <label for="member-count">Số lượng thành viên *</label>
+                  <input type="number" id="member-count" value="1" required>
+              </div>
+          
+              <div class="form-group name-phone-group">
+                  <div>
+                      <label for="tenant-name">Tên người đại diện *</label>
+                      <input type="text" id="tenant-name" name="ho_ten_khach_hang" required>
+                  </div>
+                  <div>
+                      <label for="tenant-phone">Số điện thoại người đại diện *</label>
+                      <input type="tel" id="tenant-phone" name="so_dien_thoai" required>
+                  </div>
+              </div>
+          
+              <div class="form-group">
+                  <label for="id-number">CMND/CCCD</label>
+                  <input type="text" id="id-number" name="CMND_CCCD">
+              </div>
+          
+              <div class="form-group date-group">
+                  <div>
+                      <label for="birthdate">Ngày sinh</label>
+                      <input type="date" id="birthdate" name="ngay_sinh">
+                  </div>
+                  <div>
+                      <label for="gender">Giới tính *</label>
+                      <select id="gender" name="gioi_tinh" required>
+                          <option value="" disabled selected hidden>Giới tính</option>
+                          <option value="Nam">Nam</option>
+                          <option value="Nữ">Nữ</option>
+                      </select>
+                  </div>
+              </div>
+          
+              <div class="form-group address-group">
+                  <div>
+                      <label for="city">Tỉnh/Thành phố</label>
+                      <select id="city" name="tinh_thanh_pho" class="form-select" onchange="updateDistricts()">
+                          <option value="" disabled selected hidden>Chọn Tỉnh/Thành phố</option>
+                          <option value="Can Tho">Cần Thơ</option>
+                          <option value="Ho Chi Minh">Hồ Chí Minh</option>
+                          <option value="Ha Noi">Hà Nội</option>
+                          <option value="Da Nang">Đà Nẵng</option>
+                          <option value="Hai Phong">Hải Phòng</option>
+                          <option value="An Giang">An Giang</option>
+                          <option value="Ba Ria - Vung Tau">Bà Rịa - Vũng Tàu</option>
+                          <option value="Bac Giang">Bắc Giang</option>
+                          <option value="Bac Kan">Bắc Kạn</option>
+                          <option value="Bac Lieu">Bạc Liêu</option>
+                          <option value="Bac Ninh">Bắc Ninh</option>
+                          <option value="Ben Tre">Bến Tre</option>
+                          <option value="Binh Dinh">Bình Định</option>
+                          <option value="Binh Duong">Bình Dương</option>
+                          <option value="Binh Phuoc">Bình Phước</option>
+                          <option value="Binh Thuan">Bình Thuận</option>
+                          <option value="Ca Mau">Cà Mau</option>
+                          <option value="Cao Bang">Cao Bằng</option>
+                          <option value="Dak Lak">Đắk Lắk</option>
+                          <option value="Dak Nong">Đắk Nông</option>
+                          <option value="Dien Bien">Điện Biên</option>
+                          <option value="Dong Nai">Đồng Nai</option>
+                          <option value="Dong Thap">Đồng Tháp</option>
+                          <option value="Gia Lai">Gia Lai</option>
+                          <option value="Ha Giang">Hà Giang</option>
+                          <option value="Ha Nam">Hà Nam</option>
+                          <option value="Ha Tinh">Hà Tĩnh</option>
+                          <option value="Hai Duong">Hải Dương</option>
+                          <option value="Hau Giang">Hậu Giang</option>
+                          <option value="Hoa Binh">Hòa Bình</option>
+                          <option value="Hung Yen">Hưng Yên</option>
+                          <option value="Khanh Hoa">Khánh Hòa</option>
+                          <option value="Kien Giang">Kiên Giang</option>
+                          <option value="Kon Tum">Kon Tum</option>
+                          <option value="Lai Chau">Lai Châu</option>
+                          <option value="Lam Dong">Lâm Đồng</option>
+                          <option value="Lang Son">Lạng Sơn</option>
+                          <option value="Lao Cai">Lào Cai</option>
+                          <option value="Long An">Long An</option>
+                          <option value="Nam Dinh">Nam Định</option>
+                          <option value="Nghe An">Nghệ An</option>
+                          <option value="Ninh Binh">Ninh Bình</option>
+                          <option value="Ninh Thuan">Ninh Thuận</option>
+                          <option value="Phu Tho">Phú Thọ</option>
+                          <option value="Quang Binh">Quảng Bình</option>
+                          <option value="Quang Nam">Quảng Nam</option>
+                          <option value="Quang Ngai">Quảng Ngãi</option>
+                          <option value="Quang Ninh">Quảng Ninh</option>
+                          <option value="Quang Tri">Quảng Trị</option>
+                          <option value="Soc Trang">Sóc Trăng</option>
+                          <option value="Son La">Sơn La</option>
+                          <option value="Tay Ninh">Tây Ninh</option>
+                          <option value="Thai Binh">Thái Bình</option>
+                          <option value="Thai Nguyen">Thái Nguyên</option>
+                          <option value="Thanh Hoa">Thanh Hóa</option>
+                          <option value="Thua Thien Hue">Thừa Thiên Huế</option>
+                          <option value="Tien Giang">Tiền Giang</option>
+                          <option value="Tra Vinh">Trà Vinh</option>
+                          <option value="Tuyen Quang">Tuyên Quang</option>
+                          <option value="Vinh Long">Vĩnh Long</option>
+                          <option value="Vinh Phuc">Vĩnh Phúc</option>
+                          <option value="Yen Bai">Yên Bái</option>
+                          <option value="Phu Yen">Phú Yên</option>
+                      </select>
+                  </div>
+                  <div>
+                      <label for="district">Chọn Quận/Huyện</label>
+                      <select id="district" name="quan_huyen" onchange="updateWards()">
+                          <option value="" disabled selected hidden>Chọn Quận/Huyện</option>
+                      </select>
+                  </div>
+              </div>
+          
+              <div class="form-group">
+                  <label for="ward">Chọn Phường/Xã</label>
+                  <select id="ward" name="phuong_xa">
+                      <option value="" disabled selected hidden>Chọn Phường/Xã</option>
+                  </select>
+              </div>
+          
+              <div class="form-group">
+                  <label for="address">Địa chỉ chi tiết</label>
+                  <input type="text" id="address" name="dia_chi_chi_tiet" placeholder="Địa chỉ chi tiết. Ví dụ: hẻm 38 - Đường Mậu Thân">
+              </div>
+          
+              <div class="form-group">
+                  <label for="occupation">Nhập công việc</label>
+                  <input type="text" id="occupation" name="cong_viec" placeholder="Nhập công việc">
+              </div>
+          
+              <div class="form-group date-group">
+                  <div>
+                      <label for="id-issue-date">Ngày cấp CMND/CCCD</label>
+                      <input type="date" id="id-issue-date" name="ngay_cap_cmnd">
+                  </div>
+                  <div>
+                      <label for="id-issue-place">Nơi cấp CMND/CCCD</label>
+                      <input type="text" id="id-issue-place" name="noi_cap_cmnd">
+                  </div>
+              </div>
+          
+              <div class="form-group image-upload-group">
+                  <div class="image-upload">
+                      <input type="file" id="front-id-image" name="anh_mat_truoc" accept="image/*" style="display:none;" onchange="showStatus('front')"> 
+                      <label for="front-id-image" class="upload-label">Ảnh mặt trước CMND/CCCD</label>
+                      <div id="status-front" class="status-message" style="display: none;">Đã thêm ảnh</div>
+                  </div>
+                  <div class="image-upload">
+                      <input type="file" id="back-id-image" name="anh_mat_sau" accept="image/*" style="display:none;" onchange="showStatus('back')"> 
+                      <label for="back-id-image" class="upload-label">Ảnh mặt sau CMND/CCCD</label>
+                      <div id="status-back" class="status-message" style="display: none;">Đã thêm ảnh</div>
+                  </div>
+              </div>
+  
+              <h3 class="tieude"><span class="green-circle">🟢</span> Thời hạn hợp đồng:</h3>
+              <div class="form-group">
+                  <label for="contract-duration">Thời hạn hợp đồng</label>
+                  <select id="contract-duration" name="thoi_han_hop_dong">
+                      <option value="" disabled selected hidden>Chọn thời gian phù hợp</option>
+                      <option value="3 tháng">3 tháng</option>
+                      <option value="6 tháng">6 tháng</option>
+                      <option value="8 tháng">8 tháng</option>
+                      <option value="1 năm">1 năm</option>
+                      <option value="2 năm">2 năm</option>
+                      <option value="3 năm">3 năm</option>
+                      <option value="4 năm">4 năm</option>
+                      <option value="5 năm">5 năm</option>
+                      <option value="6 năm">6 năm</option>
+                  </select> 
+              </div>
+  
+              <div class="form-group date-group">
+                  <div>
+                      <label for="start-date">Ngày vào ở *</label>
+                      <input type="date" id="start-date" name="ngay_vao_o" required>
+                  </div>
+                  <div>
+                      <label for="end-date">Kết thúc hợp đồng</label>
+                      <input type="date" id="end-date" name="ngay_ket_thuc">
+                  </div>
+              </div>
+  
+              <div class="form-group">
+                  <label for="district1" class="day">Dãy</label>
+                  <select id="district1" name="day_phong" disabled>
+                      <option value="{{ phong.DayPhong }}">{{ phong.DayPhong }}</option>
+                  </select>
+              
+                  <label for="district2" class="day">Phòng</label>
+                  <select id="district2" name="so_phong" disabled>
+                      <option value="{{ phong.SoPhong }}">{{ phong.SoPhong }}</option>
+                  </select>
+                  <label for="dien_tich" class="day">Diện Tích</label>
+                  <select id="dien_tich" name="dien_tich" disabled>
+                      <option value="{{ phong.DienTich }}">{{ phong.DienTich }}</option>
+                  </select>
+              </div>
+  
+              <div class="form-right">
+                  <div class="amenities">
+                      <label class="day">Tiện ích</label>
+                      <div class="amenities-left">
+                        <input type="checkbox" id="aircon" name="tien_ich" value="aircon"  {% if 'aircon' in phong.TienIch %}checked{% endif %}>
+                        <label for="aircon">Máy lạnh</label><br>
+                        
+                        <input type="checkbox" id="waterheater" name="tien_ich" value="waterheater"  {% if 'waterheater' in phong.TienIch %}checked{% endif %}>
+                        <label for="waterheater">Máy nước nóng</label><br>
+                        
+                        <input type="checkbox" id="computer" name="tien_ich" value="computer"  {% if 'computer' in phong.TienIch %}checked{% endif %}>
+                        <label for="computer">Máy giặt</label>
+                      </div>
+                      <div class="amenities-right">
+                        <input type="checkbox" id="wifi" name="tien_ich" value="wifi"  {% if 'wifi' in phong.TienIch %}checked{% endif %}>
+                        <label for="wifi">Wifi</label><br>
+                        
+                        <input type="checkbox" id="cooler" name="tien_ich" value="cooler"  {% if 'cooler' in phong.TienIch %}checked{% endif %}>
+                        <label for="cooler">Tủ lạnh</label>
+                      </div>
+                  </div>
+              </div>
+  
+              <h3 class="tieude"><span class="green-circle">🟢</span> Tiền phòng/cọc phòng</h3>
+              <div class="form-group name-phone-group">
+                  <div>
+                      <label for="room-price">Số tiền phòng *</label>
+                      <input type="text" id="room-price" name="so_tien_phong" required placeholder="Nhập số tiền phòng" value="{{ phong.GiaPhong }}">
+                  </div>
+                  <div>
+                      <label for="deposit">Số tiền cọc *</label>
+                      <input type="text" id="deposit" name="so_tien_coc" required placeholder="Nhập số tiền cọc">
+                  </div>
+              </div>
+  
+              <h3 class="tieude"><span class="green-circle">🟢</span> Chu kỳ thu tiền</h3>
+              <div class="form-group">
+                  <label for="payment-cycle">Chu kỳ thu tiền</label>
+                  <select id="payment-cycle" name="chu_ky_thu_tien">
+                      <option value="" disabled selected hidden>Chọn thời gian phù hợp</option>
+                      <option value="1 tháng">1 tháng</option>
+                      <option value="2 tháng">2 tháng</option>
+                      <option value="3 tháng">3 tháng</option>
+                      <option value="4 tháng">4 tháng</option>
+                      <option value="5 tháng">5 tháng</option>
+                      <option value="6 tháng">6 tháng</option>
+                      <option value="7 tháng">7 tháng</option>
+                      <option value="8 tháng">8 tháng</option>
+                      <option value="9 tháng">9 tháng</option>
+                      <option value="10 tháng">10 tháng</option>
+                      <option value="11 tháng">11 tháng</option>
+                      <option value="12 tháng">12 tháng</option>
+                      <option value="1 năm">1 năm</option>
+                      <option value="1,2 năm">1,2 năm</option>
+                      <option value="1,6 năm">1,6 năm</option>
+                      <option value="2,2 năm">2,2 năm</option>
+                      <option value="2,6 năm">2,6 năm</option>
+                      <option value="3 năm">3 năm</option>
+                      <option value="3,2 năm">3,2 năm</option>
+                      <option value="3,6 năm">3,6 năm</option>
+                      <option value="4 năm">4 năm</option>
+                      <option value="4,2 năm">4,2 năm</option>
+                      <option value="4,6 năm">4,6 năm</option>
+                      <option value="5 năm">5 năm</option>
+                  </select>
+              </div>
+                  
+              <div class="form-group ghichu">
+                  <label for="contract-note">Ghi chú *</label>
+                  <input type="text" id="contract-note" name="ghi_chu_hop_dong" required placeholder="Ghi chú hợp đồng">
+              </div>
+  
+              <div class="luu">
+                  <button class="btn btn-success" type="submit">Lưu</button>
+                  <a href="{% url 'menu' %}" class="btn btn-secondary">Quay Lại</a>
+              </div>
+          </form>
+                <script src="{% static 'js\anh.js' %}"></script>
+          </div> 
+    </body>
+    {% comment %} <script>     
+        const toggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+    
+        toggle.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+          document.querySelector(".luu button").addEventListener("click", function (event) {
+              event.preventDefault(); // Ngăn chặn form gửi đi ngay lập tức
+              
+              // Lấy tất cả các input và select có thuộc tính "required"
+              let requiredFields = document.querySelectorAll("[required]");
+              let isValid = true;
+              let firstErrorField = null;
+  
+              requiredFields.forEach(function (field) {
+                  if (!field.value.trim()) {
+                      isValid = false;
+                      field.style.border = "2px solid red"; // Đánh dấu ô bị thiếu dữ liệu
+                      if (!firstErrorField) {
+                          firstErrorField = field; // Lưu ô lỗi đầu tiên để cuộn tới
+                      }
+                  } else {
+                      field.style.border = ""; // Bỏ viền đỏ nếu hợp lệ
+                  }
+              });
+  
+              if (!isValid) {
+                  alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
+                  firstErrorField.focus(); // Cuộn đến ô lỗi đầu tiên
+                  return;
+              }
+  
+              // Nếu hợp lệ, hiển thị thông báo và chuyển hướng
+              alert("Dữ liệu đã được lưu thành công!");
+              window.location.href = "menu.html"; // Chuyển hướng đến menu.html
+          });
+      });
+</script> {% endcomment %}
+</html>
+
+

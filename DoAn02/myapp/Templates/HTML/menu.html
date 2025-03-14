@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+
+        <!--css-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
+        <!-- js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+      
+        <script src="{% static 'app/js/s3.js' %}"> </script>
+        <script src="{% static 'app/js/all.min.js' %}"> </script>
+        <script src="{% static 'app/js/mýcript.js' %}"> </script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <header class="header">
+            <div class="menu-toggle">☰</div>
+            <div class="header-title">Nhà trọ Cần Thơ</div>
+
+            <div class="search-bar">
+              <input type="text" placeholder="Tìm kiếm..." />
+              <button class="timkiem" type="submit">🔍</button>
+              
+              <div class="button-group">
+                <button class="btn dathue" type="submit">Đã thuê</button>
+                <button class="btn phongtrong" type="submit">Phòng trống</button>
+                <button class="btn hientatca" type="submit">Hiện tất cả</button>
+            </div>
+          </div>
+          </header>
+        
+          <div class="sidebar">
+            <div class="logo_content">
+                
+                <div class="logo">
+                  <div class="icon">
+                    <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
+                    <!-- <img src="../imag/moi.jpg" alt="Logo"> -->
+                  </div>
+                  <div class="logo_name">Xin chào, Thuận</div>
+                </div>
+                
+            </div>
+
+          <!--<div class="logo_name">Xin chào, Admin</div> -->
+
+            <ul class="nav_list">
+              <li>
+                <a href="menu.html">
+                  <span class="icon">🏠</span>
+                  <span class="link_name">Trang chủ</span>
+                </a>
+              </li>
+              <ul class="nav_list">
+                <li>
+                  <a href="Quanlykhachhang.html">
+                    <span class="icon">🧑‍💼</span>
+                    <span class="link_name">Quản lý khách hàng</span>
+                  </a>
+                </li>
+              <li>
+                <a href="doanhthu.html">
+                  <span class="icon"> 💰</span>
+                  <span class="link_name"> doanh thu</span>
+                </a>
+              </li>
+              <li>
+                <a href="dichvu.html">
+                  <span class="icon">💡</span>
+                  <span class="link_name">Dịch vụ</span>
+                </a>
+              </li>
+            
+              <li>
+                <a href="hoadon.html">
+                  <span class="icon">🧾</span>
+                  <span class="link_name">Hóa đơn</span>
+                </a>
+              </li>
+          
+              <li>
+                <a href="quanlihopdong.html">
+                  <span class="icon">📂</span>
+                  <span class="link_name">Quản lý hợp đồng</span>
+                </a>
+              </li>
+              <li>
+                <a href="dangxuat.html" class="logout-link">
+                  <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                  <span class="link_name">Đăng Xuất</span>
+                </a>
+              </li>
+            </ul>
+
+          </div>
+        
+          <div class="content container">
+            <div class="mt-4">
+              <div class="rong">   
+                <h6>Danh sách phòng</h6>
+                <div class="room-list-header">                  
+                <nav class="doi">
+                  <div class="select-container">
+                    <i class="bi bi-house-door icon"></i>
+                  <select >
+                      <option value="" disabled selected hidden>Dãy</option>
+                      <option value="Tất cả">Tất cả</option>
+                        <option value="có gác">Dãy A</option>
+                        <option value="Không gác">Dãy B</option>
+                  </select>
+                </div><br>
+
+                <div class="select-container">
+                  <i class="fa-solid fa-list-ol ico"></i> 
+                  <select>
+                      <option value="" disabled selected hidden>Số phòng</option>
+                      <option value="Tất cả">Tất cả</option>
+                      <option value="101">101</option>
+                      <option value="102">102</option>
+                  </select>
+              </div><br>
+
+                <div class="select-container">
+                  <i class="bi bi-cash-stack icon"></i>
+                <!-- <label  class="day">Giá</label>--> 
+                <select  name="district2" required>
+                <option value="" disabled selected hidden>Giá</option>
+                    <option value="Tất cả">Tất cả</option>
+                
+                      <!-- Tùy chọn sẽ được JavaScript thêm vào -->
+                  </select>
+                </div><br>
+
+                      <div class="search-container">
+                        <button class="search-btn">
+                            <i style="font-weight: bold;">Go</i>
+                        </button>
+                        <button class="themphong" onclick="document.location='themphong.html'">+ Thêm phòng</button>    
+                    </div>
+              </div>
+              </nav>
+            </div>
+
+            <div class="room-list-container">
+              <!-- Mục 1 -->
+              {% for room in rooms %}
+              <div class="room-item">
+                  <div class="status-header">
+                      <h3>STT: {{ room.stt }}</h3>
+                      <span class="status-indicator {{ room.class_trang_thai }}">{{ room.trang_thai }}</span>
+                  </div>
+                  <div class="info-row">
+                      <p><strong>Dãy:</strong> {{ room.day_phong }}</p>
+                      <p><strong>Phòng:</strong> {{ room.so_phong }}</p>
+                      <p><strong>Giá:</strong> {{ room.gia_phong }}</p>
+                      <p><strong>Tên:</strong> {{ room.ten_khach_hang }}</p>
+                      <p><strong>Số Điện Thoại:</strong> {{ room.so_dien_thoai }}</p>
+                  </div>
+                  <div class="action-buttons">
+                      {% if room.trang_thai == "Chưa thuê" %}
+                          <button class="btn btn-create" onclick="document.location='/themhopdong/{{ room.phong_id }}/'">Thêm hợp đồng</button>
+                      {% else %}
+                          <button class="btn btn-detail" onclick="window.location.href='/xemchitiethopdong/{{ room.phong_id }}/'">Xem Chi Tiết</button>
+                      {% endif %}
+                      <button class="btn btn-edit" onclick="document.location='/chinhsua/{{ room.phong_id }}/'">Chỉnh sửa</button>
+                      <button class="btn btn-delete" onclick="if(confirm('Bạn có chắc muốn xóa phòng này?')) document.location='/xoa/{{ room.phong_id }}/';">Xóa</button>
+                  </div>
+              </div>
+              {% empty %}
+              <p>Không có phòng nào trong hệ thống.</p>
+              {% endfor %}
+          </div>
+      </div>
+    </div>
+  </body>
+
+    
+    <script> 
+      const toggle = document.querySelector('.menu-toggle');
+      const sidebar = document.querySelector('.sidebar');
+  
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+    </script>
+
+
+<!-- Thêm vào cuối file HTML hoặc trong thẻ <script> HIỆU ỨNG CỦA BỘ LỌC-->
+  <script>
+    let lastScroll = 0;
+    const nav = document.querySelector('.doi');
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+    
+        if (currentScroll > lastScroll && currentScroll > 50) {
+            // Cuộn xuống (sau 50px) thì hiện
+            nav.classList.remove('hidden');
+        } else if (currentScroll < lastScroll && currentScroll > 50) {
+            // Cuộn lên (sau 50px) thì ẩn
+            nav.classList.add('hidden');
+        } else if (currentScroll <= 50) {
+            // Khi ở đầu trang (dưới 50px) thì luôn hiện
+            nav.classList.remove('hidden');
+        }
+    
+        lastScroll = currentScroll;
+    });
+    </script>
+</html>

@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    
+    {% comment %} <link rel="stylesheet" href="{% static '/CSS/dangnhap.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'CSS/dangnhap.css' %}">
+    
+    {% comment %} <link rel="stylesheet" href="{% static 'dangnhap.css' %}"> {% endcomment %}
+    <title>Login Form</title>
+</head>
+<body>
+
+    <canvas id="background"></canvas>
+    
+    <div class="container">
+        <div class="text">Đăng Nhập</div>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="field">
+                <span class="fas fa-user"></span>
+                <input type="text" name="SoDienThoaiDN" required>
+                <label>Email or Phone</label>
+            </div>
+            <div class="field">
+                <span class="fas fa-lock"></span>
+                <input type="password" name="MatKhauDN" required>
+                <label>Password</label>
+            </div>
+            <br>
+            <div class="field">
+                <button type="submit">Log in</button>
+            </div>
+            <nav class="field">
+                Quên mật khẩu? <a href="lienhe.html">Liên hệ</a>
+            </nav>
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</body>
+
+<script>
+    const canvas = document.getElementById("background"), ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let particles = [];
+    class Particle {
+        constructor(x, y, size, color, speedX, speedY) {
+            Object.assign(this, { x, y, size, color, speedX, speedY });
+        }
+        update() { this.x += this.speedX; this.y += this.speedY; this.size = Math.max(0.2, this.size - 0.02); }
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    function createParticles(event) {
+        for (let i = 0; i < 5; i++) {
+            particles.push(new Particle(event.x, event.y, Math.random() * 5 + 2,
+                ["#f8c291", "#95afc0", "#74b9ff"][Math.floor(Math.random() * 3)],
+                (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2));
+        }
+    }
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles = particles.filter(p => p.size > 0.2);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
+    window.addEventListener("mousemove", createParticles);
+    animate();
+</script>
+</html>
