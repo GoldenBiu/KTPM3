@@ -4,12 +4,18 @@ from django.contrib.auth.hashers import check_password
 from .models import QuanLi, Phong, HopDong, KhachHang, TaiKhoan,DichVu, ChiSoDienNuoc, GiaDienNuoc
 from django.http import Http404, HttpResponse
 from django.utils import timezone
+from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.db.models import Q, Sum
 import random
 import string
+import json
+from django.core.cache import cache
 from decimal import Decimal
 import json  # Ensure this import is at the top of your views.py
+import logging
+# Thiết lập logging
+logger = logging.getLogger(__name__)
 
 def login_view(request):
     if request.method == 'POST':
@@ -483,81 +489,133 @@ def quan_ly_khach_hang(request):
     return render(request, 'HTML/quanlykhachhang.html', context)
 
 def doanh_thu(request):
-    # Get the current month and year
-    current_month = timezone.now().month
-    current_year = timezone.now().year
+    try:
+        # Get month and year from request (default to current month/year)
+        if request.method == "POST":
+            month = int(request.POST.get("month", timezone.now().month))
+            year = int(request.POST.get("year", timezone.now().year))
+        else:
+            month = timezone.now().month
+            year = timezone.now().year
 
-    # Initialize lists to hold monthly data
-    monthly_revenue = []
-    monthly_expenses = []
+        logger.info(f"Processing request for month: {month}, year: {year}")
 
-    # Loop through each month to gather historical data for the current year
-    for m in range(1, 13):  # Loop through each month
-        total_revenue = ChiSoDienNuoc.objects.filter(
-            ThangNam=f"{m:02d}/{current_year}"
-        ).aggregate(Sum('TongTien'))['TongTien__sum'] or 0
+        # Tạo key cho cache dựa trên năm
+        cache_key = f"doanh_thu_{year}"
+        cached_data = cache.get(cache_key)
 
-        total_expenses = 0
-        chi_so_list = ChiSoDienNuoc.objects.filter(
-            ThangNam=f"{m:02d}/{current_year}"
-        )
+        if cached_data:
+            logger.info(f"Cache hit for year: {year}")
+            monthly_revenue = cached_data['monthly_revenue']
+            monthly_expenses = cached_data['monthly_expenses']
+            yearly_revenue = cached_data['yearly_revenue']
+            yearly_expenses = cached_data['yearly_expenses']
+            years = cached_data['years']
+        else:
+            logger.info(f"Cache miss for year: {year}, calculating data...")
+
+            # Initialize lists to hold monthly data
+            monthly_revenue = []
+            monthly_expenses = []
+
+            # Tối ưu truy vấn: Lấy tất cả dữ liệu của năm một lần duy nhất
+            chi_so_list_year = ChiSoDienNuoc.objects.filter(
+                ThangNam__endswith=f"/{year}"
+            ).values('ThangNam', 'TongTien', 'TongDichVu', 'GiaDienMoi', 'SoDienDaTieuThu', 'GiaNuocMoi', 'SoNuocDaTieuThu')
+
+            # Tạo dictionary để lưu dữ liệu theo tháng
+            monthly_data = {f"{m:02d}/{year}": {'revenue': 0, 'expenses': 0} for m in range(1, 13)}
+
+            for chi_so in chi_so_list_year:
+                thang_nam = chi_so['ThangNam']
+                monthly_data[thang_nam]['revenue'] += chi_so['TongTien'] or 0
+
+                if chi_so['TongDichVu']:
+                    gia_dien_moi = chi_so['GiaDienMoi'] or 0
+                    so_dien_tieu_thu = chi_so['SoDienDaTieuThu'] or 0
+                    gia_nuoc_moi = chi_so['GiaNuocMoi'] or 0
+                    so_nuoc_tieu_thu = chi_so['SoNuocDaTieuThu'] or 0
+                    expenses = chi_so['TongDichVu'] - (gia_dien_moi * so_dien_tieu_thu + gia_nuoc_moi * so_nuoc_tieu_thu)
+                    monthly_data[thang_nam]['expenses'] += expenses if expenses > 0 else 0
+
+            # Chuyển dữ liệu vào danh sách
+            for m in range(1, 13):
+                key = f"{m:02d}/{year}"
+                monthly_revenue.append(float(monthly_data[key]['revenue']))
+                monthly_expenses.append(float(monthly_data[key]['expenses']))
+
+            # Calculate yearly revenue and expenses for the last 7 years
+            current_year = timezone.now().year
+            years = list(range(current_year - 6, current_year + 1))
+            yearly_revenue = []
+            yearly_expenses = []
+
+            for y in years:
+                # Tối ưu truy vấn: Lấy dữ liệu một lần cho mỗi năm
+                chi_so_list = ChiSoDienNuoc.objects.filter(
+                    ThangNam__endswith=f"/{y}"
+                ).values('TongTien', 'TongDichVu', 'GiaDienMoi', 'SoDienDaTieuThu', 'GiaNuocMoi', 'SoNuocDaTieuThu')
+
+                total_revenue_year = sum(chi_so['TongTien'] or 0 for chi_so in chi_so_list)
+                total_expenses_year = 0
+
+                for chi_so in chi_so_list:
+                    if chi_so['TongDichVu']:
+                        gia_dien_moi = chi_so['GiaDienMoi'] or 0
+                        so_dien_tieu_thu = chi_so['SoDienDaTieuThu'] or 0
+                        gia_nuoc_moi = chi_so['GiaNuocMoi'] or 0
+                        so_nuoc_tieu_thu = chi_so['SoNuocDaTieuThu'] or 0
+                        expenses = chi_so['TongDichVu'] - (gia_dien_moi * so_dien_tieu_thu + gia_nuoc_moi * so_nuoc_tieu_thu)
+                        total_expenses_year += expenses if expenses > 0 else 0
+
+                yearly_revenue.append(float(total_revenue_year) / 1000000)
+                yearly_expenses.append(float(total_expenses_year) / 1000000)
+
+            # Lưu vào cache (hết hạn sau 1 giờ)
+            cache.set(cache_key, {
+                'monthly_revenue': monthly_revenue,
+                'monthly_expenses': monthly_expenses,
+                'yearly_revenue': yearly_revenue,
+                'yearly_expenses': yearly_expenses,
+                'years': years,
+            }, timeout=3600)
+
+        # Get selected month's revenue, expenses, and debt
+        current_total_revenue = monthly_revenue[month - 1] if monthly_revenue else 0
+        current_total_expenses = monthly_expenses[month - 1] if monthly_expenses else 0
+        total_debt = ChiSoDienNuoc.objects.filter(
+            ThangNam=f"{month:02d}/{year}"
+        ).aggregate(Sum('TienNo'))['TienNo__sum'] or 0
+
+        # If this is an AJAX request, return JSON data
+        if request.method == "POST":
+            return JsonResponse({
+                'current_total_revenue': current_total_revenue,
+                'current_total_expenses': current_total_expenses,
+                'total_debt': float(total_debt),
+                'monthly_revenue': monthly_revenue,
+                'monthly_expenses': monthly_expenses,
+            })
+
+        # Otherwise, render the page
+        context = {
+            'monthly_revenue': json.dumps(monthly_revenue),
+            'monthly_expenses': json.dumps(monthly_expenses),
+            'current_total_revenue': current_total_revenue,
+            'current_total_expenses': current_total_expenses,
+            'total_debt': float(total_debt),
+            'month': month,
+            'year': year,
+            'yearly_revenue': json.dumps(yearly_revenue),
+            'yearly_expenses': json.dumps(yearly_expenses),
+            'years': json.dumps(years),
+        }
         
-        for chi_so in chi_so_list:
-            if chi_so.TongDichVu:
-                expenses = chi_so.TongDichVu - (chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu + chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu)
-                total_expenses += expenses if expenses > 0 else 0  # Only add positive expenses
+        return render(request, 'HTML/doanhthu.html', context)
 
-        monthly_revenue.append(float(total_revenue))  # Convert to float
-        monthly_expenses.append(float(total_expenses))  # Convert to float
-
-    # Get current month's revenue and expenses
-    current_total_revenue = monthly_revenue[current_month - 1] if monthly_revenue else 0
-    current_total_expenses = monthly_expenses[current_month - 1] if monthly_expenses else 0
-
-    # Calculate total debt for the current month
-    total_debt = ChiSoDienNuoc.objects.filter(
-        ThangNam=f"{current_month:02d}/{current_year}"
-    ).aggregate(Sum('TienNo'))['TienNo__sum'] or 0
-
-    # Calculate yearly revenue and expenses for the last 7 years
-    yearly_revenue = []
-    yearly_expenses = []
-    years = list(range(current_year - 6, current_year + 1))  # 7 years including current year (e.g., 2019-2025)
-
-    for year in years:
-        # Calculate total revenue for the year
-        total_revenue_year = ChiSoDienNuoc.objects.filter(
-            ThangNam__endswith=f"/{year}"
-        ).aggregate(Sum('TongTien'))['TongTien__sum'] or 0
-
-        # Calculate total expenses for the year
-        total_expenses_year = 0
-        chi_so_list_year = ChiSoDienNuoc.objects.filter(
-            ThangNam__endswith=f"/{year}"
-        )
-        
-        for chi_so in chi_so_list_year:
-            if chi_so.TongDichVu:
-                expenses = chi_so.TongDichVu - (chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu + chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu)
-                total_expenses_year += expenses if expenses > 0 else 0
-
-        yearly_revenue.append(float(total_revenue_year) / 1000000)  # Convert to millions for display
-        yearly_expenses.append(float(total_expenses_year) / 1000000)  # Convert to millions for display
-
-    context = {
-        'monthly_revenue': json.dumps(monthly_revenue),  # Monthly data for bar charts
-        'monthly_expenses': json.dumps(monthly_expenses),
-        'current_total_revenue': current_total_revenue,
-        'current_total_expenses': current_total_expenses,
-        'total_debt': float(total_debt),
-        'month': current_month,
-        'year': current_year,
-        'yearly_revenue': json.dumps(yearly_revenue),  # Yearly data for line chart
-        'yearly_expenses': json.dumps(yearly_expenses),
-        'years': json.dumps(years),  # List of years for labels
-    }
-    
-    return render(request, 'HTML/doanhthu.html', context)
+    except Exception as e:
+        logger.error(f"Error in doanh_thu view: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
 
 def dich_vu(request):
     # Lấy tất cả dịch vụ từ database

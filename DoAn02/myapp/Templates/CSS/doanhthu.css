@@ -314,14 +314,7 @@ body {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.calendar-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  font-size: 20px;
-  font-weight: bold;
-}
+
 
 .arrow {
   cursor: pointer;
@@ -430,20 +423,48 @@ body {
 
 .calendar-header {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 10px; /* Khoảng cách giữa biểu tượng và input */
   background: #f8fafc;
   padding: 10px 15px;
-  padding-right: 50px;
+  padding-right: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   font-weight: bold;
   color: #333;
   width: fit-content;
+  position: relative;
 }
 
 .calendar-header i {
   color: #0095ff;
   font-size: 20px;
+}
+
+.calendar-header input[type="month"] {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  padding: 5px;
+  appearance: none; /* Loại bỏ giao diện mặc định nếu cần */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.calendar-header input[type="month"]:hover,
+.calendar-header input[type="month"]:focus {
+  color: #0095ff;
+}
+
+/* Tùy chỉnh giao diện lịch (nếu trình duyệt hỗ trợ) */
+.calendar-header input[type="month"]::-webkit-calendar-picker-indicator {
+  color: #0095ff;
+  font-size: 14px;
+  cursor: pointer;
 }
