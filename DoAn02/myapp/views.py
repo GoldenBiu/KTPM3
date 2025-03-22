@@ -8,6 +8,8 @@ from datetime import datetime, timedelta
 from django.db.models import Q, Sum
 import random
 import string
+from decimal import Decimal
+import json  # Ensure this import is at the top of your views.py
 
 def login_view(request):
     if request.method == 'POST':
@@ -481,8 +483,81 @@ def quan_ly_khach_hang(request):
     return render(request, 'HTML/quanlykhachhang.html', context)
 
 def doanh_thu(request):
-    # Xử lý doanh thu ở đây
-    return render(request, 'HTML/doanhthu.html')
+    # Get the current month and year
+    current_month = timezone.now().month
+    current_year = timezone.now().year
+
+    # Initialize lists to hold monthly data
+    monthly_revenue = []
+    monthly_expenses = []
+
+    # Loop through each month to gather historical data for the current year
+    for m in range(1, 13):  # Loop through each month
+        total_revenue = ChiSoDienNuoc.objects.filter(
+            ThangNam=f"{m:02d}/{current_year}"
+        ).aggregate(Sum('TongTien'))['TongTien__sum'] or 0
+
+        total_expenses = 0
+        chi_so_list = ChiSoDienNuoc.objects.filter(
+            ThangNam=f"{m:02d}/{current_year}"
+        )
+        
+        for chi_so in chi_so_list:
+            if chi_so.TongDichVu:
+                expenses = chi_so.TongDichVu - (chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu + chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu)
+                total_expenses += expenses if expenses > 0 else 0  # Only add positive expenses
+
+        monthly_revenue.append(float(total_revenue))  # Convert to float
+        monthly_expenses.append(float(total_expenses))  # Convert to float
+
+    # Get current month's revenue and expenses
+    current_total_revenue = monthly_revenue[current_month - 1] if monthly_revenue else 0
+    current_total_expenses = monthly_expenses[current_month - 1] if monthly_expenses else 0
+
+    # Calculate total debt for the current month
+    total_debt = ChiSoDienNuoc.objects.filter(
+        ThangNam=f"{current_month:02d}/{current_year}"
+    ).aggregate(Sum('TienNo'))['TienNo__sum'] or 0
+
+    # Calculate yearly revenue and expenses for the last 7 years
+    yearly_revenue = []
+    yearly_expenses = []
+    years = list(range(current_year - 6, current_year + 1))  # 7 years including current year (e.g., 2019-2025)
+
+    for year in years:
+        # Calculate total revenue for the year
+        total_revenue_year = ChiSoDienNuoc.objects.filter(
+            ThangNam__endswith=f"/{year}"
+        ).aggregate(Sum('TongTien'))['TongTien__sum'] or 0
+
+        # Calculate total expenses for the year
+        total_expenses_year = 0
+        chi_so_list_year = ChiSoDienNuoc.objects.filter(
+            ThangNam__endswith=f"/{year}"
+        )
+        
+        for chi_so in chi_so_list_year:
+            if chi_so.TongDichVu:
+                expenses = chi_so.TongDichVu - (chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu + chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu)
+                total_expenses_year += expenses if expenses > 0 else 0
+
+        yearly_revenue.append(float(total_revenue_year) / 1000000)  # Convert to millions for display
+        yearly_expenses.append(float(total_expenses_year) / 1000000)  # Convert to millions for display
+
+    context = {
+        'monthly_revenue': json.dumps(monthly_revenue),  # Monthly data for bar charts
+        'monthly_expenses': json.dumps(monthly_expenses),
+        'current_total_revenue': current_total_revenue,
+        'current_total_expenses': current_total_expenses,
+        'total_debt': float(total_debt),
+        'month': current_month,
+        'year': current_year,
+        'yearly_revenue': json.dumps(yearly_revenue),  # Yearly data for line chart
+        'yearly_expenses': json.dumps(yearly_expenses),
+        'years': json.dumps(years),  # List of years for labels
+    }
+    
+    return render(request, 'HTML/doanhthu.html', context)
 
 def dich_vu(request):
     # Lấy tất cả dịch vụ từ database
@@ -670,10 +745,10 @@ def cap_nhat_hoa_don(request):
             
             # Cập nhật hoặc tạo mới record chỉ số điện nước
             if chi_so.ChiSoID:  # Đã có record
-                chi_so.ChiSoDienMoi = chi_so_dien_moi
-                chi_so.ChiSoNuocMoi = chi_so_nuoc_moi
-                chi_so.SoDienDaTieuThu = int(chi_so_dien_moi) - int(chi_so.ChiSoDienCu)
-                chi_so.SoNuocDaTieuThu = int(chi_so_nuoc_moi) - int(chi_so.ChiSoNuocCu)
+                chi_so.ChiSoDienMoi = int(chi_so_dien_moi) if chi_so_dien_moi else 0
+                chi_so.ChiSoNuocMoi = int(chi_so_nuoc_moi) if chi_so_nuoc_moi else 0
+                chi_so.SoDienDaTieuThu = int(chi_so.ChiSoDienMoi) - int(chi_so.ChiSoDienCu)
+                chi_so.SoNuocDaTieuThu = int(chi_so.ChiSoNuocMoi) - int(chi_so.ChiSoNuocCu)
                 
                 # Tính tổng tiền
                 tong_tien_dien = chi_so.SoDienDaTieuThu * chi_so.GiaDienMoi
@@ -691,9 +766,15 @@ def cap_nhat_hoa_don(request):
                 # Lấy phòng
                 phong = Phong.objects.get(PhongID=phong.PhongID)
                 
+                # Chuyển đổi dữ liệu nhập vào thành số nguyên
+                chi_so_dien_moi_int = int(chi_so_dien_moi) if chi_so_dien_moi else 0 
+                chi_so_nuoc_moi_int = int(chi_so_nuoc_moi) if chi_so_nuoc_moi else 0
+                chi_so_dien_cu_int = int(chi_so.ChiSoDienCu) if chi_so.ChiSoDienCu else 0
+                chi_so_nuoc_cu_int = int(chi_so.ChiSoNuocCu) if chi_so.ChiSoNuocCu else 0
+                
                 # Tính toán tiêu thụ và tổng tiền
-                so_dien_tieu_thu = int(chi_so_dien_moi) - int(chi_so.ChiSoDienCu)
-                so_nuoc_tieu_thu = int(chi_so_nuoc_moi) - int(chi_so.ChiSoNuocCu)
+                so_dien_tieu_thu = chi_so_dien_moi_int - chi_so_dien_cu_int
+                so_nuoc_tieu_thu = chi_so_nuoc_moi_int - chi_so_nuoc_cu_int
                 tong_tien_dien = so_dien_tieu_thu * chi_so.GiaDienMoi
                 tong_tien_nuoc = so_nuoc_tieu_thu * chi_so.GiaNuocMoi
                 tong_dich_vu = tong_tien_dien + tong_tien_nuoc
@@ -706,10 +787,10 @@ def cap_nhat_hoa_don(request):
                     PhongID=phong,
                     DayPhong=phong.DayPhong,
                     ThangNam=thang_nam,
-                    ChiSoDienCu=chi_so.ChiSoDienCu,
-                    ChiSoDienMoi=chi_so_dien_moi,
-                    ChiSoNuocCu=chi_so.ChiSoNuocCu,
-                    ChiSoNuocMoi=chi_so_nuoc_moi,
+                    ChiSoDienCu=chi_so_dien_cu_int,
+                    ChiSoDienMoi=chi_so_dien_moi_int,
+                    ChiSoNuocCu=chi_so_nuoc_cu_int,
+                    ChiSoNuocMoi=chi_so_nuoc_moi_int,
                     SoDienDaTieuThu=so_dien_tieu_thu,
                     SoNuocDaTieuThu=so_nuoc_tieu_thu,
                     GiaDienCu=chi_so.GiaDienCu,
@@ -719,7 +800,7 @@ def cap_nhat_hoa_don(request):
                     TienPhong=phong.GiaPhong,
                     TongDichVu=tong_dich_vu,
                     TongTien=phong.GiaPhong + tong_dich_vu,
-                    TrangThaiThanhToan='N'  # Chưa thanh toán
+                    TrangThaiThanhToan='N'  # 'N' for Not paid
                 )
                 
                 messages.success(request, f'Tạo mới hóa đơn phòng {phong.DayPhong}{phong.SoPhong} tháng {thang_nam} thành công!')
@@ -734,8 +815,57 @@ def cap_nhat_hoa_don(request):
     return render(request, 'HTML/capnhathoadon.html', context)
 
 def hoa_don(request):
-    # Xử lý hóa đơn ở đây
-    return render(request, 'HTML/hoadon.html')
+    # Lấy tên quản lý từ session
+    ho_ten_quan_li = request.session.get('ho_ten_quan_li', '')
+    
+    # Lấy các chỉ số điện nước (hóa đơn) từ database
+    chi_so_list = ChiSoDienNuoc.objects.select_related('PhongID').order_by('-ThangNam')
+    
+    # Lấy thông tin khách hàng cho mỗi phòng
+    hoa_don_data = []
+    for chi_so in chi_so_list:
+        # Lấy hợp đồng hiện tại của phòng (nếu có)
+        hop_dong = HopDong.objects.filter(
+            PhongID=chi_so.PhongID, 
+            TrangThaiHopDong='HoatDong'
+        ).select_related('KhachHangID').first()
+        
+        # Lấy thông tin người thuê
+        khach_hang = None
+        if hop_dong:
+            khach_hang = hop_dong.KhachHangID
+        
+        # Tạo thông tin hóa đơn
+        hoa_don_info = {
+            'chi_so_id': chi_so.ChiSoID,
+            'phong_id': chi_so.PhongID.PhongID,
+            'day_phong': chi_so.DayPhong,
+            'so_phong': chi_so.PhongID.SoPhong,
+            'thang_nam': chi_so.ThangNam,
+            'ten_khach_hang': khach_hang.HoTenKhachHang if khach_hang else 'Chưa có',
+            'so_dien_thoai': khach_hang.SoDienThoai if khach_hang else 'Chưa có',
+            'tien_dien': chi_so.SoDienDaTieuThu * chi_so.GiaDienMoi,
+            'tien_nuoc': chi_so.SoNuocDaTieuThu * chi_so.GiaNuocMoi,
+            'tien_phong': chi_so.TienPhong,
+            'tong_tien': chi_so.TongTien,
+            'tien_no': chi_so.TienNo if hasattr(chi_so, 'TienNo') and chi_so.TienNo is not None else 0,
+            'tien_tra': chi_so.Tientra if hasattr(chi_so, 'Tientra') and chi_so.Tientra is not None else 0,
+            'da_thanh_toan': chi_so.TrangThaiThanhToan == 'Y'
+        }
+        hoa_don_data.append(hoa_don_info)
+    
+    # Lấy danh sách dãy phòng và số phòng để hiển thị trong dropdown
+    day_phong_list = Phong.objects.values_list('DayPhong', flat=True).distinct()
+    so_phong_list = Phong.objects.values_list('SoPhong', flat=True).distinct()
+    
+    context = {
+        'ho_ten_quan_li': ho_ten_quan_li,
+        'hoa_don_data': hoa_don_data,
+        'day_phong_list': day_phong_list,
+        'so_phong_list': so_phong_list,
+    }
+    
+    return render(request, 'HTML/hoadon.html', context)
 
 def quan_li_hop_dong(request):
     # Fetch all contracts from the database
@@ -981,10 +1111,10 @@ def cap_nhat_chi_so_dien_nuoc(request):
         try:
             phong_id = request.POST.get('phong_id')
             thang_nam = request.POST.get('thang_nam')
-            chi_so_dien_cu = request.POST.get('chi_so_dien_cu')
-            chi_so_dien_moi = request.POST.get('chi_so_dien_moi')
-            chi_so_nuoc_cu = request.POST.get('chi_so_nuoc_cu')
-            chi_so_nuoc_moi = request.POST.get('chi_so_nuoc_moi')
+            chi_so_dien_cu = request.POST.get('chi_so_dien_cu', '0')
+            chi_so_dien_moi = request.POST.get('chi_so_dien_moi', '0')
+            chi_so_nuoc_cu = request.POST.get('chi_so_nuoc_cu', '0')
+            chi_so_nuoc_moi = request.POST.get('chi_so_nuoc_moi', '0')
             
             # Validate data
             if not phong_id or not thang_nam:
@@ -999,10 +1129,10 @@ def cap_nhat_chi_so_dien_nuoc(request):
             
             # Convert inputs to integers
             try:
-                chi_so_dien_cu = int(chi_so_dien_cu) if chi_so_dien_cu else 0
-                chi_so_dien_moi = int(chi_so_dien_moi) if chi_so_dien_moi else 0
-                chi_so_nuoc_cu = int(chi_so_nuoc_cu) if chi_so_nuoc_cu else 0
-                chi_so_nuoc_moi = int(chi_so_nuoc_moi) if chi_so_nuoc_moi else 0
+                chi_so_dien_cu = int(chi_so_dien_cu)
+                chi_so_dien_moi = int(chi_so_dien_moi)
+                chi_so_nuoc_cu = int(chi_so_nuoc_cu)
+                chi_so_nuoc_moi = int(chi_so_nuoc_moi)
                 
                 # Validate new readings are not less than old readings
                 if chi_so_dien_moi < chi_so_dien_cu:
@@ -1103,3 +1233,192 @@ def cap_nhat_chi_so_dien_nuoc(request):
     
     # Nếu đây là GET request, chuyển hướng người dùng đến trang dịch vụ
     return redirect('dich_vu')
+
+def xoa_chi_so_dien_nuoc(request, chi_so_id):
+    try:
+        # Find the record by ID
+        chi_so = ChiSoDienNuoc.objects.get(ChiSoID=chi_so_id)
+        
+        # Save info for success message
+        room_info = f"{chi_so.DayPhong}{chi_so.PhongID.SoPhong}" if chi_so.PhongID else "Unknown"
+        period = chi_so.ThangNam
+        
+        # Delete the record
+        chi_so.delete()
+        
+        messages.success(request, f'Đã xóa bản ghi điện nước của phòng {room_info} tháng {period} thành công!')
+    except ChiSoDienNuoc.DoesNotExist:
+        messages.error(request, f'Không tìm thấy bản ghi với ID {chi_so_id}!')
+    except Exception as e:
+        messages.error(request, f'Có lỗi xảy ra khi xóa bản ghi: {str(e)}')
+    
+    return redirect('dich_vu')
+
+def xoa_gia_dien_nuoc(request, gia_id):
+    try:
+        # Find the record by ID
+        gia = GiaDienNuoc.objects.get(GiaID=gia_id)
+        
+        # Save info for success message
+        loai_dich_vu = "Điện" if gia.LoaiDichVu == "Dien" else "Nước"
+        
+        # Delete the record
+        gia.delete()
+        
+        messages.success(request, f'Đã xóa bản ghi giá {loai_dich_vu} thành công!')
+    except GiaDienNuoc.DoesNotExist:
+        messages.error(request, f'Không tìm thấy bản ghi giá với ID {gia_id}!')
+    except Exception as e:
+        messages.error(request, f'Có lỗi xảy ra khi xóa bản ghi giá: {str(e)}')
+    
+    return redirect('dich_vu')
+
+def process_payment(request, chi_so_id):
+    """
+    Xử lý thanh toán hóa đơn
+    """
+    if request.method != 'POST':
+        messages.error(request, 'Phương thức không được hỗ trợ!')
+        return redirect('hoa_don')
+    
+    try:
+        # Lấy chi số điện nước
+        chi_so = ChiSoDienNuoc.objects.get(ChiSoID=chi_so_id)
+        
+        # Debug: In ra thông tin trước khi cập nhật
+        print(f"BEFORE UPDATE - ID: {chi_so.ChiSoID}, TienNo: {chi_so.TienNo}, Tientra: {chi_so.Tientra}")
+        
+        # Lấy phòng và tháng để hiển thị thông báo
+        phong_info = f"{chi_so.DayPhong}{chi_so.PhongID.SoPhong}"
+        thang_nam = chi_so.ThangNam
+        
+        # Lấy trạng thái thanh toán
+        payment_status = request.POST.get('payment_status')
+        
+        if payment_status == 'completed':
+            # Thanh toán đầy đủ
+            chi_so.TrangThaiThanhToan = 'Y'  # Y = Đã thanh toán
+            chi_so.TienNo = Decimal('0')  # Đặt tiền nợ về 0 khi thanh toán đầy đủ
+            chi_so.Tientra = chi_so.TongTien  # Ghi nhận đã trả toàn bộ số tiền
+            
+            # Debug: In ra thông tin trước khi lưu
+            print(f"COMPLETED PAYMENT - Setting TienNo: {chi_so.TienNo}, Tientra: {chi_so.Tientra}")
+            
+            try:
+                chi_so.save()
+                print(f"SAVE SUCCESS - ID: {chi_so.ChiSoID}")
+            except Exception as save_error:
+                print(f"SAVE ERROR: {str(save_error)}")
+                # Try to save with force_update
+                ChiSoDienNuoc.objects.filter(ChiSoID=chi_so_id).update(
+                    TrangThaiThanhToan='Y',
+                    TienNo=Decimal('0'),
+                    Tientra=chi_so.TongTien
+                )
+                print("ATTEMPTED DIRECT UPDATE")
+            
+            # Verify data was saved
+            chi_so_after = ChiSoDienNuoc.objects.get(ChiSoID=chi_so_id)
+            print(f"AFTER SAVE - TienNo: {chi_so_after.TienNo}, Tientra: {chi_so_after.Tientra}")
+            
+            messages.success(request, f'Hóa đơn phòng {phong_info} tháng {thang_nam} đã được thanh toán đầy đủ!')
+        elif payment_status == 'pending':
+            # Thanh toán một phần
+            paid_amount = request.POST.get('paid_amount')
+            due_date = request.POST.get('due_date')
+            
+            if not paid_amount or not due_date:
+                messages.error(request, 'Vui lòng nhập đầy đủ số tiền đã thanh toán và hạn trả!')
+                return redirect('hoa_don')
+            
+            # Tính toán số tiền còn nợ
+            paid_amount = Decimal(str(float(paid_amount)))  # Convert to Decimal for accuracy
+            
+            # Lấy số tiền đã trả trước đó (nếu có)
+            current_paid = chi_so.Tientra if chi_so.Tientra is not None else Decimal('0')
+            
+            # Debug: In ra giá trị
+            print(f"PARTIAL PAYMENT - Current paid: {current_paid}, New payment: {paid_amount}")
+            
+            # Tính tổng số tiền đã trả (trước đó + hiện tại)
+            total_paid = current_paid + paid_amount
+            
+            # Tính số tiền còn nợ
+            total_amount = chi_so.TongTien
+            remaining_amount = total_amount - total_paid
+            
+            # Debug: In ra các giá trị tính toán
+            print(f"CALCULATION - Total paid: {total_paid}, Total amount: {total_amount}, Remaining: {remaining_amount}")
+                
+            # Cập nhật trạng thái thanh toán
+            if remaining_amount <= 0:
+                # Nếu đã thanh toán đủ, cập nhật trạng thái thành đã thanh toán
+                chi_so.TrangThaiThanhToan = 'Y'
+                chi_so.TienNo = Decimal('0')
+                messages.success(request, f'Hóa đơn phòng {phong_info} tháng {thang_nam} đã được thanh toán đầy đủ!')
+            else:
+                # Vẫn còn nợ
+                chi_so.TienNo = remaining_amount
+                chi_so.TrangThaiThanhToan = 'N'
+                messages.success(request, f'Hóa đơn phòng {phong_info} tháng {thang_nam} đã được thanh toán một phần. Đã trả: {total_paid:,.0f} VNĐ, Còn nợ: {remaining_amount:,.0f} VNĐ')
+            
+            # Cập nhật tổng số tiền đã trả
+            chi_so.Tientra = total_paid
+            
+            # Debug: In ra thông tin trước khi lưu
+            print(f"BEFORE SAVE - Setting TienNo: {chi_so.TienNo}, Tientra: {chi_so.Tientra}")
+            
+            try:
+                chi_so.save()
+                print(f"SAVE SUCCESS - ID: {chi_so.ChiSoID}")
+            except Exception as save_error:
+                print(f"SAVE ERROR: {str(save_error)}")
+                # Try direct update via QuerySet
+                ChiSoDienNuoc.objects.filter(ChiSoID=chi_so_id).update(
+                    TrangThaiThanhToan=chi_so.TrangThaiThanhToan,
+                    TienNo=chi_so.TienNo,
+                    Tientra=chi_so.Tientra,
+                )
+                print("ATTEMPTED DIRECT UPDATE")
+            
+            # Verify data was saved
+            chi_so_after = ChiSoDienNuoc.objects.get(ChiSoID=chi_so_id)
+            print(f"AFTER SAVE - TienNo: {chi_so_after.TienNo}, Tientra: {chi_so_after.Tientra}")
+        else:
+            messages.error(request, 'Trạng thái thanh toán không hợp lệ!')
+    
+    except ChiSoDienNuoc.DoesNotExist:
+        messages.error(request, f'Không tìm thấy hóa đơn với ID {chi_so_id}!')
+    except Exception as e:
+        print(f"ERROR IN PROCESS_PAYMENT: {str(e)}")
+        messages.error(request, f'Có lỗi xảy ra khi xử lý thanh toán: {str(e)}')
+    
+    return redirect('hoa_don')
+
+def xem_hoa_don(request, chi_so_id):
+    # Lấy chi số điện nước
+    chi_so = get_object_or_404(ChiSoDienNuoc, ChiSoID=chi_so_id)
+    
+    # Lấy thông tin hợp đồng từ phòng
+    hop_dong = HopDong.objects.filter(PhongID=chi_so.PhongID, TrangThaiHopDong='HoatDong').first()
+    
+    # Lấy thông tin hóa đơn
+    hoa_don_info = {
+        'chi_so_id': chi_so.ChiSoID,
+        'day_phong': chi_so.DayPhong,
+        'so_phong': chi_so.PhongID.SoPhong,
+        'ten_khach_hang': hop_dong.KhachHangID.HoTenKhachHang if hop_dong else 'Chưa có',
+        'so_dien_thoai': hop_dong.KhachHangID.SoDienThoai if hop_dong else 'Chưa có',
+        'tong_tien': chi_so.TongTien,
+        'tien_no': chi_so.TienNo,
+        'tien_tra': chi_so.Tientra,
+        'da_thanh_toan': chi_so.TrangThaiThanhToan == 'Y',
+        'ngay_thu': timezone.now().strftime('%d/%m/%Y'),  # Ngày thu
+        'ngay_vao': hop_dong.NgayBatDau.strftime('%d/%m/%Y') if hop_dong else 'Chưa có',  # Ngày vào
+        'tien_dien': chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu if chi_so.GiaDienMoi and chi_so.SoDienDaTieuThu else 0,
+        'tien_nuoc': chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu if chi_so.GiaNuocMoi and chi_so.SoNuocDaTieuThu else 0,
+        'sua_chua': chi_so.TongDichVu - (chi_so.GiaDienMoi * chi_so.SoDienDaTieuThu + chi_so.GiaNuocMoi * chi_so.SoNuocDaTieuThu) if chi_so.TongDichVu else 0,
+        'khac': 0  # Assuming 'khac' is a placeholder for any other charges, set to 0
+    }
+    
+    return render(request, 'HTML/xuathoadon.html', {'hoa_don': hoa_don_info})

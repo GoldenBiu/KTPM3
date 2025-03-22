@@ -99,6 +99,11 @@ class ChiSoDienNuoc(models.Model):
     TienNo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
     def save(self, *args, **kwargs):
+        # Store current values for preservation
+        current_tien_no = self.TienNo
+        current_tien_tra = self.Tientra
+        current_trang_thai = self.TrangThaiThanhToan
+        
         # Calculate consumption based on meter readings
         if self.ChiSoDienMoi is not None and self.ChiSoDienCu is not None:
             self.SoDienDaTieuThu = self.ChiSoDienMoi - self.ChiSoDienCu
@@ -121,6 +126,11 @@ class ChiSoDienNuoc(models.Model):
         except:
             # If there's an error getting prices, continue saving without them
             pass
+        
+        # Preserve payment-related values
+        self.TienNo = current_tien_no
+        self.Tientra = current_tien_tra
+        self.TrangThaiThanhToan = current_trang_thai
         
         super().save(*args, **kwargs)
 

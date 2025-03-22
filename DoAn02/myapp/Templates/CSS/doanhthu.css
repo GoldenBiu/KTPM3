@@ -260,60 +260,25 @@ body {
 
 
 
-  /* ================================================================================ */
-  .dau {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    padding: 20px;
-}
-
-/* .container{
-    display: flex;
-    /* justify-content: center;
-    align-items: center; 
-    width: 90%;
-    max-width: 800px;
-    /* background: white; 
-    padding: 20px;
-    margin: 10px 0;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-} */
-
- .tai {
+ /* CSS giữ nguyên như của bạn */
+ .dau {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  width: 90%;
-  max-width: 800px;
-
+  flex-direction: column;
   padding: 20px;
-  margin: 10px 0;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.chart-box{
-    width: 100%;
-    max-width: 700px;
-    
-height: 400px;
-    /* text-align: center; */
 }
 
 .chart-container {
-  display: flex; /* Sắp xếp các phần tử con theo hàng ngang */
-  justify-content: space-between; /* Căn đều khoảng cách */
-  gap: 20px; /* Tạo khoảng cách giữa 2 biểu đồ */
-  flex-wrap: wrap; /* Nếu màn hình nhỏ, tự động xuống dòng */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .chart-box {
-  flex: 1; /* Chia đều không gian */
-  min-width: 300px; /* Đảm bảo không quá nhỏ trên màn hình nhỏ */
+  flex: 1;
+  min-width: 300px;
   background: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
@@ -321,66 +286,34 @@ height: 400px;
   text-align: center;
 }
 
-/* =======================phần bản đồ 2====================== */
-/* .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px; /* Tạo khoảng cách giữa các biểu đồ 
-  padding: 20px;
-  /* background: rgb(202, 93, 93); 
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-} */
-
-.chart-box {
-  width: 55%; /* Để hai biểu đồ cân đối trên cùng một hàng */
-  text-align: center;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
- 
-}
-
-
-
-
-
-/* =================================================================bản tháng===================================== */
 .wrapper {
   display: flex;
-  justify-content: space-between; /* Canh hai phần về hai phía */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  gap: 20px; /* Khoảng cách giữa hai phần */
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   padding: 20px;
 }
 
-/* Biểu đồ */
 .tai {
-  flex: 1; /* Chiếm không gian cân đối */
-  max-width: 60%; /* Giới hạn chiều rộng */
+  flex: 1;
+  max-width: 60%;
   background: #eef1f4;
   padding: 20px;
-
   border-radius: 10px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Lịch năm */
 .calendar-container {
   flex: 1;
   max-width: 500px;
   height: 260px;
   background: #e6f1fb;
   padding: 20px;
-
   border-radius: 10px;
   text-align: center;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Header của lịch */
 .calendar-header {
   display: flex;
   justify-content: center;
@@ -390,13 +323,11 @@ height: 400px;
   font-weight: bold;
 }
 
-/* Mũi tên chuyển thập kỷ */
 .arrow {
   cursor: pointer;
   font-size: 24px;
 }
 
-/* Danh sách năm */
 .year-list {
   display: flex;
   flex-wrap: wrap;
@@ -414,58 +345,32 @@ height: 400px;
   border-radius: 5px;
 }
 
-
-
-
-
-.year {
-    display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-
-    transition: 0.3s;
-}
-
 .year:hover {
-    background: #d1e7ff;
+  background: #d1e7ff;
 }
 
 .selected-year {
-    background: #0095ff !important;
-    color: white !important;
-    font-weight: bold;
+  background: #0095ff !important;
+  color: white !important;
+  font-weight: bold;
 }
-
-
-
-
-
 
 .box {
   width: 100%;
-  max-width: 500px;
-
+  max-width: 900px;
+  padding: 20px;
+  background: #fff;
 }
 
 .title, .tit {
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .show-all, .all {
-    color: blue;
-    text-decoration: none;
-    float: right;
-}
-
-/* =================Chỉnh bên trong bản đồ năm */
-.box {
-  width: 100%;
-  max-width: 900px; /* Định kích thước tối đa */
-  padding: 20px;
-  background: #fff;
+  color: blue;
+  text-decoration: none;
+  float: right;
 }
 
 #lineChart {
@@ -473,38 +378,29 @@ height: 400px;
   height: 350px !important;
 }
 
-/* ======================================================================== */
-/* =============================3 cột ở trên ============================ */
-/* ===================================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
-.coner{
-  padding: 20px;
-}
+
 .coner {
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px; /* Tạo khoảng cách giữa các biểu đồ */
-  padding: 20px;
-  /* background: rgb(202, 93, 93); */
+  gap: 30px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-.thang {
-  font-size: 20px;
-  font-weight: bold;
 
-}
 .dashboard {
   display: flex;
   gap: 25px;
   padding-right: 150px;
 }
+
 .card {
   background: #f8fbfe;
   padding: 20px;
@@ -515,23 +411,22 @@ height: 400px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .card i {
   font-size: 30px;
   color: #008cff;
 }
-/* .card-content {
-  text-align: right;
-} */
+
 .card-content h3 {
   font-size: 14px;
   color: #777;
 }
+
 .card-content p {
   font-size: 18px;
   font-weight: bold;
   margin-top: 5px;
 }
-/* ===== */
 
 .calendar-header {
   display: flex;

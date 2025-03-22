@@ -31,6 +31,19 @@
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        
+        <style>
+            .action-buttons {
+                display: flex;
+                gap: 5px;
+            }
+            
+            @media (max-width: 768px) {
+                .action-buttons {
+                    flex-direction: column;
+                }
+            }
+        </style>
     </head>
    
     <body>
@@ -196,9 +209,14 @@
                                         <td>{{ reading.total_amount }}</td>
                                         <td>{{ reading.status }}</td>
                                         <td>
-                                            <a href="{% url 'cap_nhat_hoa_don' %}?chi_so_id={{ reading.chi_so_id }}" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i> Cập nhật hóa đơn
-                                            </a>
+                                            <div class="action-buttons">
+                                                <a href="{% url 'cap_nhat_hoa_don' %}?chi_so_id={{ reading.chi_so_id }}" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i> Cập nhật
+                                                </a>
+                                                <a href="{% url 'xoa_chi_so_dien_nuoc' reading.chi_so_id %}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bản ghi này không?');">
+                                                    <i class="fas fa-trash"></i> Xóa
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -222,6 +240,7 @@
                                         <th>Giá cũ</th>
                                         <th>Giá mới</th>
                                         <th>Ngày cập nhật</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -231,6 +250,11 @@
                                         <td>{{ gia.GiaCu|floatformat:0 }} VNĐ</td>
                                         <td>{{ gia.GiaMoi|floatformat:0 }} VNĐ</td>
                                         <td>{{ gia.NgayCapNhat|date:"d/m/Y H:i" }}</td>
+                                        <td>
+                                            <a href="{% url 'xoa_gia_dien_nuoc' gia.GiaID %}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bản ghi giá này không?');">
+                                                <i class="fas fa-trash"></i> Xóa
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                     
@@ -240,6 +264,11 @@
                                         <td>{{ gia.GiaCu|floatformat:0 }} VNĐ</td>
                                         <td>{{ gia.GiaMoi|floatformat:0 }} VNĐ</td>
                                         <td>{{ gia.NgayCapNhat|date:"d/m/Y H:i" }}</td>
+                                        <td>
+                                            <a href="{% url 'xoa_gia_dien_nuoc' gia.GiaID %}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bản ghi giá này không?');">
+                                                <i class="fas fa-trash"></i> Xóa
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

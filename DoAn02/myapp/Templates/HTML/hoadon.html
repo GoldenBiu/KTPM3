@@ -109,44 +109,28 @@
     <div class="cf-title-12">
       <h3>DANH SÁCH HÓA ĐƠN</h3>
       </div>
-            <div class="room-list-header">
-              
+            <div class="room-list-header">   
             <nav class="doi">
-
               <div class="select-container">
                 <i class="bi bi-house-door icon"></i>
-              <select >
-                  <option value="" disabled selected hidden>Dãy</option>
+              <select id="dayFilter" onchange="filterInvoices()">
+                  <option value="Tất cả" disabled selected hidden>Dãy</option>
                   <option value="Tất cả">Tất cả</option>
-                   <option value="có gác"> Dãy A</option>
-                   <option value="Không gác">Dãy B</option>
-                   <option value="Không gác">Dãy C</option>
-                   <option value="Không gác">Dãy D</option>
+                  {% for day in day_phong_list %}
+                  <option value="{{ day }}">{{ day }}</option>
+                  {% endfor %}
               </select>
             </div><br>
-
             <div class="select-container">
               <i class="fa-solid fa-list-ol ico"></i> 
-              <select>
-                  <option value="" disabled selected hidden>Số phòng</option>
+              <select id="roomFilter" onchange="filterInvoices()">
+                  <option value="Tất cả" disabled selected hidden>Số phòng</option>
                   <option value="Tất cả">Tất cả</option>
-                  <option value="101">101</option>
-                  <option value="102">102</option>
+                  {% for room in so_phong_list %}
+                  <option value="{{ room }}">{{ room }}</option>
+                  {% endfor %}
               </select>
           </div><br>
-
-
-
-            <!-- <div class="select-container">
-              <i class="bi bi-cash-stack icon"></i>
-            <label  class="day">Giá</label>
-           <select  name="district2" required>
-           <option value="" disabled selected hidden>Giá</option>
-                <option value="Tất cả">Tất cả</option>
-            
-                  Tùy chọn sẽ được JavaScript thêm vào 
-              </select>
-            </div><br>--> 
 
                    <div class="search-container">
                     <button class="search-btn">
@@ -182,72 +166,77 @@
                         <th>Phòng</th>
                         <th>Tên</th>
                         <th>Số Điện Thoại</th>
-                        <th>Sửa chữa</th>
+                        <th>Tiền trọ/Tiền nợ</th>
                         <th>Hành Động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="pending" data-id="1">
-                        <td>1</td>
-                        <td>A</td>
-                        <td>101</td>
-                        <td>Phạm Hồng Nhựt Ty</td>
-                        <td>0342090665</td>
-                        <td>Cánh cửa: 300 VND</td>
-                       
+                <tbody id="invoiceTable">
+                    {% for hoa_don in hoa_don_data %}
+                    <tr class="invoice-row" data-day="{{ hoa_don.day_phong }}" data-room="{{ hoa_don.so_phong }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ hoa_don.day_phong }}</td>
+                        <td>{{ hoa_don.so_phong }}</td>
+                        <td>{{ hoa_don.ten_khach_hang }}</td>
+                        <td>{{ hoa_don.so_dien_thoai }}</td>
                         <td>
-                            <a href="{% url 'cap_nhat_hoa_don' %}" class="btn chinhsua">Hóa Đơn</a>
-                            <!-- Không có nút Thanh Toán ở đây -->
+                            Tiền trọ: {{ hoa_don.tien_phong|floatformat:0 }} VNĐ
+                            {% if hoa_don.tien_no > 0 %}
+                            <br><span class="text-danger">Tiền nợ: {{ hoa_don.tien_no|floatformat:0 }} VNĐ</span>
+                            <br><span class="text-success">Đã trả: {{ hoa_don.tien_tra|floatformat:0 }} VNĐ</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'xem_hoa_don' hoa_don.chi_so_id %}" class="btn xemchitiet">Xem Hóa Đơn</a>
+                            {% if not hoa_don.da_thanh_toan %}
+                            <button class="thanhtoan-btn" onclick="showPaymentForm(this, {{ hoa_don.chi_so_id }}, {{ hoa_don.tong_tien }})">Thanh Toán</button>
+                            {% endif %}
                         </td>
                     </tr>
-                    <tr class="pending" data-id="6">
-                        <td>6</td>
-                        <td>B</td>
-                        <td>102</td>
-                        <td>Phạm Hồng Nhựt Ty</td>    
-                        <td>0342090665</td>
-                        <td>Cánh cửa: 300.000vnd</td>
-                        <td>
-                            <a href="xuathoadon.html" class="btn xemchitiet">Xem Hóa Đơn</a>
-                            <button class="thanhtoan-btn" onclick="showPaymentForm(this)">Thanh Toán</button>
-                        </td>
-                    </tr>        
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">Không có dữ liệu hóa đơn</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
-
-            
             </table>
     </div>
 </div>
 <div id="paymentForm" class="thanh">
     <h3>Thanh Toán</h3>
-    <label><input class="da" type="radio" name="paymentStatus" value="completed"> Đã Thanh Toán</label><br>
-    <label><input type="radio" name="paymentStatus" value="pending"> Còn Nợ</label><br>
-    <div id="debtDetails" style="display:none;">
-        <input type="number" id="debtAmount" placeholder="Số tiền khách đưa (VND)" oninput="calculateRemaining()"><br>
-        <input type="number" id="totalAmount" value="2000000" placeholder="Tiền trọ (VND)" readonly><br> <!-- Giá trị từ database -->
-        <input class="conlai" type="text" id="total" placeholder="Tổng nợ: (VND)" disabled><br>
-        <input type="date" id="dueDate" lang="vi" placeholder="Hạn trả (dd/mm/yyyy)"><br>
-    </div>
-    <div class="button-container">
-        <button onclick="submitPayment()">Xác nhận</button>   
-        <button onclick="cancelPayment()">Hủy</button>
-    </div>
+    <form id="payment-form" method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" id="chi_so_id" name="chi_so_id">
+        <label><input class="da" type="radio" name="payment_status" value="completed" checked> Đã Thanh Toán Đầy Đủ</label><br>
+        <label><input type="radio" name="payment_status" value="pending"> Thanh Toán Một Phần (Ghi Nợ)</label><br>
+        <div id="debtDetails" style="display:none;">
+            <label>Tổng tiền hóa đơn:</label>
+            <input type="number" id="totalAmount" name="total_amount" readonly><br>
+            
+            <div id="previousPaymentInfo" style="display:none;">
+                <label>Đã thanh toán trước đó:</label>
+                <input type="number" id="previousAmount" name="previous_amount" readonly><br>
+            </div>
+            
+            <label>Số tiền khách đưa:</label>
+            <input type="number" id="debtAmount" name="paid_amount" placeholder="Nhập số tiền khách đưa" oninput="calculateRemaining()"><br>
+            
+            <label>Số tiền sẽ ghi nợ:</label>
+            <input class="conlai" type="text" id="total" placeholder="Số tiền nợ (VNĐ)" readonly><br>
+            
+            <label>Hạn trả:</label>
+            <input type="date" id="dueDate" name="due_date" lang="vi"><br>
+        </div>
+        <div class="button-container">
+            <button type="button" onclick="submitPayment()">Xác nhận</button>   
+            <button type="button" onclick="cancelPayment()">Hủy</button>
+        </div>
+    </form>
 </div>
 
 
 </div>
 </div>  
 </div>
-<!-- <script>
-    function calculateRemaining() {
-        const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
-        const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-        const remainingAmount = totalAmount - debtAmount;
-        
-        document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-    }
-    </script> -->
-<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 <script> 
     const toggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
@@ -261,15 +250,22 @@
     function calculateRemaining() {
         const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
         const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-        const remainingAmount = totalAmount - debtAmount;
+        const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
+        
+        // Calculate remaining debt based on total, previous payments, and current payment
+        const remainingAmount = totalAmount - previousAmount - debtAmount;
     
         document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
     }
     
     let currentButton;
+    let currentChiSoId;
+    let currentRow;
     
-    function showPaymentForm(button) {
+    function showPaymentForm(button, chiSoId, totalAmount) {
         currentButton = button;
+        currentChiSoId = chiSoId;
+        currentRow = button.closest('tr');
     
         // Kiểm tra nếu nút đã là "Đã Thanh Toán" thì không mở form
         if (currentButton.textContent === 'Đã Thanh Toán') {
@@ -277,9 +273,30 @@
             return;
         }
     
+        // Hiển thị form thanh toán
         document.getElementById('paymentForm').style.display = 'block';
+        
+        // Cập nhật ID hóa đơn và tổng tiền
+        document.getElementById('chi_so_id').value = chiSoId;
+        document.getElementById('totalAmount').value = totalAmount;
+        
+        // Check if there are previous payments
+        const previousPaymentText = currentRow.querySelector('.text-success');
+        if (previousPaymentText) {
+            const previousPaymentInfo = document.getElementById('previousPaymentInfo');
+            previousPaymentInfo.style.display = 'block';
+            
+            // Extract the amount from the text "Đã trả: X VNĐ"
+            const previousAmountStr = previousPaymentText.textContent.replace(/[^\d]/g, '');
+            const previousAmount = parseInt(previousAmountStr, 10) || 0;
+            
+            document.getElementById('previousAmount').value = previousAmount;
+        } else {
+            document.getElementById('previousPaymentInfo').style.display = 'none';
+            document.getElementById('previousAmount').value = 0;
+        }
     
-        document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => {
+        document.querySelectorAll('input[name="payment_status"]').forEach(radio => {
             radio.addEventListener('change', () => {
                 document.getElementById('debtDetails').style.display = radio.value === 'pending' ? 'block' : 'none';
                 if (radio.value === 'pending') calculateRemaining(); // Tính lại khi chọn "Còn Nợ"
@@ -288,69 +305,78 @@
     
         // Tính lại ngay khi mở form nếu đã có debtAmount
         calculateRemaining();
+        
+        // Set ngày hôm nay làm mặc định cho hạn trả
+        const today = new Date();
+        const nextMonth = new Date(today);
+        nextMonth.setMonth(today.getMonth() + 1);
+        const formattedDate = nextMonth.toISOString().split('T')[0];
+        document.getElementById('dueDate').value = formattedDate;
     }
     
     function submitPayment() {
-        const row = currentButton.closest('tr');
-        let hiddenInput = row.querySelector('#hiddenInput');
-    
-        if (!hiddenInput) {
-            hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.id = 'hiddenInput';
-            row.appendChild(hiddenInput);
-        }
-    
-        const status = document.querySelector('input[name="paymentStatus"]:checked')?.value;
+        const form = document.getElementById('payment-form');
+        const status = document.querySelector('input[name="payment_status"]:checked')?.value;
     
         if (!status) {
             alert('Vui lòng chọn trạng thái thanh toán!');
             return;
         }
-    
-        if (status === 'completed') {
-            hiddenInput.value = 'Đã Thanh Toán';
-            currentButton.textContent = 'Đã Thanh Toán'; // Cập nhật nút
-            currentButton.disabled = true; // Vô hiệu hóa nút
-        } else if (status === 'pending') {
-            const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
-            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+        
+        // Kiểm tra dữ liệu nếu thanh toán một phần
+        if (status === 'pending') {
+            const debtAmount = document.getElementById('debtAmount').value;
             const dueDate = document.getElementById('dueDate').value;
-            const remainingAmount = totalAmount - debtAmount;
-    
+            
             if (!debtAmount || !dueDate) {
                 alert('Vui lòng nhập đầy đủ số tiền khách đưa và hạn trả!');
                 return;
             }
-    
-            const debtInfo = `Khách đưa: ${debtAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })} - 
-            Tiền trọ: ${totalAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}<br>
-            Hạn: ${dueDate} - Tổng nợ: ${remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}`;
-    
-            hiddenInput.value = debtInfo; // Lưu thông tin nhưng không hiển thị
-            currentButton.textContent = 'Còn Nợ'; // Cập nhật nút
+            
+            // Kiểm tra số tiền hợp lệ
+            const debtAmountValue = parseFloat(debtAmount);
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+            const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
+            
+            if (debtAmountValue <= 0) {
+                alert('Số tiền thanh toán phải lớn hơn 0!');
+                return;
+            }
+            
+            if (debtAmountValue + previousAmount > totalAmount) {
+                alert('Tổng số tiền thanh toán không thể lớn hơn tổng tiền hóa đơn!');
+                return;
+            }
+            
+            // If payment would fully cover the invoice, suggest marking as completed
+            if (debtAmountValue + previousAmount >= totalAmount) {
+                if (confirm('Số tiền thanh toán đủ để thanh toán toàn bộ hóa đơn. Bạn có muốn đánh dấu là đã thanh toán đầy đủ?')) {
+                    document.querySelector('input[value="completed"]').checked = true;
+                    document.getElementById('debtDetails').style.display = 'none';
+                }
+            }
         }
-    
-        // Ẩn form và chỉ hiển thị thông báo
-        document.getElementById('paymentForm').style.display = 'none';
-        alert('Thanh toán đã được xử lý thành công!');
-        savePaymentStatus();
+        
+        // Cập nhật action URL của form để gửi dữ liệu lên server
+        form.action = '{% url "process_payment" 0 %}'.replace('0', currentChiSoId);
+        
+        // Gửi form
+        form.submit();
     }
     
     function cancelPayment() {
         const form = document.getElementById('paymentForm');
         form.style.display = 'none';
     
-        // Reset tất cả input trong form (trừ totalAmount vì nó từ database)
-        document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => radio.checked = false);
+        // Reset form
+        document.getElementById('chi_so_id').value = '';
         document.getElementById('debtAmount').value = '';
-        document.getElementById('dueDate').value = '';
         document.getElementById('total').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('previousAmount').value = '';
         document.getElementById('debtDetails').style.display = 'none';
-    }
-    
-    function savePaymentStatus() {
-        console.log('Trạng thái thanh toán đã được lưu!');
+        document.getElementById('previousPaymentInfo').style.display = 'none';
+        document.querySelector('input[value="completed"]').checked = true;
     }
     
     document.addEventListener('DOMContentLoaded', () => {
@@ -364,6 +390,24 @@
             }
         });
     });
-    </script>
+
+    function filterInvoices() {
+        const dayFilter = document.getElementById('dayFilter').value;
+        const roomFilter = document.getElementById('roomFilter').value;
+        const rows = document.querySelectorAll('#invoiceTable .invoice-row');
+
+        rows.forEach(row => {
+            const day = row.getAttribute('data-day');
+            const room = row.getAttribute('data-room');
+
+            // Show all rows if "Tất cả" is selected in either filter
+            if ((dayFilter === 'Tất cả' || day === dayFilter) && (roomFilter === 'Tất cả' || room === roomFilter)) {
+                row.style.display = ''; // Show row
+            } else {
+                row.style.display = 'none'; // Hide row
+            }
+        });
+    }
+</script>
 </body>
 </html>

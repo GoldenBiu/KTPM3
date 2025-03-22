@@ -29,5 +29,9 @@ urlpatterns = [
     path('delete-service/<int:dich_vu_id>/', views.xoa_dich_vu, name='xoa_dich_vu'),
     path('cap-nhat-gia-dien-nuoc/', views.cap_nhat_gia_dien_nuoc, name='cap_nhat_gia_dien_nuoc'),
     path('cap-nhat-chi-so-dien-nuoc/', views.cap_nhat_chi_so_dien_nuoc, name='cap_nhat_chi_so_dien_nuoc'),
+    path('xoa-chi-so-dien-nuoc/<int:chi_so_id>/', views.xoa_chi_so_dien_nuoc, name='xoa_chi_so_dien_nuoc'),
+    path('xoa-gia-dien-nuoc/<int:gia_id>/', views.xoa_gia_dien_nuoc, name='xoa_gia_dien_nuoc'),
+    path('process-payment/<int:chi_so_id>/', views.process_payment, name='process_payment'),
+    path('xem-hoa-don/<int:chi_so_id>/', views.xem_hoa_don, name='xem_hoa_don'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
