@@ -1,13 +1,15 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Cập nhật hóa đơn</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../css/capnhathoadon.css ">
+        <link rel="stylesheet" href="{% static 'CSS/capnhathoadon.css' %}">
 
         <!--css-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -25,255 +27,219 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     </head>
    
     <body>
-        <header class="header">
-            <div class="menu-toggle">☰</div>
-            <div class="header-title">Nhà trọ Cần Thơ</div>
-
-            
-          </div>
-          </header>
-        
-          <div class="sidebar">
-               <div class="logo_content">
-                
-                <div class="logo">
-                  <div class="icon">
-                    <img src="../imag/moi.jpg" alt="Logo">
-                  </div>
-                  <div class="logo_name">Xin chào, admin</div>
-                </div>
-                
-            </div>
-
-           <!--<div class="logo_name">Xin chào, Admin</div> -->
-
-           <ul class="nav_list">
-            <li>
-              <a href="menu.html">
-                <span class="icon">🏠</span>
-                <span class="link_name">Trang chủ</span>
-              </a>
-            </li>
-            <ul class="nav_list">
-              <li>
-                <a href="Quanlykhachhang.html">
-                  <span class="icon">🧑‍💼</span>
-                  <span class="link_name">Quản lý khách hàng</span>
-                </a>
-              </li>
-            <li>
-              <a href="doanhthu.html">
-                <span class="icon"> 💰</span>
-                <span class="link_name"> doanh thu</span>
-              </a>
-            </li>
-            <li>
-              <a href="dichvu.html">
-                <span class="icon">💡</span>
-                <span class="link_name">Dịch vụ</span>
-              </a>
-            </li>
-            
-            <!-- <li>
-              <a href="dichvu.html">
-                <span class="icon">📊</span>
-                <span class="link_name">Chỉ số điện nước</span>
-              </a>
-            </li> -->
-            <li>
-              <a href="hoadon.html">
-                <span class="icon">🧾</span>
-                <span class="link_name">Hóa đơn</span>
-              </a>
-            </li>
-        
-            <li>
-              <a href="quanlihopdong.html">
-                <span class="icon">📂</span>
-                <span class="link_name">Quản lý hợp đồng</span>
-              </a>
-            </li>
-            <li>
-              <a href="dangxuat.html" class="logout-link">
-                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-                <span class="link_name">Đăng Xuất</span>
-              </a>
-            </li>
-          </ul>
-          </div>
+      <header class="header">
+        <div class="menu-toggle">☰</div>
+        <div class="header-title">Nhà trọ Cần Thơ</div>
+      </header>
     
-
-
-
-
-
-          <div class="content flex-grow-1 p-4">
-            <!-- Thanh công cụ phía trên -->
-            <div class="topbar d-flex justify-content-between align-items-center mb-4">
-             
-                <div>
-       
-                </div>
-            </div>
-        
-           
-        <!--Thân-->
-       
-        <div class="container">
-
-            <div class="cf-title-07">
-                <h3>NHẬP THÔNG TIN HÓA ĐƠN</h3>
+      <div class="sidebar">
+           <div class="logo_content">
+            <div class="logo">
+              <div class="icon">
+                <img src="../imag/moi.jpg" alt="Logo">
               </div>
-  </div>
-            <form>
-                <label>Tháng Hiện Tại:</label>
-                <input type="text" value="03/2025" disabled>
-        
-                <label>Tên Khách Hàng:</label>
-                <input type="text" placeholder="" required disabled>
-        
-                <label>Dãy:</label>
-                <input type="text" placeholder="" required disabled>
-        
-                <label>Phòng:</label>
-                <input type="text" placeholder="" required disabled>
-        
-                <label>Tiền Phòng (VND):</label>
-                <input type="number" placeholder="" required disabled>
-        
-                <div class="row">
-                  <div>
-                      <label>Chỉ Số Điện Cũ:</label>
-                      <input type="number" id="oldIndex" value="2913" disabled>
-                  </div>
-                  <div>
-                      <label>Chỉ Số Điện Mới:</label>
-                      <input type="number" id="newIndex" placeholder="Nhập chỉ số mới" required>
-                  </div>
-                  <div>
-                      <label>Giá điện:</label>
-                      <input type="number" id="price" value="9000" disabled>
-                  </div>
-                  <div>
-                      <label>Tổng Tiền Điện (VND):</label>
-                      <input type="text" id="total" placeholder="Tính tổng tiền điện" disabled>
-                  </div>
-              </div>
-              
-        
-              <div class="row">
-                <div>
-                    <label>Chỉ Số Nước Cũ:</label>
-                    <input type="number" id="oldWaterIndex" value="100" disabled>
-                </div>
-                <div>
-                    <label>Chỉ Số Nước Mới:</label>
-                    <input type="number" id="newWaterIndex" placeholder="Nhập chỉ số mới" required>
-                </div>
-                <div>
-                    <label>Giá nước:</label>
-                    <input type="number" id="waterPrice" value="5000" disabled>
-                </div>
-                <div>
-                    <label>Tổng Tiền Nước (VND):</label>
-                    <input type="text" id="waterTotal" placeholder="Tính tổng tiền nước" disabled>
-                </div>
+              <div class="logo_name">Xin chào, {{ ho_ten_quan_li }}</div>
             </div>
-        
-                <br><div class="row">
-                    <div>
-                        <label>Tên Phí Sửa Chữa:</label>
-                        <input type="text" placeholder="Nhập tên phí sửa chữa">
-                    </div>
-                    <div>
-                        <label>Tổng Tiền Phí (VND):</label>
-                        <input type="number" placeholder="Tính tổng tiền phí" >
-                    </div>
-                </div><br><br>
-        
-                <div class="row">
-                    <div style="flex: 2;">
-                        <label><strong></strong></label>
-                        <div class="total-amount">TỔNG: VND</div>
-                    </div>
-                </div>
-                
-        
-                <div class="button-container">
-                    <button type="button" class="btn btn-save" onclick="showNotification()">Lưu</button>
-                    <div id="notification" class="notification">Đã lưu tạm thời!</div>
-
-                    <button type="button"  onclick="window.location.href='xuathoadon.html'"  class="btn btn-export">Xuất Hóa Đơn</button>
-                </div>
-            </form>
         </div>
 
-          </div>
+       <ul class="nav_list">
+        <li>
+          <a href="{% url 'menu' %}">
+            <span class="icon">🏠</span>
+            <span class="link_name">Trang chủ</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'quan_ly_khach_hang' %}">
+            <span class="icon">🧑‍💼</span>
+            <span class="link_name">Quản lý khách hàng</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'doanh_thu' %}">
+            <span class="icon"> 💰</span>
+            <span class="link_name"> doanh thu</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'dich_vu' %}">
+            <span class="icon">💡</span>
+            <span class="link_name">Dịch vụ</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'hoa_don' %}">
+            <span class="icon">🧾</span>
+            <span class="link_name">Hóa đơn</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'quan_li_hop_dong' %}">
+            <span class="icon">📂</span>
+            <span class="link_name">Quản lý hợp đồng</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'dang_xuat' %}" class="logout-link">
+            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+            <span class="link_name">Đăng Xuất</span>
+          </a>
+        </li>
+      </ul>
+      </div>
 
-    </body>
+      <div class="content flex-grow-1 p-4">
+        <!-- Thanh công cụ phía trên -->
+        <div class="topbar d-flex justify-content-between align-items-center mb-4"></div>
     
+        <!-- Hiển thị thông báo -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+   
+        <div class="container">
+            <div class="cf-title-07">
+                <h3>CẬP NHẬT HÓA ĐƠN</h3>
+            </div>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <label>Tháng:</label>
+            <input type="text" value="{{ thang_nam }}" name="thang_nam" readonly>
     
-    <script>     
-      const toggle = document.querySelector('.menu-toggle');
-      const sidebar = document.querySelector('.sidebar');
-  
-      toggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-      });
-    </script>
-    <script>  
-function showNotification() {
-    let notification = document.getElementById("notification");
-    notification.style.display = "block";
+            <label>Tên Khách Hàng:</label>
+            <input type="text" value="{{ khach_hang.HoTenKhachHang|default:'Chưa có' }}" readonly>
     
-    // Ẩn thông báo sau 3 giây
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 3000);
-}
-</script>  
+            <label>Dãy:</label>
+            <input type="text" value="{{ phong.DayPhong }}" readonly>
+    
+            <label>Phòng:</label>
+            <input type="text" value="{{ phong.SoPhong }}" readonly>
+    
+            <div>
+              <label>Tiền Phòng (VND):</label>
+              <input type="number" id="roomPrice" name="tien_phong" value="{{ chi_so.TienPhong|default:phong.GiaPhong }}" readonly>
+            </div>
+          
+            <div class="row">
+              <div>
+                  <label>Chỉ Số Điện Cũ:</label>
+                  <input type="number" id="oldIndex" name="chi_so_dien_cu" value="{{ chi_so.ChiSoDienCu|default:0 }}" readonly>
+              </div>
+              <div>
+                  <label>Chỉ Số Điện Mới:</label>
+                  <input type="number" id="newIndex" name="chi_so_dien_moi" value="{{ chi_so.ChiSoDienMoi|default:'' }}" placeholder="Nhập chỉ số mới" required oninput="calculateAll()">
+              </div>
+              <div>
+                  <label>Giá điện:</label>
+                  <input type="number" id="price" value="{{ chi_so.GiaDienMoi|default:0 }}" readonly>
+              </div>
+              <div>
+                  <label>Tổng Tiền Điện (VND):</label>
+                  <input type="text" id="total" placeholder="Tính tổng tiền điện" readonly>
+              </div>
+            </div>
+          
+            <div class="row">
+              <div>
+                  <label>Chỉ Số Nước Cũ:</label>
+                  <input type="number" id="oldWaterIndex" name="chi_so_nuoc_cu" value="{{ chi_so.ChiSoNuocCu|default:0 }}" readonly>
+              </div>
+              <div>
+                  <label>Chỉ Số Nước Mới:</label>
+                  <input type="number" id="newWaterIndex" name="chi_so_nuoc_moi" value="{{ chi_so.ChiSoNuocMoi|default:'' }}" placeholder="Nhập chỉ số mới" required oninput="calculateAll()">
+              </div>
+              <div>
+                  <label>Giá nước:</label>
+                  <input type="number" id="waterPrice" value="{{ chi_so.GiaNuocMoi|default:0 }}" readonly>
+              </div>
+              <div>
+                  <label>Tổng Tiền Nước (VND):</label>
+                  <input type="text" id="waterTotal" placeholder="Tính tổng tiền nước" readonly>
+              </div>
+            </div>
+          
+            <br>
+            <div class="row">
+              <div>
+                  <label>Tên Phí Sửa Chữa:</label>
+                  <input type="text" id="repairName" name="ten_phi_sua_chua" placeholder="Nhập tên phí sửa chữa">
+              </div>
+              <div>
+                  <label>Tổng Tiền Phí (VND):</label>
+                  <input type="number" id="repairCost" name="tien_phi_sua_chua" placeholder="Nhập số tiền phí" oninput="calculateAll()">
+              </div>
+            </div>
+            <br><br>
+          
+            <div class="row">
+              <div style="flex: 2;">
+                  <label><strong>TỔNG CỘNG:</strong></label>
+                  <div class="total-amount" id="totalAmount">TỔNG: 0 VND</div>
+              </div>
+            </div>
+    
+            <div class="button-container">
+                <button type="submit" class="btn btn-save">Lưu Hóa Đơn</button>
+                <a href="{% url 'dich_vu' %}" class="btn btn-cancel">Hủy</a>
+            </div>
+        </form>
+    </div>
+</body>
 
+<script>     
+  const toggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+
+  toggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+  });
+</script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const oldElectricIndexInput = document.getElementById("oldIndex");
-    const newElectricIndexInput = document.getElementById("newIndex");
-    const electricPriceInput = document.getElementById("price");
-    const electricTotalInput = document.getElementById("total");
-
-    const oldWaterIndexInput = document.getElementById("oldWaterIndex");
-    const newWaterIndexInput = document.getElementById("newWaterIndex");
-    const waterPriceInput = document.getElementById("waterPrice");
-    const waterTotalInput = document.getElementById("waterTotal");
-
-    function calculateTotal(oldInput, newInput, priceInput, totalInput) {
-        const oldIndex = parseFloat(oldInput.value) || 0;
-        const newIndex = parseFloat(newInput.value) || oldIndex;
-        const price = parseFloat(priceInput.value) || parseFloat(priceInput.placeholder) || 0;
-
-        if (newIndex >= oldIndex) {
-            const total = (newIndex - oldIndex) * price;
-            totalInput.value = total.toLocaleString("vi-VN") + " VND";
-        } else {
-            totalInput.value = "Lỗi: Chỉ số mới phải lớn hơn chỉ số cũ";
-        }
-    }
-    
-    newElectricIndexInput.addEventListener("input", function() {
-        calculateTotal(oldElectricIndexInput, newElectricIndexInput, electricPriceInput, electricTotalInput);
-    });
-    
-    newWaterIndexInput.addEventListener("input", function() {
-        calculateTotal(oldWaterIndexInput, newWaterIndexInput, waterPriceInput, waterTotalInput);
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    calculateAll();
 });
+
+function calculateAll() {
+  // Lấy giá trị từ các input
+  const roomPrice = parseFloat(document.getElementById('roomPrice').value) || 0;
+  const oldIndex = parseFloat(document.getElementById('oldIndex').value) || 0;
+  const newIndex = parseFloat(document.getElementById('newIndex').value) || 0;
+  const price = parseFloat(document.getElementById('price').value) || 0;
+  const oldWaterIndex = parseFloat(document.getElementById('oldWaterIndex').value) || 0;
+  const newWaterIndex = parseFloat(document.getElementById('newWaterIndex').value) || 0;
+  const waterPrice = parseFloat(document.getElementById('waterPrice').value) || 0;
+  const repairCost = parseFloat(document.getElementById('repairCost').value) || 0;
+
+  // Tính tiền điện
+  const electricityUsed = newIndex - oldIndex;
+  const electricityCost = electricityUsed > 0 ? electricityUsed * price : 0;
+  document.getElementById('total').value = electricityCost.toLocaleString("vi-VN") + " VND";
+
+  // Tính tiền nước
+  const waterUsed = newWaterIndex - oldWaterIndex;
+  const waterCost = waterUsed > 0 ? waterUsed * waterPrice : 0;
+  document.getElementById('waterTotal').value = waterCost.toLocaleString("vi-VN") + " VND";
+
+  // Tính tổng cộng
+  const total = roomPrice + electricityCost + waterCost + repairCost;
+  document.getElementById('totalAmount').textContent = `TỔNG: ${total.toLocaleString("vi-VN")} VND`;
+}
 </script>
 </html>
 

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Chỉ Số Điện Nước</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            min-height: 100vh;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .sidebar.active {
+            left: -280px;
+        }
+        .menu-toggle {
+            position: absolute;
+            right: -50px;
+            top: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 45px;
+            width: 50px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        .menu-toggle:hover span:nth-child(2) {
+            width: 80%;
+        }
+        .profile {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .profile p {
+            font-size: 14px;
+            color: #ddd;
+        }
+        .nav-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+        .nav-item {
+            margin-bottom: 15px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: #eee;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .nav-link.active {
+            background-color: #4e73df;
+            color: #fff;
+        }
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+        .main-content.active {
+            margin-left: 0;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-control {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            font-size: 15px;
+        }
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background-color: #4e73df;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2e59d9;
+        }
+        .btn-danger {
+            background-color: #e74a3b;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #d52a1a;
+        }
+        .reading-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .reading-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .reading-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            width: 40%;
+            font-weight: 600;
+            color: #555;
+        }
+        .input-group input {
+            width: 60%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .table th {
+            background-color: #f8f9fc;
+            color: #333;
+            font-weight: 600;
+        }
+        .table tr:hover {
+            background-color: #f8f9fc;
+        }
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .edit-btn {
+            background-color: #4e73df;
+            color: white;
+            border: none;
+        }
+        .edit-btn:hover {
+            background-color: #2e59d9;
+        }
+        .info-text {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-paid {
+            background-color: #1cc88a;
+            color: white;
+        }
+        .status-unpaid {
+            background-color: #e74a3b;
+            color: white;
+        }
+        .consumption {
+            font-weight: bold;
+            color: #4e73df;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="profile">
+            <img src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="User Profile">
+            <h4>{{ ho_ten_quan_li }}</h4>
+            <p>Quản lý</p>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="{% url 'menu' %}" class="nav-link">
+                    <i class="fas fa-home"></i> Tổng quan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'quan_ly_khach_hang' %}" class="nav-link">
+                    <i class="fas fa-users"></i> Quản lý khách hàng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'dich_vu' %}" class="nav-link active">
+                    <i class="fas fa-tools"></i> Quản lý dịch vụ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'dang_xuat' %}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h1 class="mb-4">Cập Nhật Chỉ Số Điện Nước</h1>
+
+            <!-- Messages display -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Form card -->
+            <div class="card mb-4">
+                <h5 class="card-header">Nhập Chỉ Số Mới</h5>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'cap_nhat_chi_so_dien_nuoc' %}">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Phòng</label>
+                                    <select class="form-control" name="phong_id" required id="room-select">
+                                        <option value="">Chọn phòng</option>
+                                        {% for room in rooms_data %}
+                                            <option value="{{ room.phong.PhongID }}" data-day="{{ room.phong.DayPhong }}" data-room-number="{{ room.phong.SoPhong }}" 
+                                                {% if room.latest_reading %}
+                                                    data-old-electric="{{ room.latest_reading.ChiSoDienMoi }}"
+                                                    data-old-water="{{ room.latest_reading.ChiSoNuocMoi }}"
+                                                {% else %}
+                                                    data-old-electric="0"
+                                                    data-old-water="0"
+                                                {% endif %}
+                                                >
+                                                {{ room.phong.DayPhong }}{{ room.phong.SoPhong }} - {{ room.ten_khach_hang }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Tháng/Năm</label>
+                                    <input type="text" class="form-control" name="thang_nam" value="{{ current_month_year }}" placeholder="MM/YYYY" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="reading-card">
+                                    <h3>Điện</h3>
+                                    <div class="input-group">
+                                        <label>Chỉ số cũ:</label>
+                                        <input type="number" name="chi_so_dien_cu" id="old-electric-reading" readonly>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Chỉ số mới:</label>
+                                        <input type="number" name="chi_so_dien_moi" id="new-electric-reading" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Tiêu thụ:</label>
+                                        <input type="number" id="electric-consumption" class="consumption" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="reading-card">
+                                    <h3>Nước</h3>
+                                    <div class="input-group">
+                                        <label>Chỉ số cũ:</label>
+                                        <input type="number" name="chi_so_nuoc_cu" id="old-water-reading" readonly>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Chỉ số mới:</label>
+                                        <input type="number" name="chi_so_nuoc_moi" id="new-water-reading" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Tiêu thụ:</label>
+                                        <input type="number" id="water-consumption" class="consumption" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Cập Nhật Chỉ Số</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Readings History -->
+            <div class="card">
+                <h5 class="card-header">Lịch Sử Chỉ Số Điện Nước</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Phòng</th>
+                                    <th>Tháng/Năm</th>
+                                    <th>Chỉ số Điện (Cũ)</th>
+                                    <th>Chỉ số Điện (Mới)</th>
+                                    <th>Tiêu thụ Điện</th>
+                                    <th>Chỉ số Nước (Cũ)</th>
+                                    <th>Chỉ số Nước (Mới)</th>
+                                    <th>Tiêu thụ Nước</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="readings-history">
+                                <!-- This will be populated when a room is selected -->
+                                <tr>
+                                    <td colspan="9" class="text-center">Chọn phòng để xem lịch sử</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Toggle sidebar
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').classList.toggle('active');
+        });
+
+        // Handle room selection
+        document.getElementById('room-select').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            
+            if (this.value) {
+                // Set old readings
+                const oldElectric = selectedOption.getAttribute('data-old-electric') || 0;
+                const oldWater = selectedOption.getAttribute('data-old-water') || 0;
+                
+                document.getElementById('old-electric-reading').value = oldElectric;
+                document.getElementById('old-water-reading').value = oldWater;
+                
+                // Clear new readings
+                document.getElementById('new-electric-reading').value = '';
+                document.getElementById('new-water-reading').value = '';
+                document.getElementById('electric-consumption').value = '';
+                document.getElementById('water-consumption').value = '';
+                
+                // Focus on new electric reading
+                document.getElementById('new-electric-reading').focus();
+                
+                // Load reading history for this room
+                loadReadingHistory(this.value);
+            }
+        });
+
+        // Calculate consumption when new readings are entered
+        document.getElementById('new-electric-reading').addEventListener('input', calculateElectricConsumption);
+        document.getElementById('new-water-reading').addEventListener('input', calculateWaterConsumption);
+
+        function calculateElectricConsumption() {
+            const oldReading = parseInt(document.getElementById('old-electric-reading').value) || 0;
+            const newReading = parseInt(document.getElementById('new-electric-reading').value) || 0;
+            
+            if (newReading >= oldReading) {
+                document.getElementById('electric-consumption').value = newReading - oldReading;
+            } else {
+                document.getElementById('electric-consumption').value = 'Lỗi: Chỉ số mới phải >= chỉ số cũ';
+            }
+        }
+
+        function calculateWaterConsumption() {
+            const oldReading = parseInt(document.getElementById('old-water-reading').value) || 0;
+            const newReading = parseInt(document.getElementById('new-water-reading').value) || 0;
+            
+            if (newReading >= oldReading) {
+                document.getElementById('water-consumption').value = newReading - oldReading;
+            } else {
+                document.getElementById('water-consumption').value = 'Lỗi: Chỉ số mới phải >= chỉ số cũ';
+            }
+        }
+
+        function loadReadingHistory(roomId) {
+            // This would typically call an API to get reading history
+            // For now, we'll just display a message
+            document.getElementById('readings-history').innerHTML = `
+                <tr>
+                    <td colspan="9" class="text-center">Đang tải dữ liệu...</td>
+                </tr>
+            `;
+            
+            // In a real application, you would fetch data using AJAX
+            // For example:
+            /*
+            fetch(`/api/readings-history?room_id=${roomId}`)
+                .then(response => response.json())
+                .then(data => {
+                    let html = '';
+                    data.forEach(reading => {
+                        html += `
+                            <tr>
+                                <td>${reading.room}</td>
+                                <td>${reading.month_year}</td>
+                                <td>${reading.old_electric}</td>
+                                <td>${reading.new_electric}</td>
+                                <td>${reading.electric_consumption}</td>
+                                <td>${reading.old_water}</td>
+                                <td>${reading.new_water}</td>
+                                <td>${reading.water_consumption}</td>
+                                <td>
+                                    <span class="status-badge ${reading.is_paid ? 'status-paid' : 'status-unpaid'}">
+                                        ${reading.is_paid ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    document.getElementById('readings-history').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching reading history:', error);
+                    document.getElementById('readings-history').innerHTML = `
+                        <tr>
+                            <td colspan="9" class="text-center text-danger">
+                                Lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+                            </td>
+                        </tr>
+                    `;
+                });
+            */
+            
+            // For demo purposes, show placeholder
+            setTimeout(() => {
+                document.getElementById('readings-history').innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center">Chọn phòng để xem lịch sử chỉ số điện nước</td>
+                    </tr>
+                `;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -500,7 +500,7 @@ h3 scan{
 /* 3 nút button  */
 /* ======================= */
 .tren{
-  margin-left:920px;
+  margin-left:980px;
  
 }
 /* .tren .quaylai{
@@ -508,7 +508,6 @@ color: rgb(240, 229, 14);
 } */
 .tren .le .mayin{
   color: rgb(47, 47, 47);
-
 }
 
 .tren .le{
@@ -530,6 +529,7 @@ color: rgb(240, 229, 14);
 
 .btn.quaylai {
     display: flex;
+    margin-left: 20px;
     flex-direction: column;
     align-items: center;
     background: none;
@@ -541,12 +541,11 @@ color: rgb(240, 229, 14);
   
   @keyframes colorChange {
     0% { color: #f1844e; } /* Cam */
-    50% { color: #fa4f4f; } /* Đỏ nhạt */
-    100% { color: #FF9800; } /* Quay lại cam */
+    
   }
   
   .btn.quaylai i {
-    font-size: 26px;
+    font-size: 23px;
     animation: colorChange 1s infinite alternate; /* Chạy hiệu ứng */
     transition: transform 0.2s ease-in-out;
   }
@@ -554,6 +553,8 @@ color: rgb(240, 229, 14);
   .btn.quaylai:hover i {
     transform: translateY(-3px); /* Hiệu ứng di chuyển lên */
   }
+
+  
 /* =============================== */
 /*      Hình ảnh CCCD */
 /* =============================== */

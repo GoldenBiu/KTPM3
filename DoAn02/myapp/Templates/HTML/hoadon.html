@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Khách Hàng</title>
-    <link rel="stylesheet" href="../css/hoadon.css">
+    <link rel="stylesheet" href="{% static 'CSS/hoadon.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -50,37 +51,55 @@
         <div class="logo_content">
             <div class="logo">
                 <div class="icon">
-                    <img src="../imag/moi.jpg" alt="Logo">
+                    <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
                 </div>
                 <div class="logo_name">Xin chào, admin</div>
             </div>
         </div>
         <ul class="nav_list">
             <li>
-                <a href="menu.html">
-                  <span class="icon">🏠</span>
-                  <span class="link_name">Trang chủ</span>
-                </a>
-              </li>
-              <ul class="nav_list">
-                <li>
-                  <a href="Quanlykhachhang.html">
-                    <span class="icon">🧑‍💼</span>
-                    <span class="link_name">Quản lý khách hàng</span>
-                  </a>
-                </li>
-              <li>
-                <a href="doanhthu.html">
-                  <span class="icon"> 💰</span>
-                  <span class="link_name"> doanh thu</span>
-                </a>
-              </li>
-            <li><a href="dichvu.html"><span class="icon">💡</span><span class="link_name">Dịch vụ </span></a></li>
-          <!-- <li><a href="dichvu.html"><span class="icon">📊</span><span class="link_name">Chỉ số điện nước</span></a></li>-->
-            <li><a href="hoadon.html"><span class="icon">🧾</span><span class="link_name">Hóa đơn</span></a></li>
-            <li><a href="quanlihopdong.html"><span class="icon">📂</span><span class="link_name">Quản lý hợp đồng</span></a></li>
-            <li><a href="dangxuat.html" class="logout-link"><span class="icon"><i class="fas fa-sign-out-alt"></i></span><span class="link_name">Đăng Xuất</span></a></li>
-        </ul>
+              <a href="{% url 'menu' %}">
+                <span class="icon">🏠</span>
+                <span class="link_name">Trang chủ</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'quan_ly_khach_hang' %}">
+                <span class="icon">🧑‍💼</span>
+                <span class="link_name">Quản lý khách hàng</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'doanh_thu' %}">
+                <span class="icon">💰</span>
+                <span class="link_name">Doanh thu</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'dich_vu' %}">
+                <span class="icon">💡</span>
+                <span class="link_name">Dịch vụ</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'hoa_don' %}">
+                <span class="icon">🧾</span>
+                <span class="link_name">Hóa đơn</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'quan_li_hop_dong' %}">
+                <span class="icon">📂</span>
+                <span class="link_name">Quản lý hợp đồng</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'dang_xuat' %}" class="logout-link">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="link_name">Đăng Xuất</span>
+              </a>
+            </li>
+          </ul>
     </div>
 
     <div class="content container">
@@ -177,7 +196,7 @@
                         <td>Cánh cửa: 300 VND</td>
                        
                         <td>
-                            <a href="capnhathoadon.html" class="btn chinhsua">Hóa Đơn</a>
+                            <a href="{% url 'cap_nhat_hoa_don' %}" class="btn chinhsua">Hóa Đơn</a>
                             <!-- Không có nút Thanh Toán ở đây -->
                         </td>
                     </tr>
@@ -197,9 +216,6 @@
 
             
             </table>
-        
-       
-
     </div>
 </div>
 <div id="paymentForm" class="thanh">
@@ -208,18 +224,21 @@
     <label><input type="radio" name="paymentStatus" value="pending"> Còn Nợ</label><br>
     <div id="debtDetails" style="display:none;">
         <input type="number" id="debtAmount" placeholder="Số tiền khách đưa (VND)" oninput="calculateRemaining()"><br>
-        <input type="number" id="totalAmount" placeholder="Tiền trọ (VND)" oninput="calculateRemaining()"><br> 
+        <input type="number" id="totalAmount" value="2000000" placeholder="Tiền trọ (VND)" readonly><br> <!-- Giá trị từ database -->
         <input class="conlai" type="text" id="total" placeholder="Tổng nợ: (VND)" disabled><br>
         <input type="date" id="dueDate" lang="vi" placeholder="Hạn trả (dd/mm/yyyy)"><br>
-        
     </div>
     <div class="button-container">
-        <button onclick="submitPayment()">Xác nhận</button>
-        <button onclick="document.getElementById('paymentForm').style.display='none'">Hủy</button>
+        <button onclick="submitPayment()">Xác nhận</button>   
+        <button onclick="cancelPayment()">Hủy</button>
     </div>
 </div>
 
-<script>
+
+</div>
+</div>  
+</div>
+<!-- <script>
     function calculateRemaining() {
         const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
         const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
@@ -227,15 +246,8 @@
         
         document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
     }
-    </script>
-
-
-</div>
-</div>  
-</div>
-
-
-    
+    </script> -->
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 <script> 
     const toggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
@@ -246,95 +258,112 @@
   </script>
 
 <script>
-function calculateRemaining() {
-    const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
-    const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-    const remainingAmount = totalAmount - debtAmount;
-
-    document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-}
-
-let currentButton; 
-
-function showPaymentForm(button) {
-    currentButton = button;
-    document.getElementById('paymentForm').style.display = 'block';
-    
-    document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            document.getElementById('debtDetails').style.display = radio.value === 'pending' ? 'block' : 'none';
-        });
-    });
-}
-
-function submitPayment() {
-    const row = currentButton.closest('tr');
-    let hiddenInput = row.querySelector('#hiddenInput');
-
-    if (!hiddenInput) {
-        hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.id = 'hiddenInput';
-        row.appendChild(hiddenInput);
-    }
-
-    const status = document.querySelector('input[name="paymentStatus"]:checked').value;
-
-    if (status === 'completed') {
-        hiddenInput.value = 'Đã Thanh Toán';
-        row.classList.remove('pending');
-        row.classList.add('completed');
-        currentButton.classList.add('completed');
-        currentButton.textContent = 'Đã Thanh Toán';
-        currentButton.disabled = true;
-        row.cells[5].innerHTML = row.cells[5].textContent.split('<')[0].trim();
-    } else if (status === 'pending') {
+    function calculateRemaining() {
         const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
         const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-        const dueDate = document.getElementById('dueDate').value;
         const remainingAmount = totalAmount - debtAmount;
-
-        if (!debtAmount || !totalAmount || !dueDate) {
-            alert('Vui lòng nhập đầy đủ thông tin!');
+    
+        document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    }
+    
+    let currentButton;
+    
+    function showPaymentForm(button) {
+        currentButton = button;
+    
+        // Kiểm tra nếu nút đã là "Đã Thanh Toán" thì không mở form
+        if (currentButton.textContent === 'Đã Thanh Toán') {
+            alert('Hóa đơn này đã được thanh toán và không thể sửa đổi!');
             return;
         }
-
-        document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-
-        const debtInfo = `Khách đưa: ${debtAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })} - 
-        Tiền trọ: ${totalAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}<br>
-        Hạn: ${dueDate} - Tổng nợ: ${remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}`;
-
-        hiddenInput.value = debtInfo;
-        row.cells[5].innerHTML = `${row.cells[5].textContent}<br><span class="debt-info">${debtInfo}</span>`;
-        currentButton.textContent = 'Còn Nợ';
-        row.classList.add('pending');
+    
+        document.getElementById('paymentForm').style.display = 'block';
+    
+        document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.getElementById('debtDetails').style.display = radio.value === 'pending' ? 'block' : 'none';
+                if (radio.value === 'pending') calculateRemaining(); // Tính lại khi chọn "Còn Nợ"
+            });
+        });
+    
+        // Tính lại ngay khi mở form nếu đã có debtAmount
+        calculateRemaining();
     }
-
-    document.getElementById('paymentForm').style.display = 'none';
-    savePaymentStatus();
-}
-
-function savePaymentStatus() {
-    console.log('Trạng thái thanh toán đã được lưu!');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.thanhtoan-btn').forEach(button => {
-        const row = button.closest('tr');
-        const hiddenInput = row.querySelector('#hiddenInput');
-
-        if (hiddenInput && hiddenInput.value === 'Đã Thanh Toán') {
-            button.textContent = 'Đã Thanh Toán';
-            button.disabled = true;
-            button.classList.add('completed');
-            row.classList.remove('pending');
-            row.classList.add('completed');
+    
+    function submitPayment() {
+        const row = currentButton.closest('tr');
+        let hiddenInput = row.querySelector('#hiddenInput');
+    
+        if (!hiddenInput) {
+            hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = 'hiddenInput';
+            row.appendChild(hiddenInput);
         }
+    
+        const status = document.querySelector('input[name="paymentStatus"]:checked')?.value;
+    
+        if (!status) {
+            alert('Vui lòng chọn trạng thái thanh toán!');
+            return;
+        }
+    
+        if (status === 'completed') {
+            hiddenInput.value = 'Đã Thanh Toán';
+            currentButton.textContent = 'Đã Thanh Toán'; // Cập nhật nút
+            currentButton.disabled = true; // Vô hiệu hóa nút
+        } else if (status === 'pending') {
+            const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const dueDate = document.getElementById('dueDate').value;
+            const remainingAmount = totalAmount - debtAmount;
+    
+            if (!debtAmount || !dueDate) {
+                alert('Vui lòng nhập đầy đủ số tiền khách đưa và hạn trả!');
+                return;
+            }
+    
+            const debtInfo = `Khách đưa: ${debtAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })} - 
+            Tiền trọ: ${totalAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}<br>
+            Hạn: ${dueDate} - Tổng nợ: ${remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}`;
+    
+            hiddenInput.value = debtInfo; // Lưu thông tin nhưng không hiển thị
+            currentButton.textContent = 'Còn Nợ'; // Cập nhật nút
+        }
+    
+        // Ẩn form và chỉ hiển thị thông báo
+        document.getElementById('paymentForm').style.display = 'none';
+        alert('Thanh toán đã được xử lý thành công!');
+        savePaymentStatus();
+    }
+    
+    function cancelPayment() {
+        const form = document.getElementById('paymentForm');
+        form.style.display = 'none';
+    
+        // Reset tất cả input trong form (trừ totalAmount vì nó từ database)
+        document.querySelectorAll('input[name="paymentStatus"]').forEach(radio => radio.checked = false);
+        document.getElementById('debtAmount').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('total').value = '';
+        document.getElementById('debtDetails').style.display = 'none';
+    }
+    
+    function savePaymentStatus() {
+        console.log('Trạng thái thanh toán đã được lưu!');
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.thanhtoan-btn').forEach(button => {
+            const row = button.closest('tr');
+            const hiddenInput = row.querySelector('#hiddenInput');
+    
+            if (hiddenInput && hiddenInput.value === 'Đã Thanh Toán') {
+                button.textContent = 'Đã Thanh Toán';
+                button.disabled = true; // Vô hiệu hóa nút khi tải trang
+            }
+        });
     });
-});
-
-
     </script>
 </body>
 </html>

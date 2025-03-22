@@ -339,6 +339,11 @@ button {
     color: white;
     border-radius: 12px;
 }
+.update-btn {
+  background:  #3bb2b8;
+  color: white;
+  border-radius: 12px;
+}
 .update-btn:hover{
   transform: scale(1.05);
 }
@@ -469,3 +474,60 @@ input[readonly].old-price {
   padding: 5px 10px;
   margin-top: 10px;
 }
+/* Tính tổng */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cf-title-03 h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.service {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.service input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 5px;
+}
+
+.update-btn, .delete-btn, .add-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+
+.cf-title-01 h6 {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+
+/* ========nút chỉnh sửa phàn dịch vụ===== */
+
+
+
+
+.edit-btn {
+  background:  #f2b876e8;
+  color: white;
+  border-radius: 12px;
+}
+

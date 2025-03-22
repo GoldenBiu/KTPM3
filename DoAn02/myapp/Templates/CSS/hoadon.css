@@ -950,3 +950,9 @@ tr.pending {
   height: 36px;
   border-radius: 3px; /* Bo góc 8px */
 }
+/* đã thanh toán */
+button.thanhtoan-btn:disabled {
+  background-color: gray; /* Màu xám cho nền */
+  color: white; /* Màu chữ trắng để dễ đọc */
+  cursor: not-allowed; /* Con trỏ chuột chỉ không thể nhấn */
+}

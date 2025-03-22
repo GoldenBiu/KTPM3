@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'myapp',
 ]
 
@@ -62,8 +63,10 @@ DATABASES = {
         'PASSWORD': 'AVNS_6K_jK3EO-MTPnyTAG7J',  # Thay bằng mật khẩu MySQL
         'HOST': 'mysql-b20d932-thuanbill2k22-144c.i.aivencloud.com',         # Hoặc IP khác nếu MySQL không chạy trên máy cục bộ
         'PORT': '22350',
+        'CONN_MAX_AGE': 60,  # Keep database connections alive for 60 seconds
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
         }
     }
 }
@@ -102,3 +105,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Cấu hình media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Cache settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# Static files settings
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'

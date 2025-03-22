@@ -37,11 +37,11 @@
             <nav class="field">
                 Quên mật khẩu? <a href="lienhe.html">Liên hệ</a>
             </nav>
-            {% if messages %}
+            {% comment %} {% if messages %}
                 {% for message in messages %}
                     <p style="color: red;">{{ message }}</p>
                 {% endfor %}
-            {% endif %}
+            {% endif %} {% endcomment %}
         </form>
     </div>
 </body>

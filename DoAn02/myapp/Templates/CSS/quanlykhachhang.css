@@ -153,44 +153,38 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  height: 38.5px;
-  margin-left: auto;
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 5px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  border: 2px solid #5E3582;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .search-bar input {
+  flex: 1;
+  padding: 6px;
   border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  height: 32px;
   outline: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  width: 90px;
-  transition: width 0.3s ease;
+  background-color: #f5f5f5;
 }
 
-.search-bar input:focus {
-  width: 270px;
+.search-bar select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .search-bar button {
-  background-color: #eeaff3;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
   border: none;
-  color: #1c1919;
-  padding: 5px 10px;
-  height: 28px;
-  border-radius: 10px;
-  font-size: 14px;
+  border-radius: 4px;
   cursor: pointer;
-  margin-left: 5px;
-  transition: background-color 0.3s ease;
 }
 
 .search-bar button:hover {
-  background-color: #f186f1;
+  background-color: #0056b3;
 }
 
 /* Button group */
@@ -200,19 +194,43 @@ body {
   padding-left: 10px;
 }
 
+.button-group .btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.button-group .dathue {
+  background-color: #28a745;
+  color: white;
+}
+
 .button-group .dathue:hover {
-  background: rgb(167, 222, 214);
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.button-group .phongtrong {
+  background-color: #ffc107;
   color: black;
 }
 
 .button-group .phongtrong:hover {
-  background: rgb(246, 237, 156);
-  color: black;
+  background-color: #e0a800;
+  transform: translateY(-2px);
+}
+
+.button-group .hientatca {
+  background-color: #17a2b8;
+  color: white;
 }
 
 .button-group .hientatca:hover {
-  background: rgba(249, 205, 158, 0.952);
-  color: black;
+  background-color: #138496;
+  transform: translateY(-2px);
 }
 
 /* Đăng xuất */
@@ -426,33 +444,31 @@ tr.rieng td {
 /*                                     3 nút button                         */
 /* ============================================================================================ */
 .btn.chinhsua {
-    background: #f4cda1e8; /* Baby Blue */
-    width: 150px;
-    color: #353434;
-  }
-  
-  .btn.chinhsua:hover {
-    background: #e9b47c;
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn.chinhsua:hover {
+    background-color: #e9b47c;
     color:#343333 ;
     transform: translateY(-2px);
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  
-  
-  /* Nút xem hợp đồng - Xanh nước biển nhạt */
-  .btn.taotaikhoan {
-    background: #87f3a9d0; /* Light Sky Blue */
-    width: 150px;
-    color: #252424;
-  }
-  
-  .btn.taotaikhoan:hover {
-    background: #98f5c8;
-    transform: translateY(-2px);
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
+}
+
+
+
+/* Nút xem hợp đồng - Xanh nước biển nhạt */
+.btn.taotaikhoan {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn.taotaikhoan:hover {
+  background-color: #98f5c8;
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 /* =============================== */
 
 .message-box{

@@ -579,7 +579,98 @@ color: rgb(240, 229, 14);
 }
 
 
+/* ===== */
+/* phần ô giới tính */
+/* ====== */
+option[disabled] {
+  color: rgb(133, 129, 129); /* Làm mờ chữ */
+}
 
+/* =========================== */
+/*    ghi chú
+/* ============================ */
+
+.date-group, .ghichu {
+  display: flex;
+  gap: 1px;
+  flex-wrap: wrap;
+}
+
+/* Checkbox styling */
+.amenities {
+  margin-top: 25px;
+}
+
+.amenities-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.amenities-left, .amenities-right {
+  flex: 1;
+}
+
+.amenities input[type="checkbox"] {
+  margin: 5px 10px 5px 0;
+  vertical-align: middle;
+}
+
+.amenities label {
+  font-weight: normal;
+  color: #666666;
+  margin-right: 15px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.floating-text {
+  display: inline-block;
+  position: relative;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.floating-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  margin-left: 15px;
+  bottom: -4px;
+  width: 110%;
+  height: 2.5px;
+  background: linear-gradient(90deg, #3498db, #f5a9b8);
+  background-size: 200% 100%;
+  animation: underlineAnimation 2s linear infinite;
+}
+
+@keyframes underlineAnimation {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@media (max-width: 600px) {
+  .form-left, .form-right {
+      width: 100%;
+      margin-left: 0;
+  }
+  .amenities-container {
+      flex-direction: column;
+  }
+}
 
 
 
@@ -601,3 +692,82 @@ option[disabled] {
   flex-wrap: wrap;
 }
 
+h3 {
+    color: #d32f2f;
+}
+
+p {
+    text-align: center;
+    margin: 5px 0;
+}
+
+form {
+    margin-top: 20px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button {
+   
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+
+.party {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.terms ul, .section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.signature-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.signature {
+    width: 45%;
+    text-align: center;
+}
+
+.signature h4 {
+    margin-bottom: 10px;
+}
+
+.signature p {
+    margin-bottom: 10px;
+}

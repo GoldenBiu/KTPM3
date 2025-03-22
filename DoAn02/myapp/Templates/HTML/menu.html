@@ -36,16 +36,29 @@
             <div class="header-title">Nhà trọ Cần Thơ</div>
 
             <div class="search-bar">
-              <input type="text" placeholder="Tìm kiếm..." />
-              <button class="timkiem" type="submit">🔍</button>
-              
-              <div class="button-group">
-                <button class="btn dathue" type="submit">Đã thuê</button>
-                <button class="btn phongtrong" type="submit">Phòng trống</button>
-                <button class="btn hientatca" type="submit">Hiện tất cả</button>
+              <form method="GET" action="{% url 'menu' %}" style="display: flex; align-items: center;">
+                <input type="text" name="search" placeholder="Tìm theo: Số phòng, Dãy, Tên khách hàng, Số điện thoại, Tiện ích, Diện tích..." value="{{ search_query }}" title="Tìm kiếm theo: Số phòng, Dãy, Tên khách hàng, Số điện thoại, Tiện ích, Diện tích" />
+                <button class="timkiem" type="submit">🔍</button>
+                
+                <div class="button-group">
+                  <button class="btn dathue" type="submit" name="trang_thai" value="DaThue">Phòng đã thuê</button>
+                  <button class="btn phongtrong" type="submit" name="trang_thai" value="ConTrong">Phòng còn trống</button>
+                  <button class="btn hientatca" type="submit" name="trang_thai" value="">Hiện tất cả phòng</button>
+                </div>
+              </form>
             </div>
+          </header> 
+          
+          {% if messages %}
+          <div class="messages">
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
           </div>
-          </header>
+          {% endif %}
         
           <div class="sidebar">
             <div class="logo_content">
@@ -53,57 +66,51 @@
                 <div class="logo">
                   <div class="icon">
                     <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
-                    <!-- <img src="../imag/moi.jpg" alt="Logo"> -->
                   </div>
-                  <div class="logo_name">Xin chào, Thuận</div>
+                  <div class="logo_name">Xin chào, {{ ho_ten_quan_li }}</div>
                 </div>
                 
             </div>
 
-          <!--<div class="logo_name">Xin chào, Admin</div> -->
-
             <ul class="nav_list">
               <li>
-                <a href="menu.html">
+                <a href="{% url 'menu' %}">
                   <span class="icon">🏠</span>
                   <span class="link_name">Trang chủ</span>
                 </a>
               </li>
-              <ul class="nav_list">
-                <li>
-                  <a href="Quanlykhachhang.html">
-                    <span class="icon">🧑‍💼</span>
-                    <span class="link_name">Quản lý khách hàng</span>
-                  </a>
-                </li>
               <li>
-                <a href="doanhthu.html">
-                  <span class="icon"> 💰</span>
-                  <span class="link_name"> doanh thu</span>
+                <a href="{% url 'quan_ly_khach_hang' %}">
+                  <span class="icon">🧑‍💼</span>
+                  <span class="link_name">Quản lý khách hàng</span>
                 </a>
               </li>
               <li>
-                <a href="dichvu.html">
+                <a href="{% url 'doanh_thu' %}">
+                  <span class="icon">💰</span>
+                  <span class="link_name">Doanh thu</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'dich_vu' %}">
                   <span class="icon">💡</span>
                   <span class="link_name">Dịch vụ</span>
                 </a>
               </li>
-            
               <li>
-                <a href="hoadon.html">
+                <a href="{% url 'hoa_don' %}">
                   <span class="icon">🧾</span>
                   <span class="link_name">Hóa đơn</span>
                 </a>
               </li>
-          
               <li>
-                <a href="quanlihopdong.html">
+                <a href="{% url 'quan_li_hop_dong' %}">
                   <span class="icon">📂</span>
                   <span class="link_name">Quản lý hợp đồng</span>
                 </a>
               </li>
               <li>
-                <a href="dangxuat.html" class="logout-link">
+                <a href="{% url 'dang_xuat' %}" class="logout-link">
                   <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
                   <span class="link_name">Đăng Xuất</span>
                 </a>
@@ -118,43 +125,48 @@
                 <h6>Danh sách phòng</h6>
                 <div class="room-list-header">                  
                 <nav class="doi">
-                  <div class="select-container">
-                    <i class="bi bi-house-door icon"></i>
-                  <select >
-                      <option value="" disabled selected hidden>Dãy</option>
-                      <option value="Tất cả">Tất cả</option>
-                        <option value="có gác">Dãy A</option>
-                        <option value="Không gác">Dãy B</option>
-                  </select>
-                </div><br>
+                  <form method="GET" action="{% url 'menu' %}" style="display: flex; align-items: center;">
+                    <div class="select-container">
+                      <i class="bi bi-house-door icon"></i>
+                      <select name="day">
+                          <option value="" disabled selected hidden>Dãy</option>
+                          <option value="Tất cả" {% if day == 'Tất cả' %}selected{% endif %}>Tất cả</option>
+                          {% for day_value in unique_days %}
+                          <option value="{{ day_value }}" {% if day == day_value %}selected{% endif %}>Dãy {{ day_value }}</option>
+                          {% endfor %}
+                      </select>
+                    </div><br>
 
-                <div class="select-container">
-                  <i class="fa-solid fa-list-ol ico"></i> 
-                  <select>
-                      <option value="" disabled selected hidden>Số phòng</option>
-                      <option value="Tất cả">Tất cả</option>
-                      <option value="101">101</option>
-                      <option value="102">102</option>
-                  </select>
-              </div><br>
+                    <div class="select-container">
+                      <i class="fa-solid fa-list-ol ico"></i> 
+                      <select name="so_phong">
+                          <option value="" disabled selected hidden>Số phòng</option>
+                          <option value="Tất cả" {% if so_phong == 'Tất cả' %}selected{% endif %}>Tất cả</option>
+                          {% for room in unique_rooms %}
+                          <option value="{{ room }}" {% if so_phong == room %}selected{% endif %}>{{ room }}</option>
+                          {% endfor %}
+                      </select>
+                    </div><br>
 
-                <div class="select-container">
-                  <i class="bi bi-cash-stack icon"></i>
-                <!-- <label  class="day">Giá</label>--> 
-                <select  name="district2" required>
-                <option value="" disabled selected hidden>Giá</option>
-                    <option value="Tất cả">Tất cả</option>
-                
-                      <!-- Tùy chọn sẽ được JavaScript thêm vào -->
-                  </select>
-                </div><br>
+                    <div class="select-container">
+                      <i class="bi bi-cash-stack icon"></i>
+                      <select name="gia">
+                          <option value="" disabled selected hidden>Giá</option>
+                          <option value="Tất cả" {% if gia == 'Tất cả' %}selected{% endif %}>Tất cả</option>
+                          {% for price in unique_prices %}
+                          <option value="{{ price }}" {% if gia == price %}selected{% endif %}>{{ price|floatformat:0 }}đ</option>
+                          {% endfor %}
+                      </select>
+                    </div><br>
 
-                      <div class="search-container">
-                        <button class="search-btn">
-                            <i style="font-weight: bold;">Go</i>
-                        </button>
-                        <button class="themphong" onclick="document.location='themphong.html'">+ Thêm phòng</button>    
+                    <div class="search-container">
+                      <button class="search-btn" type="submit">
+                          <i style="font-weight: bold;">Go</i>
+                      </button>
+                      <button class="themphong" type="button" onclick="document.location='{% url 'them_phong' %}'">+ Thêm phòng</button>    
                     </div>
+                  </form>
+                </nav>
               </div>
               </nav>
             </div>
@@ -165,7 +177,13 @@
               <div class="room-item">
                   <div class="status-header">
                       <h3>STT: {{ room.stt }}</h3>
-                      <span class="status-indicator {{ room.class_trang_thai }}">{{ room.trang_thai }}</span>
+                      {% if room.trang_thai == 'Đang Hoạt Động' %}
+                          <span class="status-indicator active">{{ room.trang_thai }}</span>
+                      {% elif room.trang_thai == 'Sắp Hết Hạn' %}
+                          <span class="status-indicator ac">{{ room.trang_thai }}</span>
+                      {% elif room.trang_thai == 'Hết Hạn' %}
+                          <span class="status-indicator acoo">{{ room.trang_thai }}</span>
+                      {% endif %}
                   </div>
                   <div class="info-row">
                       <p><strong>Dãy:</strong> {{ room.day_phong }}</p>
@@ -178,10 +196,18 @@
                       {% if room.trang_thai == "Chưa thuê" %}
                           <button class="btn btn-create" onclick="document.location='/themhopdong/{{ room.phong_id }}/'">Thêm hợp đồng</button>
                       {% else %}
-                          <button class="btn btn-detail" onclick="window.location.href='/xemchitiethopdong/{{ room.phong_id }}/'">Xem Chi Tiết</button>
+                          <button class="btn btn-detail" onclick="window.location.href='/xemchitiethopdong/{{ room.hop_dong_id }}/'">Xem Chi Tiết</button>
                       {% endif %}
-                      <button class="btn btn-edit" onclick="document.location='/chinhsua/{{ room.phong_id }}/'">Chỉnh sửa</button>
-                      <button class="btn btn-delete" onclick="if(confirm('Bạn có chắc muốn xóa phòng này?')) document.location='/xoa/{{ room.phong_id }}/';">Xóa</button>
+                      
+                      {% if room.trang_thai == "Chưa thuê" %}
+                          <button class="btn btn-edit" onclick="document.location='/chinhsua/{{ room.phong_id }}/'">Chỉnh sửa</button>
+                      {% endif %}
+                      
+                      {% if room.trang_thai == "Chưa thuê" %}
+                          <button class="btn btn-delete" onclick="if(confirm('Bạn có chắc muốn xóa phòng này hoàn toàn khỏi hệ thống?')) document.location='/xoa/{{ room.phong_id }}/';">Xóa phòng</button>
+                      {% else %}
+                          <button class="btn btn-delete" onclick="if(confirm('Bạn có chắc muốn xóa thông tin hợp đồng và khách hàng của phòng này? Thông tin phòng sẽ được giữ lại và đặt về trạng thái trống.')) document.location='/xoa/{{ room.phong_id }}/';">Xóa hợp đồng</button>
+                      {% endif %}
                   </div>
               </div>
               {% empty %}
@@ -199,6 +225,19 @@
   
       toggle.addEventListener('click', () => {
         sidebar.classList.toggle('active');
+      });
+
+      // Auto-hide messages after 5 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+          setTimeout(function() {
+            alert.classList.remove('show');
+            setTimeout(function() {
+              alert.remove();
+            }, 150);
+          }, 5000);
+        });
       });
     </script>
 

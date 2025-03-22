@@ -2,311 +2,285 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{%static '/css/xemchitiethopdong.css '%}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{%static '/css/xemchitiethopdong.css '%}">
 
-        <!--css-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
-        <link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
-        <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
-        <!-- js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-      
-        <script src="{% static 'app/js/s3.js' %}"> </script>
-        <script src="{% static 'app/js/all.min.js' %}"> </script>
-        <script src="{% static 'app/js/mýcript.js' %}"> </script>
+    <!--css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
+    <!-- js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    
+    <script src="{% static 'app/js/s3.js' %}"> </script>
+    <script src="{% static 'app/js/all.min.js' %}"> </script>
+    <script src="{% static 'app/js/mýcript.js' %}"> </script>
 
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    </head>
-   
-    <body>
-        <header class="header">
-            <div class="menu-toggle">☰</div>
-            <div class="header-title">Nhà trọ Cần Thơ</div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
 
+<body>
+    <header class="header">
+        <div class="menu-toggle">☰</div>
+        <div class="header-title">Nhà trọ Cần Thơ</div>  
+        </div>
+        <div>
+            <div class="tren">
+            <button class="btn le" type="submit">Xuất file Excel </button>
+            <button class="btn mayin" type="submit">Máy in</button>    
+            <button class="btn quaylai" type="button" onclick="goBack()">
+                <i class="fas fa-arrow-right"></i> <!-- Icon mũi tên -->
+                </button>
+            </div>
+        </div>
+        </header>
+    
+        <div class="sidebar">
+            <div class="logo_content">
             
-          </div>
-
-          <div>
-        <!--   <div class="tren">
-                <button class="btn btn-warning" type="submit">Quay lại</button>
-                <button class="btn btn-success" type="submit">Xuất file Excel </button>
-                <button class="btn btn-secondary" type="submit">Máy in</button>   
-              </div>--> 
-              <div class="tren">
-                <button class="btn le" type="submit">Xuất file Excel </button>
-                <button class="btn mayin" type="submit">Máy in</button>    
-                <button class="btn quaylai" type="button" onclick="goBack()">
-                    <i class="fas fa-arrow-right"></i> <!-- Icon mũi tên -->
-                  </button>
-              </div>
-            </div>
-          </header>
-        
-          <div class="sidebar">
-               <div class="logo_content">
-                
-                <div class="logo">
-                  <div class="icon">
-                    <img src="../imag/moi.jpg" alt="Logo">
-                  </div>
-                  <div class="logo_name">Xin chào, admin</div>
+            <div class="logo">
+                <div class="icon">
+                <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
                 </div>
-                
+                <div class="logo_name">Xin chào, admin</div>
             </div>
+            
+        </div>
 
-           <!--<div class="logo_name">Xin chào, Admin</div> -->
+        <!--<div class="logo_name">Xin chào, Admin</div> -->
 
-           <ul class="nav_list">
+        <ul class="nav_list">
             <li>
-              <a href="menu.html">
+                <a href="{% url 'menu' %}">
                 <span class="icon">🏠</span>
                 <span class="link_name">Trang chủ</span>
-              </a>
-            </li>
-            <ul class="nav_list">
-              <li>
-                <a href="Quanlykhachhang.html">
-                  <span class="icon">🧑‍💼</span>
-                  <span class="link_name">Quản lý khách hàng</span>
                 </a>
-              </li>
-            <li>
-              <a href="doanhthu.html">
-                <span class="icon"> 💰</span>
-                <span class="link_name"> doanh thu</span>
-              </a>
             </li>
             <li>
-              <a href="dichvu.html">
+                <a href="{% url 'quan_ly_khach_hang' %}">
+                <span class="icon">🧑‍💼</span>
+                <span class="link_name">Quản lý khách hàng</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'doanh_thu' %}">
+                <span class="icon">💰</span>
+                <span class="link_name">Doanh thu</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'dich_vu' %}">
                 <span class="icon">💡</span>
                 <span class="link_name">Dịch vụ</span>
-              </a>
+                </a>
             </li>
-            
-            <!-- <li>
-              <a href="dichvu.html">
-                <span class="icon">📊</span>
-                <span class="link_name">Chỉ số điện nước</span>
-              </a>
-            </li> -->
             <li>
-              <a href="hoadon.html">
+                <a href="{% url 'hoa_don' %}">
                 <span class="icon">🧾</span>
                 <span class="link_name">Hóa đơn</span>
-              </a>
+                </a>
             </li>
-        
             <li>
-              <a href="quanlihopdong.html">
+                <a href="{% url 'quan_li_hop_dong' %}">
                 <span class="icon">📂</span>
                 <span class="link_name">Quản lý hợp đồng</span>
-              </a>
+                </a>
             </li>
             <li>
-              <a href="dangxuat.html" class="logout-link">
+                <a href="{% url 'dang_xuat' %}" class="logout-link">
                 <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
                 <span class="link_name">Đăng Xuất</span>
-              </a>
+                </a>
             </li>
-          </ul>
-          </div>
-    
+            </ul>
+        </div>
+
 <!--Thân-->
 <!-- Nội dung chính -->
 <div class="content flex-grow-1 p-4">
-  <!-- Thanh công cụ phía trên -->
-  <br>
-  <div class="topbar d-flex justify-content-between align-items-center mb-4">
-      <h5 class="title">Xem chi tiết hợp đồng</h5> 
-  </div>
-
-  <div class="contract-form">
-      <h3 class="tieude"><span class="green-circle">🟢</span> Thông tin khách thuê:</h3>
-      <div class="form-group">
-          <label for="member-count">Số lượng thành viên *</label>
-          <input type="number" id="member-count" name="member_count" value="{{ hop_dong.SoLuongThanhVien }}" disabled>
-      </div>
-  
-      <div class="form-group name-phone-group">
-          <div>
-              <label for="tenant-name">Tên người đại diện *</label>
-              <input type="text" id="tenant-name" name="ho_ten_khach_hang" value="{{ khach_hang.HoTenKhachHang }}" disabled>
-          </div>
-          <div>
-              <label for="tenant-phone">Số điện thoại người đại diện *</label>
-              <input type="tel" id="tenant-phone" name="so_dien_thoai" value="{{ khach_hang.SoDienThoai }}" disabled>
-          </div>
-      </div>
-  
-      <div class="form-group">
-          <label for="id-number">CMND/CCCD</label>
-          <input type="text" id="id-number" name="CMND_CCCD" value="{{ khach_hang.SoCCCD }}" disabled>
-      </div>
-  
-      <div class="form-group date-group">
-          <div>
-              <label for="birthdate">Ngày sinh</label>
-              <input type="date" id="birthdate" name="ngay_sinh" value="{{ khach_hang.NgaySinh|date:'Y-m-d' }}" disabled>
-          </div>
-          <div>
-              <label for="gender">Giới tính *</label>
-              <select id="gender" name="gioi_tinh" disabled>
-                  <option value="Nam" {% if khach_hang.GioiTinh == "Nam" %}selected{% endif %}>Nam</option>
-                  <option value="Nữ" {% if khach_hang.GioiTinh == "Nữ" %}selected{% endif %}>Nữ</option>
-              </select>
-          </div>
-      </div>
-      <div class="form-group address-group">
-          <div>
-              <label for="city">Tỉnh/Thành phố</label>
-              <select id="city" name="tinh_thanh_pho" disabled>
-                  <option value="{{ khach_hang.TinhThanh }}" selected>{{ khach_hang.TinhThanh }}</option>
-                  <!-- Nếu muốn giữ danh sách đầy đủ, thêm các option khác và dùng selected -->
-              </select>
-          </div>
-          <div>
-              <label for="district">Chọn Quận/Huyện</label>
-              <select id="district" name="quan_huyen" disabled>
-                  <option value="{{ khach_hang.QuanHuyen }}" selected>{{ khach_hang.QuanHuyen }}</option>
-              </select>
-          </div>
-      </div>
-      
-      <div class="form-group">
-          <label for="ward">Chọn Phường/Xã</label>
-          <select id="ward" name="phuong_xa" disabled>
-              <option value="{{ khach_hang.PhuongXa }}" selected>{{ khach_hang.PhuongXa }}</option>
-          </select>
-      </div>
-  
-      <div class="form-group">
-          <label for="address">Địa chỉ chi tiết</label>
-          <input type="text" id="address" name="dia_chi_chi_tiet" value="{{ khach_hang.DiaChiCuThe }}" disabled>
-      </div>
-  
-      <div class="form-group">
-          <label for="occupation">Nhập công việc</label>
-          <input type="text" id="occupation" name="cong_viec" value="{{ khach_hang.CongViec }}" disabled>
-      </div>
-  
-      <div class="form-group date-group">
-          <div>
-              <label for="id-issue-date">Ngày cấp CMND/CCCD</label>
-              <input type="date" id="id-issue-date" name="ngay_cap_cmnd" value="{{ khach_hang.NgayCapCCCD|date:'Y-m-d' }}" disabled>
-          </div>
-          <div>
-              <label for="id-issue-place">Nơi cấp CMND/CCCD</label>
-              <input type="text" id="id-issue-place" name="noi_cap_cmnd" value="{{ khach_hang.NoiCapCCCD }}" disabled>
-          </div>
-      </div>
-  
-      <div class="form-group image-upload-group">
-          <div class="image-upload">
-              <label for="front-id-image" class="upload-label">Ảnh mặt trước CMND/CCCD</label>
-              {% if khach_hang.CCCDMT %}
-
-                  <img src="{{ khach_hang.CCCDMT.url }}" alt="Ảnh mặt trước" style="max-width: 200px;">
-              {% else %}
-                  <p>Chưa có ảnh</p>
-              {% endif %}
-          </div>
-          <div class="image-upload">
-              <label for="back-id-image" class="upload-label">Ảnh mặt sau CMND/CCCD</label>
-              {% if khach_hang.CCCDMS %}
-                  <img src="{{ khach_hang.CCCDMS.url }}" alt="Ảnh mặt sau" style="max-width: 200px;">
-              {% else %}
-                  <p>Chưa có ảnh</p>
-              {% endif %}
-          </div>
-      </div>
-
-      <h3 class="tieude"><span class="green-circle">🟢</span> Thời hạn hợp đồng:</h3>
-      <div class="form-group">
-          <label for="contract-duration">Thời hạn hợp đồng</label>
-          <select id="contract-duration" name="thoi_han_hop_dong" disabled>
-              <option value="{{ hop_dong.ThoiHanHopDong }}" selected>{{ hop_dong.ThoiHanHopDong }}</option>
-              <!-- Nếu muốn giữ danh sách đầy đủ, thêm các option khác -->
-          </select>
-          <label for="district1" class="day">Dãy</label>
-          <select id="district1" name="day_phong" disabled>
-              <option value="{{ phong.DayPhong }}" selected>{{ phong.DayPhong }}</option>
-          </select>
-          <label for="district2" class="day">Phòng</label>
-          <select id="district2" name="so_phong" disabled>
-              <option value="{{ phong.SoPhong }}" selected>{{ phong.SoPhong }}</option>
-          </select>
-      </div>
-  
-      <div class="form-group date-group">
-          <div>
-              <label for="start-date">Ngày vào ở *</label>
-              <input type="date" id="start-date" name="ngay_vao_o" value="{{ hop_dong.NgayBatDau|date:'Y-m-d' }}" disabled>
-          </div>
-          <div>
-              <label for="end-date">Kết thúc hợp đồng</label>
-              <input type="date" id="end-date" name="ngay_ket_thuc" value="{{ hop_dong.NgayKetThuc|date:'Y-m-d' }}" disabled>
-          </div>
-      </div>
-
-      <h3 class="tieude"><span class="green-circle">🟢</span> Tiền phòng/cọc phòng</h3>
-      <div class="form-group name-phone-group">
-          <div>
-              <label for="room-price">Số tiền phòng *</label>
-              <input type="text" id="room-price" name="so_tien_phong" value="{{ hop_dong.SoTienPhong }}" disabled>
-          </div>
-          <div>
-              <label for="deposit">Số tiền cọc *</label>
-              <input type="text" id="deposit" name="so_tien_coc" value="{{ hop_dong.TienDatCoc }}" disabled>
-          </div>
-      </div>
-
-      <h3 class="tieude"><span class="green-circle">🟢</span> Chu kỳ thu tiền</h3>
-      <div class="form-group">
-          <label for="payment-cycle">Chu kỳ thu tiền</label>
-          <select id="payment-cycle" name="chu_ky_thu_tien" disabled>
-              <option value="{{ hop_dong.ChuKy }}" selected>{{ hop_dong.ChuKy }}</option>
-          </select>
-      </div>
-      
-      <div class="form-group ghichu">
-          <label for="contract-note">Ghi chú *</label>
-          <input type="text" id="contract-note" name="ghi_chu_hop_dong" value="{{ hop_dong.GhiChuHopDong }}" disabled>
-      </div>
-
-      <div class="luu">
-          <a href="{% url 'menu' %}" class="btn btn-secondary">Quay Lại</a>
-      </div>
-  </div>
+<!-- Thanh công cụ phía trên -->
+<br>
+<div class="topbar d-flex justify-content-between align-items-center mb-4">
+    <h5 class="title">Xem chi tiết hợp đồng</h5> 
 </div>
-    </body>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-      
-    <script>
+<div class="contract-form">
+    <h3 class="tieude"><span class="green-circle">🟢</span> Thông tin khách thuê:</h3>
+    <div class="form-group">
+        <label for="member-count">Số lượng thành viên *</label>
+        <input type="number" id="member-count" name="member_count" value="{{ hop_dong.SoLuongThanhVien }}" disabled>
+    </div>
 
-  
+    <div class="form-group name-phone-group">
+        <div>
+            <label for="tenant-name">Tên người đại diện *</label>
+            <input type="text" id="tenant-name" name="ho_ten_khach_hang" value="{{ khach_hang.HoTenKhachHang }}" disabled>
+        </div>
+        <div>
+            <label for="tenant-phone">Số điện thoại người đại diện *</label>
+            <input type="tel" id="tenant-phone" name="so_dien_thoai" value="{{ khach_hang.SoDienThoai }}" disabled>
+        </div>
+    </div>
 
-      
-        const toggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
+    <div class="form-group">
+        <label for="id-number">CMND/CCCD</label>
+        <input type="text" id="id-number" name="CMND_CCCD" value="{{ khach_hang.SoCCCD }}" disabled>
+    </div>
+
+    <div class="form-group date-group">
+        <div>
+            <label for="birthdate">Ngày sinh</label>
+            <input type="date" id="birthdate" name="ngay_sinh" value="{{ khach_hang.NgaySinh|date:'Y-m-d' }}" disabled>
+        </div>
+        <div>
+            <label for="gender">Giới tính *</label>
+            <select id="gender" name="gioi_tinh" disabled>
+                <option value="Nam" {% if khach_hang.GioiTinh == "Nam" %}selected{% endif %}>Nam</option>
+                <option value="Nữ" {% if khach_hang.GioiTinh == "Nữ" %}selected{% endif %}>Nữ</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group address-group">
+        <div>
+            <label for="city">Tỉnh/Thành phố</label>
+            <select id="city" name="tinh_thanh_pho" disabled>
+                <option value="{{ khach_hang.TinhThanh }}" selected>{{ khach_hang.TinhThanh }}</option>
+                <!-- Nếu muốn giữ danh sách đầy đủ, thêm các option khác và dùng selected -->
+            </select>
+        </div>
+        <div>
+            <label for="district">Chọn Quận/Huyện</label>
+            <select id="district" name="quan_huyen" disabled>
+                <option value="{{ khach_hang.QuanHuyen }}" selected>{{ khach_hang.QuanHuyen }}</option>
+            </select>
+        </div>
+    </div>
     
-        toggle.addEventListener('click', () => {
-          sidebar.classList.toggle('active');
-        });
-      </script>
+    <div class="form-group">
+        <label for="ward">Chọn Phường/Xã</label>
+        <select id="ward" name="phuong_xa" disabled>
+            <option value="{{ khach_hang.PhuongXa }}" selected>{{ khach_hang.PhuongXa }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="address">Địa chỉ chi tiết</label>
+        <input type="text" id="address" name="dia_chi_chi_tiet" value="{{ khach_hang.DiaChiCuThe }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="occupation">Nhập công việc</label>
+        <input type="text" id="occupation" name="cong_viec" value="{{ khach_hang.CongViec }}" disabled>
+    </div>
+
+    <div class="form-group date-group">
+        <div>
+            <label for="id-issue-date">Ngày cấp CMND/CCCD</label>
+            <input type="date" id="id-issue-date" name="ngay_cap_cmnd" value="{{ khach_hang.NgayCapCCCD|date:'Y-m-d' }}" disabled>
+        </div>
+        <div>
+            <label for="id-issue-place">Nơi cấp CMND/CCCD</label>
+            <input type="text" id="id-issue-place" name="noi_cap_cmnd" value="{{ khach_hang.NoiCapCCCD }}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group image-upload-group">
+        <div class="image-upload">
+            <label for="front-id-image" class="upload-label">Ảnh mặt trước CMND/CCCD</label>
+            {% if khach_hang.CCCDMT %}
+
+                <img src="{{ khach_hang.CCCDMT.url }}" alt="Ảnh mặt trước" style="max-width: 200px;">
+            {% else %}
+                <p>Chưa có ảnh</p>
+            {% endif %}
+        </div>
+        <div class="image-upload">
+            <label for="back-id-image" class="upload-label">Ảnh mặt sau CMND/CCCD</label>
+            {% if khach_hang.CCCDMS %}
+                <img src="{{ khach_hang.CCCDMS.url }}" alt="Ảnh mặt sau" style="max-width: 200px;">
+            {% else %}
+                <p>Chưa có ảnh</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h3 class="tieude"><span class="green-circle">🟢</span> Thời hạn hợp đồng:</h3>
+    <div class="form-group">
+        <label for="contract-duration">Thời hạn hợp đồng</label>
+        <select id="contract-duration" name="thoi_han_hop_dong" disabled>
+            <option value="{{ hop_dong.ThoiHanHopDong }}" selected>{{ hop_dong.ThoiHanHopDong }}</option>
+            <!-- Nếu muốn giữ danh sách đầy đủ, thêm các option khác -->
+        </select>
+        <label for="district1" class="day">Dãy</label>
+        <select id="district1" name="day_phong" disabled>
+            <option value="{{ phong.DayPhong }}" selected>{{ phong.DayPhong }}</option>
+        </select>
+        <label for="district2" class="day">Phòng</label>
+        <select id="district2" name="so_phong" disabled>
+            <option value="{{ phong.SoPhong }}" selected>{{ phong.SoPhong }}</option>
+        </select>
+    </div>
+
+    <div class="form-group date-group">
+        <div>
+            <label for="start-date">Ngày vào ở *</label>
+            <input type="date" id="start-date" name="ngay_vao_o" value="{{ hop_dong.NgayBatDau|date:'Y-m-d' }}" disabled>
+        </div>
+        <div>
+            <label for="end-date">Kết thúc hợp đồng</label>
+            <input type="date" id="end-date" name="ngay_ket_thuc" value="{{ hop_dong.NgayKetThuc|date:'Y-m-d' }}" disabled>
+        </div>
+    </div>
+
+    <h3 class="tieude"><span class="green-circle">🟢</span> Tiền phòng/cọc phòng</h3>
+    <div class="form-group name-phone-group">
+        <div>
+            <label for="room-price">Số tiền phòng *</label>
+            <input type="text" id="room-price" name="so_tien_phong" value="{{ phong.GiaPhong }}" disabled>
+        </div>
+        <div>
+            <label for="deposit">Số tiền cọc *</label>
+            <input type="text" id="deposit" name="so_tien_coc" value="{{ hop_dong.TienDatCoc }}" disabled>
+        </div>
+    </div>
+    <div class="contract-form">
+    <h3 class="tieude"><span class="green-circle">🟢</span> Chu kỳ thu tiền</h3>
+    <div class="form-group">
+        <label for="payment-cycle">Chu kỳ thu tiền</label>
+        <select id="payment-cycle" name="chu_ky_thu_tien" disabled>
+            <option value="{{ hop_dong.ChuKy }}" selected>{{ hop_dong.ChuKy }}</option>
+        </select>
+    </div>
+    
+    <div class="form-group ghichu">
+        <label for="contract-note">Ghi chú *</label>
+        <input type="text" id="contract-note" name="ghi_chu_hop_dong" value="{{ hop_dong.GhiChuHopDong }}" disabled>
+    </div>
+</div>
+</body>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    
+<script>
+    const toggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+    </script>
 </html>
 

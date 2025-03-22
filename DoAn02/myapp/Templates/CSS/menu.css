@@ -770,3 +770,62 @@ transition: transform 0.3s ease, text-shadow 0.3s ease;
   white-space: nowrap; /* Đảm bảo nút không xuống dòng */
 }
 
+/* Messages styles */
+.messages {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 400px;
+}
+
+.alert {
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  color: #0c5460;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.btn-close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+  transition: opacity .15s linear;
+  background: none;
+  border: 0;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  opacity: .75;
+}
+
