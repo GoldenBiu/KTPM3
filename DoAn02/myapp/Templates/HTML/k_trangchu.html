@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'CSS/k_trangchu.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <title>Quản Lý Phòng</title>
+  </head>
+  <body>
+    <div class="nav">
+      <a href="{% url 'trang_chu_khach_hang' %}">Trang Chủ</a>
+      <a href="{% url 'k_hoa_don' %}">Hóa Đơn</a>
+      <a href="{% url 'hop_dong' %}">Hợp Đồng</a>
+      <a href="{% url 'lien_he' %}">Liên Hệ</a>
+      <a href="{% url 'thong_tin' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+    <div class="welcome">
+      <h1>Chào mừng, {{ ho_ten_khach_hang }}!</h1>
+    </div>
+
+    <div class="container">
+      <div class="main-card">
+        <div class="card-section">
+          <div class="card">
+            <h2>Thông Tin Thanh Toán</h2>
+            {% if hop_dong %}
+            <p><strong>Họ tên:</strong> {{ ho_ten_khach_hang }}</p>
+            <p><strong>Dãy:</strong> {{ hop_dong.DayPhong }}</p>
+            <p><strong>Phòng:</strong> {{ hop_dong.PhongID.SoPhong }}</p>
+            {% if tong_tien_no != 0 %}
+            <p>
+              <strong>Số Tiền Cần Thanh Toán:</strong> {{
+              tong_tien_no|floatformat:0 }} VND
+            </p>
+            <button class="btn" id="show-payment-methods">
+              Thanh Toán Ngay
+            </button>
+            {% else %}
+            <p>Không có hóa đơn cần thanh toán.</p>
+            {% endif %} {% else %}
+            <p>Không có hợp đồng hoạt động.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phần phương thức thanh toán -->
+    <div class="invoice-right" id="payment-popup">
+      <h2>Phương thức thanh toán</h2>
+      <div class="payment-methods">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="zalopay" /> Thanh toán qua
+          ZaloPay
+        </label>
+      </div>
+      <div class="buttons">
+        <button class="pay-btn">Thanh toán ngay</button>
+        <button class="close-btn" id="close-payment-popup">Đóng</button>
+      </div>
+    </div>
+
+    <div class="history">
+      <div class="cf-title-09">
+        <h3><span>Lịch Sử Thanh Toán</span></h3>
+      </div>
+      <table id="transactionTable">
+        <thead>
+          <tr>
+            <th>Mã Giao Dịch</th>
+            <th>Số Tiền</th>
+            <th>Ngày Thanh Toán</th>
+            <th>Trạng Thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for giao_dich in lich_su_giao_dich %}
+          <tr>
+            <td>{{ giao_dich.ChiSoID }}</td>
+            <td>{{ giao_dich.Tientra|default:0|floatformat:0 }} VND</td>
+            <td>{{ giao_dich.ThangNam }}</td>
+            <td>
+              {% if giao_dich.TrangThaiThanhToan == 'Y' %} Đã thanh toán {% elif
+              giao_dich.TrangThaiThanhToan == 'N' %} Chưa thanh toán {% elif
+              giao_dich.TrangThaiThanhToan == 'T' %} Còn nợ {% else %} Không xác
+              định {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5">Không có giao dịch nào.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <br /><a href="#" class="toggle-link" id="toggleHistory">Xem tất cả</a>
+    </div>
+
+    <div class="background-section"></div>
+
+    <!-- JavaScript -->
+    <script>
+      // Hàm xóa giao dịch cũ hơn 1 năm
+      function cleanOldTransactions() {
+        const transactions = document.querySelectorAll(
+          "#transactionTable tbody tr"
+        );
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+        transactions.forEach((row) => {
+          const transactionData = JSON.parse(
+            row.getAttribute("data-transaction")
+          );
+          const transactionDate = new Date(
+            transactionData.date.split(" ")[0].split("/").reverse().join("-") +
+              " " +
+              transactionData.date.split(" ")[1]
+          );
+
+          if (transactionDate < oneYearAgo) {
+            row.remove();
+          }
+        });
+      }
+
+      // Hàm cập nhật hiển thị (ẩn các giao dịch từ thứ 4 trở đi)
+      function updateVisibility() {
+        const rows = document.querySelectorAll("#transactionTable tbody tr");
+        rows.forEach((row, index) => {
+          if (index >= 3) {
+            row.classList.add("hidden");
+            row.style.display = "none";
+          } else {
+            row.classList.remove("hidden");
+            row.style.display = "";
+          }
+        });
+        toggleLink.textContent = rows.length > 3 ? "Xem tất cả" : "";
+      }
+
+      // Xử lý sự kiện ẩn/hiện
+      const toggleLink = document.getElementById("toggleHistory");
+      toggleLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        const hiddenRows = document.querySelectorAll(
+          "#transactionTable tbody tr.hidden"
+        );
+
+        if (hiddenRows.length === 0) return;
+
+        const isHidden = hiddenRows[0].style.display === "none";
+        hiddenRows.forEach((row) => {
+          row.style.display = isHidden ? "" : "none";
+        });
+        this.textContent = isHidden ? "Ẩn bớt" : "Xem tất cả";
+      });
+
+      // Khởi tạo
+      cleanOldTransactions();
+      updateVisibility();
+
+      // Tự động kiểm tra và xóa giao dịch cũ mỗi ngày
+      setInterval(cleanOldTransactions, 1000 * 60 * 60 * 24);
+    </script>
+    <!-- JavaScript để hiển thị/ẩn popup và xóa lựa chọn -->
+    <script>
+      const showPaymentBtn = document.getElementById("show-payment-methods");
+      const paymentPopup = document.getElementById("payment-popup");
+      const closePaymentBtn = document.getElementById("close-payment-popup");
+      const paymentOptions = document.querySelectorAll(
+        ".payment-option input[type='radio']"
+      );
+
+      // Hiển thị popup khi nhấn "Thanh Toán Ngay"
+      showPaymentBtn.addEventListener("click", () => {
+        paymentPopup.style.display = "block";
+      });
+
+      // Ẩn popup và xóa lựa chọn khi nhấn "Đóng"
+      closePaymentBtn.addEventListener("click", () => {
+        paymentPopup.style.display = "none";
+        // Xóa lựa chọn của tất cả radio buttons
+        paymentOptions.forEach((option) => {
+          option.checked = false;
+        });
+      });
+    </script>
+  </body>
+</html>

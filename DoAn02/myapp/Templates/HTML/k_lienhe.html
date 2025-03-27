@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/k_lienhe.css' %}">
+    <title>Login Form</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Liên Hệ</h1>
+        {% if messages %}
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="field">
+                <span class="fas fa-envelope"></span>
+                <input type="email" id="email" name="email" placeholder="Nhập email" required>
+            </div>
+            <div class="field">
+                <span class="fas fa-address-book"></span>
+                <input type="text" id="room-number" name="room-number" placeholder="Nhập số phòng" required>
+            </div>
+            <div class="field">
+                <span class="fas fa-info-circle"></span>
+                <input type="text" id="tenant-name" name="tenant-name" placeholder="Lý do gửi tin" list="reasons" required>
+                <datalist id="reasons">
+                    <option value="Quên mật khẩu">
+                    <option value="Thay đổi số điện thoại">
+                    <option value="Khác">
+                </datalist>
+            </div>
+            <div id="note-field" class="field" style="display: none;">
+                <span class="fas fa-clipboard"></span>
+                <input type="text" id="note" name="note" placeholder="Nhập thay đổi">
+            </div>
+            <button type="submit">Gửi</button>
+            
+        </form>
+    </div>
+
+<script>
+    document.getElementById('tenant-name').addEventListener('input', function () {
+        const noteField = document.getElementById('note-field');
+        if (this.value.trim().toLowerCase() === 'thay đổi số điện thoại') {
+            noteField.style.display = 'block'; // Hiện ô ghi chú
+        } else {
+            noteField.style.display = 'none'; // Ẩn ô ghi chú
+        }
+    });
+    
+    
+</script>
+
+</body>
+</html>

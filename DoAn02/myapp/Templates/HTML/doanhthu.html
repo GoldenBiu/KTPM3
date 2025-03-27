@@ -125,8 +125,11 @@
       <!-- Thân -->
       <div class="coner">
         <div class="calendar-header">
-          <i class="fas fa-calendar-alt"></i>
-          <input type="month" id="current-month-year" value="{{ year }}-{{ month|stringformat:'02d' }}" />
+          <input
+            type="month"
+            id="current-month-year"
+            value="{{ year }}-{{ month|stringformat:'02d' }}"
+          />
         </div>
 
         <div class="dashboard">
@@ -223,7 +226,12 @@
       let barChart2Instance = null;
 
       // Hàm khởi tạo biểu đồ
-      function initializeCharts(revenueData, debtData, incomeData, expenseData) {
+      function initializeCharts(
+        revenueData,
+        debtData,
+        incomeData,
+        expenseData
+      ) {
         // Hủy biểu đồ cũ nếu tồn tại
         if (barChartInstance) {
           barChartInstance.destroy();
@@ -379,19 +387,27 @@
       // Khởi tạo biểu đồ lần đầu
       window.onload = function () {
         const initialRevenueData = JSON.parse(
-          document.getElementById("barChart").getAttribute("data-revenue") || "[]"
+          document.getElementById("barChart").getAttribute("data-revenue") ||
+            "[]"
         );
         const initialDebtData = JSON.parse(
           document.getElementById("barChart").getAttribute("data-debt") || "[]"
         );
         const initialIncomeData = JSON.parse(
-          document.getElementById("barChart2").getAttribute("data-income") || "[]"
+          document.getElementById("barChart2").getAttribute("data-income") ||
+            "[]"
         );
         const initialExpenseData = JSON.parse(
-          document.getElementById("barChart2").getAttribute("data-expense") || "[]"
+          document.getElementById("barChart2").getAttribute("data-expense") ||
+            "[]"
         );
 
-        initializeCharts(initialRevenueData, initialDebtData, initialIncomeData, initialExpenseData);
+        initializeCharts(
+          initialRevenueData,
+          initialDebtData,
+          initialIncomeData,
+          initialExpenseData
+        );
       };
 
       // Hàm debounce để tránh gửi nhiều yêu cầu AJAX liên tiếp
@@ -413,31 +429,47 @@
           },
           body: `month=${month}&year=${year}`,
         })
-          .then(response => {
+          .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             if (data.error) {
               console.error("Server error:", data.error);
               return;
             }
 
             // Cập nhật dữ liệu trong dashboard
-            const totalRevenueElement = document.querySelector(".total-revenue");
+            const totalRevenueElement =
+              document.querySelector(".total-revenue");
             const repairCostElement = document.querySelector(".repair-cost");
             const debtElement = document.querySelector(".debt");
 
-            totalRevenueElement.setAttribute("data-value", data.current_total_revenue.toLocaleString("vi-VN"));
-            totalRevenueElement.textContent = `₫${data.current_total_revenue.toLocaleString("vi-VN")}`;
+            totalRevenueElement.setAttribute(
+              "data-value",
+              data.current_total_revenue.toLocaleString("vi-VN")
+            );
+            totalRevenueElement.textContent = `₫${data.current_total_revenue.toLocaleString(
+              "vi-VN"
+            )}`;
 
-            repairCostElement.setAttribute("data-value", data.current_total_expenses.toLocaleString("vi-VN"));
-            repairCostElement.textContent = `₫${data.current_total_expenses.toLocaleString("vi-VN")}`;
+            repairCostElement.setAttribute(
+              "data-value",
+              data.current_total_expenses.toLocaleString("vi-VN")
+            );
+            repairCostElement.textContent = `₫${data.current_total_expenses.toLocaleString(
+              "vi-VN"
+            )}`;
 
-            debtElement.setAttribute("data-value", data.total_debt.toLocaleString("vi-VN"));
-            debtElement.textContent = `₫${data.total_debt.toLocaleString("vi-VN")}`;
+            debtElement.setAttribute(
+              "data-value",
+              data.total_debt.toLocaleString("vi-VN")
+            );
+            debtElement.textContent = `₫${data.total_debt.toLocaleString(
+              "vi-VN"
+            )}`;
 
             // Cập nhật dữ liệu cho biểu đồ
             initializeCharts(
@@ -447,14 +479,86 @@
               data.monthly_expenses
             );
           })
-          .catch(error => console.error("Error fetching data:", error));
+          .catch((error) => console.error("Error fetching data:", error));
       }, 1); // Debounce 300ms
 
-      document.getElementById("current-month-year").addEventListener("change", function () {
-        const selectedDate = this.value; // Format: YYYY-MM
-        const [year, month] = selectedDate.split("-");
-        fetchData(month, year);
-      });
+      document
+        .getElementById("current-month-year")
+        .addEventListener("change", function () {
+          const selectedDate = this.value; // Format: YYYY-MM
+          const [year, month] = selectedDate.split("-");
+          fetchData(month, year);
+        });
+
+      // [Thêm] Hàm khởi tạo hoặc cập nhật biểu đồ 12 tháng của năm được chọn
+      function updateYearlyChart(year) {
+        const lineChartElement = document.getElementById("lineChart"); // Lấy dữ liệu từ lineChart
+        const yearlyChartElement = document.getElementById("yearlyChart");
+        const yearlyCtx = yearlyChartElement.getContext("2d");
+
+        const revenue = JSON.parse(
+          lineChartElement.getAttribute(`data-${year}-total-revenue`) || "[]"
+        );
+        const expense = JSON.parse(
+          lineChartElement.getAttribute(`data-${year}-total-expense`) || "[]"
+        );
+
+        if (yearlyChart) {
+          yearlyChart.destroy();
+        }
+
+        yearlyChart = new Chart(yearlyCtx, {
+          type: "line",
+          data: {
+            labels: [
+              "T.1",
+              "T.2",
+              "T.3",
+              "T.4",
+              "T.5",
+              "T.6",
+              "T.7",
+              "T.8",
+              "T.9",
+              "T.10",
+              "T.11",
+              "T.12",
+            ],
+            datasets: [
+              {
+                label: "Tổng thu",
+                data: revenue,
+                borderColor: "#60a5fa",
+                fill: true,
+              },
+              {
+                label: "Chi trả",
+                data: expense,
+                borderColor: "#93c5fd",
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                ticks: {
+                  callback: function (value) {
+                    return value.toLocaleString("vi-VN");
+                  },
+                },
+              },
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: `Tổng Thu/Chi Năm ${year}`,
+                font: { size: 16 },
+              },
+            },
+          },
+        });
+      }
 
       // Lịch năm
       let startYear = 2020;
@@ -478,6 +582,7 @@
           yearElement.onclick = () => {
             selectedYear = year;
             renderYearList();
+            updateYearlyChart(selectedYear); // [Thêm] Cập nhật biểu đồ 12 tháng cho năm được chọn
           };
           yearList.appendChild(yearElement);
         }
@@ -486,14 +591,20 @@
       function prevDecade() {
         startYear -= 7;
         renderYearList();
+        updateLineChart(); // Cập nhật biểu đồ khi chuyển thập niên
+        updateYearlyChart(selectedYear); // [Thêm] Cập nhật biểu đồ 12 tháng cho năm được chọn
       }
 
       function nextDecade() {
         startYear += 7;
         renderYearList();
+        updateLineChart(); // Cập nhật biểu đồ khi chuyển thập niên
+        updateYearlyChart(selectedYear); // [Thêm] Cập nhật biểu đồ 12 tháng cho năm được chọn
       }
 
       renderYearList();
+      updateLineChart(); // Hiển thị biểu đồ cho khoảng năm mặc định (2020-2026)
+      updateYearlyChart(selectedYear); // [Thêm] Khởi tạo biểu đồ 12 tháng cho năm mặc định
     </script>
   </body>
 </html>

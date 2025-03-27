@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+:root {
+  --bg: #efe9e6;
+  --light: #ffffff73;
+  --med: #ccc0ba;
+  --dark: #595959;
+  --dark-heavy: rgba(99, 73, 66, 0.29);
+  --main-color: #7a8fc7;
+}
+/* phần này là của phần liên hệ quên mật khẩu */
+nav {
+    margin-top: 30px;
+    margin-left: 50px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Montserrat, sans-serif;
+}
+
+
+
+
+.container .text {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 2.18rem;
+  color: var(--dark);
+}
+
+.container .field{
+  display: flex;
+  height: 3.12rem;
+  width: 100%;
+  position: relative;
+}
+
+/* Styling for input fields inside the .field class */
+.field input {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    font-size: 16px;
+    outline: none;
+    background: var(--bg);
+    color: var(--main-color);
+    border: none;
+    border-radius: 1.52rem;
+    box-shadow: inset 1.5px 1.5px 4.5px var(--med), inset -4.5px -4.5px 9.5px var(--light);
+    text-indent: 30px; /* Dịch chữ sang phải */
+}
+
+
+.field input:focus {
+    box-shadow: inset 1px 1px 2px var(--med), inset -1px -1px 2px var(--light);
+}
+
+.field:nth-child(2) {
+    margin-top: 1.25rem;
+}
+
+/* Styling for span inside the .field class */
+.field span {
+    position: absolute;
+    width: 3.12rem;
+    line-height: 3.12rem;
+    color: var(--dark);
+}
+
+/* Styling for label inside the .field class */
+.field label {
+    position: absolute;
+    top: 50%;
+    left: 2.812em;
+    padding-left: 10px;
+    pointer-events: none;
+    color: var(--main-color);
+    transform: translateY(-50%);
+}
+
+.field input:valid ~ label {
+    opacity: 0;
+}
+
+
+button {
+    margin: 0.9rem 0;
+    width: 100%;
+    height: 2.5rem;
+    font-size: 20px;
+    font-weight: 600;
+    background: var(--bg);
+    border: none;
+    color: var(--main-color);
+    outline: none;
+    cursor: pointer;
+    border-radius: 1.52rem;
+    box-shadow: 1.5px 1.5px 4.5px var(--med), -4.5px -4.5px 9.5px var(--light);
+}
+button:hover {
+    background: rgb(116, 154, 204);
+    color: rgb(255, 255, 255);
+  }
+         
+button:focus {
+    color: var( --bg);
+    box-shadow: inset 1.5px 1.5px 4.5px var(--med), inset -4.5px -4.5px 9.5px var(--light);
+}
+.signup {
+font-size: 16px;
+color: var(--dark);
+margin: 0.5rem 0;
+}
+
+.signup a {
+    text-decoration: none ;
+    color: var(--main-color);
+}
+
+.signup a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Nền gradient và hiệu ứng canvas chỉ áp dụng cho toàn bộ trang */
+body {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(120deg, #e7a9c4, #95afc0, #5889ba);
+}
+
+/* Đảm bảo canvas luôn nằm dưới */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Đưa canvas ra sau */
+}
+
+/* Tạo màu nền riêng cho khung đăng nhập */
+.container {
+    position: relative;
+    height: 420px;
+    width: 500px;
+    background: var(--bg); /* Màu nền giữ nguyên */
+    padding: 40px 30px;
+    border-radius: 0 50px;
+    box-shadow: -4px -4px 8px var(--light), 3px 3px 6px var(--dark-heavy);
+    z-index: 1; /* Đảm bảo container nằm trên cùng */
+}
+
+.text{
+    padding-left: 125px;
+}
+.fas{
+    margin-left: 20px;
+}
+nav.field {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    padding-right: 98px;
+    align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+    text-align: center; /* Đảm bảo nội dung căn giữa */
+    width: 50%; /* Chiếm toàn bộ chiều rộng */
+    margin-top: 20px;
+}
+
+/* ============LOAD TRANG================= */
+/* Hiệu ứng loading */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.cat__segment {
+    width: 100px;
+    height: 10px;
+    position: relative;
+}
+.cat__segment:before {
+    animation: loop 2s cubic-bezier(0.6, 0, 0.4, 1) infinite running;
+    background: linear-gradient(90deg, 
+        white 20%, 
+        #e6e6e6 20% 80%, 
+        white 80%);
+    border-radius: 0.25em;
+    content: "";
+    display: block;
+    will-change: transform;
+    width: 100%;
+    height: 100%;
+}
+@keyframes loop {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+} 

@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'CSS/k_dangnhap.css' %}" />
+    <title>Login Form</title>
+  </head>
+  <body>
+    <canvas id="background"></canvas>
+
+    <!-- Hiệu ứng loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="cat__segment"></div>
+    </div>
+    <div class="container">
+      <div class="text">Đăng Nhập</div>
+      <form action="{% url 'login_khach_hang' %}" method="post">
+        {% csrf_token %}
+        <div class="field">
+          <span class="fas fa-user"></span>
+          <input type="text" name="ten_dang_nhap" required />
+          <label>Tên đăng nhập</label>
+        </div>
+        <br />
+        <div class="field">
+          <span class="fas fa-lock"></span>
+          <input type="password" name="mat_khau" required />
+          <label>Mật khẩu</label>
+        </div>
+        <!-- <div class="forgot">forgot your password? <a href="#">Reset here </a></div>-->
+        <br />
+        <div class="field">
+          <button>Đăng nhập</button>
+        </div>
+        <nav class="field">
+          Quên mật khẩu?
+          <a href="k_lienhe.html"> Liên hệ </a>
+        </nav>
+      </form>
+    </div>
+  </body>
+  <script>
+    const canvas = document.getElementById("background"),
+      ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particles = [];
+    class Particle {
+      constructor(x, y, size, color, speedX, speedY) {
+        Object.assign(this, { x, y, size, color, speedX, speedY });
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.size = Math.max(0.2, this.size - 0.02);
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    function createParticles(event) {
+      for (let i = 0; i < 5; i++) {
+        particles.push(
+          new Particle(
+            event.x,
+            event.y,
+            Math.random() * 5 + 2,
+            ["#d7a7dce0", "#f6cee9e4", "#97c8fa"][
+              Math.floor(Math.random() * 3)
+            ],
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2
+          )
+        );
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter((p) => p.size > 0.2);
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener("mousemove", createParticles);
+    animate();
+  </script>
+  <!--LOAD TRANG-->
+  <script>
+    // Hiệu ứng background particles
+    const canvas = document.getElementById("background"),
+      ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particles = [];
+    class Particle {
+      constructor(x, y, size, color, speedX, speedY) {
+        Object.assign(this, { x, y, size, color, speedX, speedY });
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.size = Math.max(0.2, this.size - 0.02);
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    function createParticles(event) {
+      for (let i = 0; i < 5; i++) {
+        particles.push(
+          new Particle(
+            event.x,
+            event.y,
+            Math.random() * 5 + 2,
+            ["#d7a7dce0", "#f6cee9e4", "#97c8fa"][
+              Math.floor(Math.random() * 3)
+            ],
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2
+          )
+        );
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter((p) => p.size > 0.2);
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener("mousemove", createParticles);
+    animate();
+
+    // Xử lý đăng nhập và hiệu ứng loading
+    const loginForm = document.getElementById("loginForm");
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Ngăn form gửi đi mặc định
+
+      // Hiển thị hiệu ứng loading
+      loadingOverlay.classList.add("active");
+
+      // Mô phỏng thời gian đăng nhập (2 giây), sau đó chuyển hướng
+      setTimeout(() => {
+        // Chuyển hướng đến trang chính
+        window.location.href = "k_trangchu.html"; // Thay bằng trang chính của bạn
+      }, 2000);
+    });
+  </script>
+</html>

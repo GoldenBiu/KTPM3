@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'CSS/k_hoadon.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <title>Quản Lý Phòng</title>
+  </head>
+  <body>
+    <div class="nav">
+      <a href="{% url 'trang_chu_khach_hang' %}">Trang Chủ</a>
+      <a href="{% url 'k_hoa_don' %}">Hóa Đơn</a>
+      <a href="{% url 'hop_dong' %}">Hợp Đồng</a>
+      <a href="{% url 'lien_he' %}">Liên Hệ</a>
+      <a href="{% url 'thong_tin' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+    <div class="background-section"></div>
+
+    <div class="invoice-container">
+      <div class="invoice-wrapper">
+        <div class="invoice-content">
+          <div class="invoice-left">
+            <h1>HÓA ĐƠN TIỀN TRỌ</h1>
+            {% if chi_so_list %} {% for chi_so in chi_so_list %}
+            <p class="date">Ngày thu: <span>{{ chi_so.ThangNam }}</span></p>
+            <div class="info">
+              <p>
+                <strong>Họ tên:</strong> {{
+                chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
+              </p>
+              <p><strong>Dãy:</strong> {{ chi_so.DayPhong }}</p>
+              <p><strong>Phòng:</strong> {{ chi_so.PhongID.SoPhong }}</p>
+            </div>
+            <hr />
+            <div class="costs">
+              <div class="cost-item">
+                <p class="service">Tiền nhà:</p>
+                <p class="amount">{{ chi_so.TienPhong|floatformat:0 }} VND</p>
+              </div>
+              <div class="cost-item">
+                <p class="service">
+                  Điện ({{ chi_so.SoDienDaTieuThu|default:0 }} kWh x {{
+                  chi_so.GiaDienMoi|floatformat:0 }} VND):
+                </p>
+                <p class="amount">{{ chi_so.tien_nuoc|floatformat:0 }} VND</p>
+              </div>
+              <div class="cost-item">
+                <p class="service">
+                  Nước ({{ chi_so.SoNuocDaTieuThu|default:0 }} m³ x {{
+                  chi_so.GiaNuocMoi|floatformat:0 }} VND):
+                </p>
+                <p class="amount">{{ chi_so.tien_dien|floatformat:0 }} VND</p>
+              </div>
+              <div class="cost-item">
+                <p class="service">Phí dịch vụ:</p>
+                <p class="amount">{{ chi_so.TongDichVu|floatformat:0 }} VND</p>
+              </div>
+            </div>
+            <div class="total">
+              <p>
+                <strong>TỔNG CỘNG:</strong>
+                <span>{{ chi_so.TongTien|floatformat:0 }} VND</span>
+              </p>
+            </div>
+            <div class="footer">
+              <p>
+                Người thanh toán: {{
+                chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
+              </p>
+            </div>
+            {% endfor %} {% else %}
+            <p style="color: red">Không có hóa đơn nào!</p>
+            {% endif %}
+          </div>
+          <!-- Bên phải: Phương thức thanh toán -->
+          <div class="invoice-right">
+            <div class="month-selector">
+              <select id="month" onchange="updatePaymentDate()">
+                <!-- Các option sẽ được tạo tự động bằng JavaScript -->
+              </select>
+            </div>
+            <h2>Phương thức thanh toán</h2>
+            <div class="payment-methods">
+              <label class="payment-option">
+                <input type="radio" name="payment" value="zalopay" /> Thanh toán
+                qua MoMo
+              </label>
+              {% comment %}
+              <label class="payment-option">
+                <input type="radio" name="payment" value="cash" /> Tiền mặt
+              </label>
+              {% endcomment %}
+            </div>
+            <div class="buttons">
+              <form action="{% url 'process_payment' %}" method="POST">
+                {% if chi_so_list %} {% for chi_so in chi_so_list %} {%
+                csrf_token %}
+                <input
+                  type="hidden"
+                  name="order_id"
+                  value="{{chi_so.ChiSoID}}"
+                />
+                <input
+                  type="hidden"
+                  name="amount"
+                  value="{{ chi_so.TongTien }} "
+                />
+                <button type="submit" class="pay-btn">Thanh toán ngay</button>
+                {% endfor %} {% else %}
+                <p style="color: red">Không có hóa đơn nào!</p>
+                {% endif %}
+              </form>
+              <button class="close-btn" onclick="window.print()">
+                <i class="fas fa-cloud-download-alt"></i> Tải ảnh
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="gray-frame"></div>
+      </div>
+    </div>
+
+    <script>
+      const currentDate = new Date("2025-03-25"); // Ngày hiện tại
+      const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên +1
+      const currentYear = currentDate.getFullYear();
+
+      // Ngày vào ở (lấy từ hợp đồng)
+      const moveInDateStr = "{{ ngay_vao|date:'d/m/Y' }}"; // Ví dụ: "01/01/2025"
+      const [moveInDay, moveInMonth, moveInYear] = moveInDateStr
+        .split("/")
+        .map(Number);
+      const moveInDate = new Date(moveInYear, moveInMonth - 1, moveInDay);
+
+      // Hàm tạo các option cho dropdown từ ngày vào ở
+      function populateMonthSelector() {
+        const monthSelect = document.getElementById("month");
+        monthSelect.innerHTML = ""; // Xóa các option cũ
+
+        const startMonth = moveInDate.getMonth() + 1;
+        const startYear = moveInDate.getFullYear();
+        let currentOptionMonth = startMonth;
+        let currentOptionYear = startYear;
+
+        const monthsSinceMoveIn =
+          (currentYear - startYear) * 12 + (currentMonth - startMonth);
+        if (monthsSinceMoveIn >= 12) {
+          const startDate = new Date(currentYear, currentMonth - 12, 1); // Lùi lại 11 tháng từ hiện tại
+          currentOptionMonth = startDate.getMonth() + 1;
+          currentOptionYear = startDate.getFullYear();
+        }
+
+        for (let i = 0; i < 12; i++) {
+          const month = String(currentOptionMonth).padStart(2, "0");
+          const year = currentOptionYear;
+          const value = `${month}-${year}`;
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = `Tháng ${month}/${year}`;
+          monthSelect.appendChild(option);
+
+          if (month == currentMonth && year == currentYear) {
+            option.selected = true;
+          }
+
+          currentOptionMonth++;
+          if (currentOptionMonth > 12) {
+            currentOptionMonth = 1;
+            currentOptionYear++;
+          }
+        }
+      }
+
+      // Hàm cập nhật ngày thu
+      function updatePaymentDate() {
+        const monthSelect = document.getElementById("month");
+        const selectedValue = monthSelect.value; // VD: "03-2025"
+        const [month, year] = selectedValue.split("-").map(Number);
+        const paymentDate =
+          document.getElementById("payment-date") ||
+          document.createElement("span");
+        paymentDate.id = "payment-date";
+        const notAvailableMessage =
+          document.getElementById("not-available-message") ||
+          document.createElement("p");
+        notAvailableMessage.id = "not-available-message";
+
+        const selectedDate = new Date(year, month - 1, 23);
+        const currentDateCompare = new Date(currentYear, currentMonth - 1, 23);
+
+        if (selectedDate > currentDateCompare) {
+          paymentDate.style.display = "none";
+          notAvailableMessage.style.display = "block";
+          notAvailableMessage.textContent = `Hóa đơn tháng ${String(
+            month
+          ).padStart(2, "0")}/${year} hiện chưa có`;
+        } else {
+          paymentDate.style.display = "inline";
+          notAvailableMessage.style.display = "none";
+          paymentDate.textContent = `23/${String(month).padStart(
+            2,
+            "0"
+          )}/${year}`;
+        }
+      }
+
+      window.onload = function () {
+        populateMonthSelector();
+        updatePaymentDate();
+      };
+    </script>
+  </body>
+</html>

@@ -49,15 +49,13 @@
       
         <div class="sidebar">
               <div class="logo_content">
-              
-              <div class="logo">
-                <div class="icon">
-                  <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
+                <div class="logo">
+                  <div class="icon">
+                    <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
+                  </div>
+                  <div class="logo_name">Xin chào, admin</div>
                 </div>
-                <div class="logo_name">Xin chào, admin</div>
               </div>
-              
-          </div>
 
           <!--<div class="logo_name">Xin chào, Admin</div> -->
 
@@ -159,14 +157,15 @@
                     <p><strong>Giá:</strong> {{ hop_dong.gia_phong }} VND</p>
                     <p><strong>Tên:</strong> {{ hop_dong.ten_khach_hang }}</p>
                     <p><strong>Số Điện Thoại:</strong> {{ hop_dong.so_dien_thoai }}</p>
-                    
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-detail" onclick="document.location='xemchitiethopdong.html'">Xem Chi Tiết Hợp Đồng</button>  
+                    <button class="btn btn-detail" onclick="document.location='{% url 'xem_chi_tiet_hop_dong' hop_dong_id=hop_dong.hop_dong_id %}'">
+                        Xem Chi Tiết Hợp Đồng
+                    </button>
                 </div>
             </div>
             {% endfor %}
-          </div>
+        </div>
           </div>
       </div>
   </body>

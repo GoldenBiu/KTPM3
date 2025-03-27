@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'CSS/k_hopdong.css' %}">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Quản Lý Phòng</title>
+</head>
+<body>
+    <div class="nav">
+        <a href="{% url 'trang_chu_khach_hang' %}">Trang Chủ</a>
+        <a href="{% url 'k_hoa_don' %}">Hóa Đơn</a>
+        <a href="{% url 'hop_dong' %}">Hợp Đồng</a>
+        <a href="{% url 'lien_he' %}">Liên Hệ</a>   
+        <a href="{% url 'thong_tin' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    <button class="btn-success no-print" onclick="window.print()">In Hợp Đồng</button>
+    <div class="background-section"></div>
+
+    <br><br><br><br><br>
+
+    <!-- Nội dung chính -->
+    <div class="content flex-grow-1 p-4">
+      
+
+        <div class="contract-form">
+            <div class="topbar d-flex justify-content-between align-items-center mb-4">
+                <h5 class="title">Hợp Đồng</h5>
+            </div>
+            <!-- Thông tin bên A -->
+            <h3 class="tieude"><span class="green-circle">🟢</span> Thông tin quản lý:</h3>
+            {% if quan_li %}
+                <div class="form-group name-phone-group">
+                    <div>
+                        <label for="manager-name">Họ tên quản lý *</label>
+                        <input type="text" id="manager-name" name="manager-name" value="{{ quan_li.HoTenQuanLi }}" disabled>
+                    </div>
+                    <div>
+                        <label for="manager-phone">Số điện thoại *</label>
+                        <input type="tel" id="manager-phone" name="manager-phone" value="{{ quan_li.SoDienThoaiDN }}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="manager-id-number">CMND/CCCD</label>
+                    <input type="text" id="manager-id-number" name="manager-id-number" value="{{ quan_li.SoCCCD|default:'Chưa cung cấp' }}" disabled>
+                </div>
+                <div class="form-group date-group">
+                    <div>
+                        <label for="manager-birthdate">Ngày sinh</label>
+                        <input type="date" id="manager-birthdate" name="manager-birthdate" value="{{ quan_li.NgaySinh|date:'Y-m-d'|default:'' }}" disabled>
+                    </div>
+                    <div>
+                        <label for="manager-gender">Giới tính</label>
+                        <select id="manager-gender" name="manager-gender" disabled>
+                            <option value="Nam" {% if quan_li.GioiTinh == "Nam" %}selected{% endif %}>Nam</option>
+                            <option value="Nữ" {% if quan_li.GioiTinh == "Nữ" %}selected{% endif %}>Nữ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group address-group">
+                    <div>
+                        <label for="manager-city">Tỉnh/Thành phố</label>
+                        <select id="manager-city" name="manager-city" disabled>
+                            <option value="{{ quan_li.ThanhPho|default:'Chưa cung cấp' }}" selected>{{ quan_li.ThanhPho|default:'Chưa cung cấp' }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="manager-district">Quận/Huyện</label>
+                        <select id="manager-district" name="manager-district" disabled>
+                            <option value="{{ quan_li.Quan|default:'Chưa cung cấp' }}" selected>{{ quan_li.Quan|default:'Chưa cung cấp' }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="manager-ward">Phường/Xã</label>
+                    <select id="manager-ward" name="manager-ward" disabled>
+                        <option value="{{ quan_li.Phuong|default:'Chưa cung cấp' }}" selected>{{ quan_li.Phuong|default:'Chưa cung cấp' }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="manager-address">Địa chỉ chi tiết</label>
+                    <input type="text" id="manager-address" name="manager-address" value="{{ quan_li.DiaChiChiTiet|default:'Chưa cung cấp' }}" disabled>
+                </div>
+            {% else %}
+                <p>Chưa có thông tin quản lý được chỉ định.</p>
+            {% endif %}
+            <!-- Thông tin khách thuê (Bên B) -->
+            <h3 class="tieude"><span class="green-circle">🟢</span> Thông tin khách thuê (Thông tin bên B):</h3>
+
+            <div class="form-group name-phone-group">
+                <div>
+                    <label for="tenant-name">Tên người đại diện *</label>
+                    <input type="text" id="tenant-name" name="tenant-name" value="{{ khach_hang.HoTenKhachHang }}" disabled>
+                </div>
+                <div>
+                    <label for="tenant-phone">Số điện thoại người đại diện *</label>
+                    <input type="tel" id="tenant-phone" name="tenant-phone" value="{{ khach_hang.SoDienThoai }}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id-number">CMND/CCCD</label>
+                <input type="text" id="id-number" name="id-number" value="{{ khach_hang.SoCCCD }}" disabled>
+            </div>
+
+            <div class="form-group date-group">
+                <div>
+                    <label for="birthdate">Ngày sinh</label>
+                    <input type="date" id="birthdate" name="birthdate" value="{{ khach_hang.NgaySinh|date:'Y-m-d' }}" disabled>
+                </div>
+                <div>
+                    <label for="gender">Giới tính *</label>
+                    <select id="gender" name="gender" disabled>
+                        <option value="Nam" {% if khach_hang.GioiTinh == "Nam" %}selected{% endif %}>Nam</option>
+                        <option value="Nữ" {% if khach_hang.GioiTinh == "Nữ" %}selected{% endif %}>Nữ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group address-group">
+                <div>
+                    <label for="city">Tỉnh/Thành phố</label>
+                    <select id="city" name="city" disabled>
+                        <option value="{{ khach_hang.TinhThanh }}" selected>{{ khach_hang.TinhThanh }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="district">Quận/Huyện</label>
+                    <select id="district" name="district" disabled>
+                        <option value="{{ khach_hang.QuanHuyen }}" selected>{{ khach_hang.QuanHuyen }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ward">Phường/Xã</label>
+                <select id="ward" name="ward" disabled>
+                    <option value="{{ khach_hang.PhuongXa }}" selected>{{ khach_hang.PhuongXa }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Địa chỉ chi tiết</label>
+                <input type="text" id="address" name="address" value="{{ khach_hang.DiaChiCuThe }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="occupation">Công việc</label>
+                <input type="text" id="occupation" name="occupation" value="{{ khach_hang.CongViec }}" disabled>
+            </div>
+
+            <div class="form-group date-group">
+                <div>
+                    <label for="id-issue-date">Ngày cấp CMND/CCCD</label>
+                    <input type="date" id="id-issue-date" name="id-issue-date" value="{{ khach_hang.NgayCapCCCD|date:'Y-m-d' }}" disabled>
+                </div>
+                <div>
+                    <label for="id-issue-place">Nơi cấp CMND/CCCD</label>
+                    <input type="text" id="id-issue-place" name="id-issue-place" value="{{ khach_hang.NoiCapCCCD }}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group image-upload-group">
+                <div class="image-upload">
+                    <label class="upload-label">Ảnh mặt trước CMND/CCCD</label>
+                    <img src="{{ khach_hang.CCCDMT.url }}" alt="Ảnh mặt trước" style="max-width: 200px;">
+                </div>
+                <div class="image-upload">
+                    <label class="upload-label">Ảnh mặt sau CMND/CCCD</label>
+                    <img src="{{ khach_hang.CCCDMS.url }}" alt="Ảnh mặt sau" style="max-width: 200px;">
+                </div>
+            </div>
+
+            <!-- Thời hạn hợp đồng -->
+            <h3 class="tieude"><span class="green-circle">🟢</span> Thời hạn hợp đồng:</h3>
+            <div class="form-group">
+                <label for="contract-duration">Thời hạn hợp đồng</label>
+                <select id="contract-duration" name="contract-duration" disabled>
+                    <option value="{{ hop_dong.ThoiHanHopDong }}" selected>{{ hop_dong.ThoiHanHopDong }}</option>
+                </select>
+            </div>
+
+              
+           <!-- Dãy, Phòng, Diện Tích -->
+           <div class="form-group address-group">
+            <div>
+                <label for="district1" class="day">Dãy</label>
+                <select id="district1" name="district1" disabled>
+                    <option value="{{ phong.DayPhong }}" selected>{{ phong.DayPhong }}</option>
+                </select>
+            </div>
+            <div>
+                <label for="district2" class="day">Phòng</label>
+                <select id="district2" name="district2" disabled>
+                    <option value="{{ phong.SoPhong }}" selected>{{ phong.SoPhong }}</option>
+                </select>
+            </div>
+            <div>
+                <label for="area" class="day">Diện Tích</label>
+                <select id="area" name="area" disabled>
+                    <option value="20m2" selected>20 m²</option>
+                    <option value="25m2">25 m²</option>
+                    <option value="30m2">30 m²</option>
+                </select>
+            </div>
+        </div>
+
+      <!-- ... Các phần khác giữ nguyên ... -->
+    <div class="form-right">
+        <div class="amenities">
+            <label class="day">Tiện ích:</label>
+            <div class="amenities-container">
+                <div class="amenities-left">
+                    <input type="checkbox" id="aircon" name="amenities" value="aircon" disabled>
+                    <label for="aircon">Máy lạnh</label><br>
+                    <input type="checkbox" id="waterheater" name="amenities" value="waterheater" disabled>
+                    <label for="waterheater">Máy nước nóng</label><br>
+                    <input type="checkbox" id="computer" name="amenities" value="computer" disabled>
+                    <label for="computer">Máy giặt</label>
+                </div>
+                <div class="amenities-right">
+                    <input type="checkbox" id="wifi" name="amenities" value="wifi" disabled>
+                    <label for="wifi">Wifi</label><br>
+                    <input type="checkbox" id="cooler" name="amenities" value="cooler" checked disabled>
+                    <label for="cooler">Tủ lạnh</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+            <div class="form-group date-group">
+                <div>
+                    <label for="start-date">Ngày vào ở *</label>
+                    <input type="date" id="start-date" name="start-date" value="{{ hop_dong.NgayBatDau|date:'Y-m-d' }}" disabled>
+                </div>
+                <div>
+                    <label for="end-date">Kết thúc hợp đồng</label>
+                    <input type="date" id="end-date" name="end-date" value="{{ hop_dong.NgayKetThuc|date:'Y-m-d' }}" disabled>
+                </div>
+            </div>
+
+            <!-- Tiền phòng/cọc phòng -->
+            <h3 class="tieude"><span class="green-circle">🟢</span> Tiền phòng/cọc phòng</h3>
+            <div class="form-group name-phone-group">
+                <div>
+                    <label for="room-price">Số tiền phòng *</label>
+                    <input type="text" id="room-price" name="room-price" value="{{ phong.GiaPhong }}" disabled>
+                </div>
+                <div>
+                    <label for="deposit">Số tiền cọc *</label>
+                    <input type="text" id="deposit" name="deposit" value="{{ hop_dong.TienDatCoc }}" disabled>
+                </div>
+            </div>
+
+            <!-- Chu kỳ thu tiền -->
+            <h3 class="tieude"><span class="green-circle">🟢</span> Chu kỳ thu tiền</h3>
+            <div class="form-group">
+                <label for="payment-cycle">Chu kỳ thu tiền</label>
+                <select id="payment-cycle" name="payment-cycle" disabled>
+                    <option value="{{ hop_dong.ChuKy }}" selected>{{ hop_dong.ChuKy }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="contract-note">Ghi chú *</label>
+                <input type="text" id="contract-note" name="contract-note" value="{{ hop_dong.GhiChuHopDong }}" disabled>
+            </div>
+
+            <!-- Điều khoản hợp đồng -->
+            <div class="section">
+                <label>Sau khi bàn bạc kỹ lưỡng, hai bên cùng thống nhất nội dung sau:</label>
+            </div>
+
+            <div class="section">
+                <label>Bên A đồng ý cho bên B thuê 01 phòng ở tại địa chỉ:</label>
+                <input type="text" name="room_address" value="{{quan_li.DiaChiChiTiet}},{{quan_li.Phuong}},{{quan_li.Quan}},{{quan_li.ThanhPho}}" disabled>
+            </div>
+
+            <div class="section terms">
+                <ul>
+                    <li>Thanh toán đầy đủ tiền theo đúng thỏa thuận.</li>
+                    <li>Bảo quản các trang thiết bị và có số vật chất của bên A trong khi cho bạn đầu (làm hỏng phải sửa, mất phải đền).</li>
+                    <li>Không được tự ý sửa chữa, cải tạo cơ sở vật chất khi chưa được sự đồng ý của bên A.</li>
+                    <li>Luôn có ý thức giữ gìn vệ sinh trong và ngoài khu vực phòng trọ.</li>
+                    <li>Bên B phải chấp hành mọi quy định của pháp luật Nhà nước và quy định của địa phương.</li>
+                    <li>Nếu bên B cho khách ở qua đêm thì phải báo trước và được sự đồng ý của bên A, đồng thời phải chịu trách nhiệm về các hành vi vi phạm pháp luật của khách trong thời gian ở lại (nếu có).</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>TRÁCH NHIỆM CHUNG</h3>
+                <ul>
+                    <li>Hai bên phải tạo điều kiện thuận lợi cho nhau để thực hiện hợp đồng.</li>
+                    <li>Nếu một trong hai bên vi phạm hợp đồng trong thời gian hợp đồng vẫn còn hiệu lực thì bên còn lại có quyền đơn phương chấm dứt hợp đồng thuê nhà trọ. Ngoài ra, nếu hành vi vi phạm đó gây tổn thất cho bên bị vi phạm thì bên vi phạm sẽ phải bồi thường mọi thiệt hại gây ra.</li>
+                    <li>Trong trường hợp muốn chấm dứt hợp đồng trước thời hạn, cần phải báo trước cho bên kia ít nhất 30 ngày và hai bên phải có sự thống nhất với nhau.</li>
+                    <li>Kết thúc hợp đồng, Bên A phải trả lại đầy đủ tiền đặt cọc cho bên B.</li>
+                    <li>Bên nào vi phạm các điều khoản chung thì phải chịu trách nhiệm trước pháp luật.</li>
+                    <li>Hợp đồng này được lập thành 02 bản và có giá trị pháp lý như nhau, mỗi bên giữ một bản.</li>
+                </ul>
+            </div>
+
+            <!-- Phần ký xác nhận -->
+            <div class="signature-section">
+                <div class="signature">
+                    <h4>ĐẠI DIỆN BÊN A</h4>
+                    <p>(Ký và ghi họ tên)</p>
+                    <textarea name="partyA_signature" disabled>{{ khach_hang.HoTenKhachHang }}</textarea>
+                </div>
+                <div class="signature">
+                    <h4>ĐẠI DIỆN BÊN B</h4>
+                    <p>(Ký và ghi họ tên)</p>
+                    <textarea name="partyB_signature" disabled>{{ quan_li.HoTenQuanLi }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const airconCheckbox = document.getElementById("aircon");
+        const waterheaterCheckbox = document.getElementById("waterheater");
+        const computerCheckbox = document.getElementById("computer");
+        const wifiCheckbox = document.getElementById("wifi");
+        const coolerCheckbox = document.getElementById("cooler");
+
+        airconCheckbox.checked = true;
+        coolerCheckbox.checked = true;
+        waterheaterCheckbox.checked = false;
+        computerCheckbox.checked = false;
+        wifiCheckbox.checked = false;
+
+        airconCheckbox.disabled = true;
+        waterheaterCheckbox.disabled = true;
+        computerCheckbox.disabled = true;
+        wifiCheckbox.disabled = true;
+        coolerCheckbox.disabled = true;
+    });
+    </script>
+</html>

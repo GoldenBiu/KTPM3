@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'CSS/k_lienhemail.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Quản Lý Phòng</title>
+<body>
+    <div class="nav">
+        <a href="{% url 'trang_chu_khach_hang' %}">Trang Chủ</a>
+        <a href="{% url 'k_hoa_don' %}">Hóa Đơn</a>
+        <a href="{% url 'hop_dong' %}">Hợp Đồng</a>
+        <a href="{% url 'lien_he' %}">Liên Hệ</a>   
+        <a href="{% url 'thong_tin' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+    <div class="background-section"></div>
+    <br><br><br><br><br>
+    <div class="container">
+        <div class="main-card">
+            <h1>Thông Tin Liên Hệ</h1>
+            <div class="card-section">
+                <!-- Card Thông tin liên hệ và mã QR Zalo -->
+                <div class="card">
+                    <h2>Thông Tin Liên Hệ</h2>
+                    <p><i class="fa-solid fa-phone"></i> Số điện thoại: 0123 456 789</p>
+                    <p><i class="fa-solid fa-envelope"></i> Email: support@quanlyphongtro.com</p>
+                    <p><i class="fa-solid fa-map-marker-alt"></i> Địa chỉ: 123 Đường ABC, Quận XYZ, TP. HCM</p>
+                    <div class="qr-code">
+                        <h2>Liên Hệ Qua Zalo</h2>
+                        <img src="{% static 'imag\qr_lienhe.png' %}" alt="QR Zalo">
+                        <p>Quét mã QR để liên hệ qua Zalo</p>
+                    </div>
+                </div>
+
+                <!-- Card Form gửi email -->
+                <div class="card">
+                    <h2>Gửi Email Liên Hệ</h2>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form id="contact-form" method="POST" onsubmit="return handleSubmit(event)">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="reason">Lý Do Liên Hệ</label>
+                            <select id="reason" name="reason" required>
+                                <option value="">Chọn lý do</option>
+                                <option value="ho-tro">Hỗ trợ kỹ thuật</option>
+                                <option value="thanh-toan">Vấn đề thanh toán</option>
+                                <option value="phong-tro">Hỏi về phòng trọ</option>
+                                <option value="khac">Lý do khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Nội Dung</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Gửi Liên Hệ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</body>
+<script>
+
+</script>
+</html>

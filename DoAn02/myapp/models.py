@@ -51,6 +51,7 @@ class Phong(models.Model):
 # Model Hợp Đồng
 class HopDong(models.Model):
     HopDongID = models.AutoField(primary_key=True)
+    QuanLiID = models.ForeignKey('QuanLi', on_delete=models.SET_NULL, null=True, blank=True)  # Thêm trường này
     PhongID = models.ForeignKey('Phong', on_delete=models.CASCADE)
     KhachHangID = models.ForeignKey('KhachHang', on_delete=models.CASCADE)
     DayPhong = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B')])
@@ -190,3 +191,13 @@ class GiaDienNuoc(models.Model):
     
     class Meta:
         ordering = ['-NgayCapNhat']  # Sắp xếp theo ngày cập nhật mới nhất
+
+class LienHe(models.Model):
+    LienHeID = models.AutoField(primary_key=True)
+    KhachHangID = models.ForeignKey('KhachHang', on_delete=models.CASCADE)
+    PhongID = models.ForeignKey('Phong', on_delete=models.CASCADE)
+    LyDoLienHe = models.CharField(max_length=100)  # Reason for contact
+    NoiDung = models.TextField()  # Message content
+    TrangThai = models.CharField(max_length=15, null=True, blank=True) 
+    Time = models.DateTimeField(auto_now_add=True,null=True,)  # Automatically set to current time when created
+

@@ -1,0 +1,371 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.nav {
+    background: linear-gradient(90deg, #a8b5e6, #d4a9d1, #e6c3d1);
+    font-size: 19px;
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    top: 10px; /* Tạo khoảng cách với phần trên */
+
+    width: 80%; /* Thu nhỏ để bo góc đẹp */
+    height: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    border-radius: 28px; /* Bo góc mềm mại */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Tạo hiệu ứng đổ bóng nhẹ */
+
+
+}
+
+
+.nav a {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+
+.nav a:hover {
+    color: #f0f0f0;
+    transform: scale(1.1); /* Phóng to khi hover */
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Tạo hiệu ứng nổi lên */
+    background: rgba(255, 255, 255, 0.2); /* Hiệu ứng làm sáng nhẹ */
+}
+/* ===============================thanh menu chỉnh bo góc lên xuống=========================================== */
+
+
+ .nav a:hover {
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Hiệu ứng nổi lên */
+    background: rgba(255, 255, 255, 0.3); /* Làm sáng nhẹ */
+}
+
+
+.welcome {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    margin: 80px auto 20px;
+    width: 80%;
+    max-width: 1200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.welcome h1 {
+    color: #6b48a6;
+    font-size: 2.5em;
+    margin: 0;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    flex-grow: 1;
+    width: 100%;
+}
+.main-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 13px;
+    box-shadow: 3px 3px 4px 4px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    padding: 20px;
+    transition: transform 0.3s;
+}
+.main-card:hover {
+    transform: translateY(-1px);
+}
+.main-card h1 {
+    color: #6b48a6;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.card-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 15px;
+}
+.card {
+    background: #f6f6f6;
+    border-radius: 8px;
+    box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.08);
+    width: 102%;
+    padding: 15px;
+    transition: transform 0.3s;
+
+    display: flex;
+    flex-direction: column;
+}
+.card:hover {
+    transform: translateY(-3px);
+}
+.card h2 {
+    color: #6b48a6;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+.card p {
+    color: #555;
+    line-height: 1.6;
+    margin: 5px 0;
+}
+.btn {
+    background-color: #6b48a6;
+    font-size: 15px;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+}
+.btn:hover {
+    background-color: #5a3f8f;
+}
+.history {
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+}
+.history h2 {
+    color: #6b48a6;
+}
+.background-section {
+    position: fixed; /* Hoặc absolute tùy vào bố cục */
+    top: 0; /* Đặt từ đỉnh để phủ toàn màn hình */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../imag/nnn.jpg'); /* Kiểm tra đường dẫn */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    z-index: -1;
+}
+.footer-text {
+    /* position: fixed; */
+    bottom: 10px;
+    left: 20px;
+    color: #fff;
+    font-size: 0.9em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+.fa-solid{
+    font-size: 20px;
+} 
+
+/* ========================= */
+.history {
+    max-width: 1500px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: #f9f9f9;
+}
+
+.history h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.history table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.history table th, .history table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.history table th {
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.history table tr:last-child td {
+    border-bottom: none;
+}
+
+@media (max-width: 600px) {
+    .history {
+        padding: 10px;
+    }
+    
+    .history table th, .history table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+
+/* ====================================h3 lỊCH SỬ THANH TOÁN================================= */
+.cf-title-09 h3{
+    text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+  .cf-title-09 h3 span {
+    margin-top: 7px;
+      font-size:25px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
+      text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+  
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      grid-template-rows: 27px 0;
+      grid-gap: 25px;
+      align-items: center;
+  }
+  
+  .cf-title-09 h3 span:after,.cf-title-09 h3 span:before {
+      content: " ";
+      display: block;
+      border-bottom: 1px solid #ccc;
+      border-top: 1px solid #ccc;
+      height: 2px;
+    background-color:#f8f8f8;
+  }
+.toggle-link{
+    color: #a987ff;
+    padding-left: 1100px;
+}
+/* ========================================================================= */
+/* Popup phương thức thanh toán */
+.invoice-right {
+    display: none; /* Ẩn mặc định */
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+
+    width: 350px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.invoice-right h2 {
+    font-size: 22px;
+    color: #6b48a6;
+    margin-bottom: 20px;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.buttons button{
+    width: 300px;
+    padding: 8px;
+    font-size: 15px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pay-btn, .close-btn {
+    width: 150px;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pay-btn {
+    background-color: #3498db;
+}
+
+.pay-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+    background-color: #e74c3c;
+}
+
+.close-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hiệu ứng fade in cho popup */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.fa-solid {
+    font-size: 20px;
+}

@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'CSS/k_thongtin.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <title>Quản Lý Phòng</title>
+  </head>
+  <body>
+    <div class="nav">
+      <a href="{% url 'trang_chu_khach_hang' %}">Trang Chủ</a>
+      <a href="{% url 'k_hoa_don' %}">Hóa Đơn</a>
+      <a href="{% url 'hop_dong' %}">Hợp Đồng</a>
+      <a href="{% url 'lien_he' %}">Liên Hệ</a>
+      <a href="{% url 'thong_tin' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+    <div class="background-section"></div>
+
+    <!-- Trang cá nhân -->
+    <div class="profile-container">
+      <div class="profile-header">
+        <h2>{{ khach_hang.HoTenKhachHang }}</h2>
+        {% if phong %}
+        <div class="room">Phòng {{ phong.SoPhong }}</div>
+        <div class="room">Dãy {{ hop_dong.DayPhong }}</div>
+        {% else %}
+        <div class="room">Chưa có phòng</div>
+        <div class="room">Chưa có dãy</div>
+        {% endif %}
+      </div>
+      <div class="profile-info">
+        <div class="info-item">
+          <label>Số Điện Thoại</label>
+          <span>{{ khach_hang.SoDienThoai|default:"Chưa cung cấp" }}</span>
+        </div>
+        <div class="info-item">
+          <label>CMND/CCCD</label>
+          <span>{{ khach_hang.SoCCCD }}</span>
+        </div>
+        <div class="info-item">
+          <label>Ngày Sinh</label>
+          <span>{{ khach_hang.NgaySinh|date:"d/m/Y" }}</span>
+        </div>
+        <div class="info-item">
+          <label>Công Việc</label>
+          <span>{{ khach_hang.CongViec }}</span>
+        </div>
+        <div class="info-item">
+          <label>Ngày Thuê</label>
+          <span
+            >{{ hop_dong.NgayBatDau|date:"d/m/Y"|default:"Chưa có hợp đồng"
+            }}</span
+          >
+        </div>
+        <div class="info-item">
+          <label>Địa Chỉ</label>
+          <span
+            >{{ khach_hang.DiaChiCuThe }}, {{ khach_hang.PhuongXa }}, {{
+            khach_hang.QuanHuyen }}, {{ khach_hang.TinhThanh }}</span
+          >
+        </div>
+      </div>
+      <a
+        href="{% url 'logout_khach_hang' %}"
+        class="logout-btn"
+        onclick="return confirmLogout()"
+      >
+        <i class="fa-solid fa-door-open"></i>
+      </a>
+    </div>
+  </body>
+  <!-- JavaScript để hiển thị thông báo xác nhận -->
+  <script>
+    function confirmLogout() {
+      const confirm = window.confirm("Bạn có muốn đăng xuất không?");
+      if (confirm) {
+        return true; // Cho phép chuyển hướng đến URL logout
+      } else {
+        return false; // Ngăn chuyển hướng
+      }
+    }
+  </script>
+</html>

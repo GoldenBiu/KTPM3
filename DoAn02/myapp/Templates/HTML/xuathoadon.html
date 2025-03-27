@@ -1,85 +1,68 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="vi">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Hóa Đơn</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'css/xuathoadon.css' %}">
-    </head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hóa Đơn</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/xuathoadon.css' %}" />
+  </head>
+  <body>
     <div class="invoice">
-        <h1>HÓA ĐƠN TIỀN TRỌ</h1>
-        <p class="date">Ngày thu: <span>{{ hoa_don.ngay_thu }}</span></p>
+      <h1>HÓA ĐƠN TIỀN TRỌ</h1>
+      <p class="date">Ngày thu: <span>{{ hoa_don.ngay_thu }}</span></p>
 
-        <div class="info">
-            <p><strong>Họ tên:</strong> {{ hoa_don.ten_khach_hang }}</p>
-            <p><strong>Dãy:</strong> {{ hoa_don.day_phong }}</p>
-            <p><strong>Phòng:</strong> {{ hoa_don.so_phong }}</p>
-            <p><strong>Ngày vào:</strong> {{ hoa_don.ngay_vao }}</p>
+      <div class="info">
+        <p><strong>Họ tên:</strong> {{ hoa_don.ten_khach_hang }}</p>
+        <p><strong>Dãy:</strong> {{ hoa_don.day_phong }}</p>
+        <p><strong>Phòng:</strong> {{ hoa_don.so_phong }}</p>
+        <p><strong>Ngày vào:</strong> {{ hoa_don.ngay_vao }}</p>
+      </div>
+      <hr />
+      <div class="costs">
+        <div class="cost-item">
+          <p class="service">Tiền nhà:</p>
+          <p class="amount">{{ hoa_don.tong_tien|floatformat:0 }} VNĐ</p>
         </div>
-                      <hr />
-        <div class="costs">
-            <div class="cost-item">
-                <p class="service">Tiền nhà:</p>
-                <p class="amount">{{ hoa_don.tong_tien|floatformat:0 }} VNĐ</p>
-            </div>
-            <div class="cost-item">
-                <p class="service">Điện:</p>
-                <p class="amount">{{ hoa_don.tien_dien|floatformat:0 }} VNĐ</p>
-            </div>
-            <div class="cost-item">
-                <p class="service">Nước:</p>
-                <p class="amount">{{ hoa_don.tien_nuoc|floatformat:0 }} VNĐ</p>
-            </div>
-            <div class="cost-item">
-                <p class="service">Sửa chữa:</p>
-                <p class="amount">{{ hoa_don.sua_chua|floatformat:0 }} VNĐ</p>
-            </div>
-            <div class="cost-item">
-                <p class="service">Khác:</p>
-                <p class="amount">{{ hoa_don.khac|floatformat:0 }} VNĐ</p>
-            </div>
+        <div class="cost-item">
+          <p class="service">Điện:</p>
+          <p class="amount">{{ hoa_don.tien_dien|floatformat:0 }} VNĐ</p>
         </div>
+        <div class="cost-item">
+          <p class="service">Nước:</p>
+          <p class="amount">{{ hoa_don.tien_nuoc|floatformat:0 }} VNĐ</p>
+        </div>
+        <div class="cost-item">
+          <p class="service">Sửa chữa:</p>
+          <p class="amount">{{ hoa_don.sua_chua|floatformat:0 }} VNĐ</p>
+        </div>
+      </div>
 
-        <div class="total">
-            <p><strong>TỔNG CỘNG:</strong> <span>{{ hoa_don.tong_tien|floatformat:0 }} VNĐ</span></p>
-        </div>
+      <div class="total">
+        <p>
+          <strong>TỔNG CỘNG:</strong>
+          <span>{{ hoa_don.tong_tien|floatformat:0 }} VNĐ</span>
+        </p>
+      </div>
 
-        <div class="footer">
-            <p>Người thanh toán: {{ hoa_don.ten_khach_hang }}</p>
-            <p>Người nhận : Mỹ Thạnh</p>
-        </div>
+      <div class="footer">
+        <p>Người thanh toán: {{ hoa_don.ten_khach_hang }}</p>
+        <p>Người nhận : Mỹ Thạnh</p>
+      </div>
 
-        <div class="buttons">
-            <button type="button" onclick="window.print()">In hóa đơn</button>
-            <button type="button" onclick="downloadInvoice()">Tải hóa đơn</button>
-            <button type="button" onclick="window.close()">Đóng</button>
-        </div>
+      <div class="buttons">
+        <button type="button" onclick="window.print()">In hóa đơn</button>
+        {% comment %}
+        <button type="button" onclick="downloadInvoice()">Tải hóa đơn</button>
+        {% endcomment %}
+        <button type="button" onclick="window.location.href='/hoa-don/'">
+          Đóng
+        </button>
+      </div>
     </div>
 
-    <div class="dashboard">
-        <div class="card">
-            <h3>Tổng thu tháng</h3>
-            <p>₫{{ total_revenue|floatformat:0 }}</p>
-        </div>
-        <div class="card">
-            <h3>Chi tiêu sửa chữa</h3>
-            <p>₫{{ total_expenses|floatformat:0 }}</p>
-        </div>
-        <div class="card">
-            <h3>Tổng tiền phòng còn nợ</h3>
-            <p>₫{{ total_debt|floatformat:0 }}</p>
-        </div>
-    </div>
-
-    <script>
-        function downloadInvoice() {
-            // Implement download functionality if needed
-            alert('Chức năng tải hóa đơn chưa được triển khai.');
-        }
-    </script>
-</body>
+    <script></script>
+  </body>
 </html>

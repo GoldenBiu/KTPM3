@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
-from .models import QuanLi, Phong, HopDong, KhachHang, TaiKhoan,DichVu, ChiSoDienNuoc, GiaDienNuoc
+from .models import QuanLi, Phong, HopDong, KhachHang, TaiKhoan,DichVu, ChiSoDienNuoc, GiaDienNuoc, LichSuGiaoDich,LienHe
 from django.http import Http404, HttpResponse
 from django.utils import timezone
 from django.http import JsonResponse
@@ -14,7 +14,12 @@ from django.core.cache import cache
 from decimal import Decimal
 import json  # Ensure this import is at the top of your views.py
 import logging
+import requests
+import json
+import hashlib
+import uuid
 # Thiết lập logging
+from django.views.decorators.csrf import csrf_exempt
 logger = logging.getLogger(__name__)
 
 def login_view(request):
@@ -338,7 +343,8 @@ def them_hop_dong(request, phong_id):
                     TrangThaiHopDong='HoatDong',
                     SoLuongThanhVien=request.POST.get('member_count', 1),
                     GhiChuHopDong=request.POST.get('ghi_chu_hop_dong', ''),
-                    ThoiHanHopDong=thoi_han
+                    ThoiHanHopDong=thoi_han,
+                    QuanLiID=quan_li
                 )
 
                 # Cập nhật trạng thái phòng
@@ -377,11 +383,14 @@ def xem_chi_tiet_hop_dong(request, hop_dong_id):
         hop_dong = HopDong.objects.get(HopDongID=hop_dong_id)
         khach_hang = hop_dong.KhachHangID
         phong = hop_dong.PhongID
-        
+        # Lấy thông tin quản lý (QuanLi) nếu tồn tại
+        quan_li = hop_dong.QuanLiID  # Có thể là None vì QuanLiID cho phép null
+
         context = {
             'hop_dong': hop_dong,
             'khach_hang': khach_hang,
             'phong': phong,
+            'quan_li': quan_li,  # Thêm QuanLi vào context
         }
         return render(request, 'xemchitiethopdong.html', context)
     except HopDong.DoesNotExist:
@@ -1417,7 +1426,7 @@ def process_payment(request, chi_so_id):
             else:
                 # Vẫn còn nợ
                 chi_so.TienNo = remaining_amount
-                chi_so.TrangThaiThanhToan = 'N'
+                chi_so.TrangThaiThanhToan = 'T'  # T = Còn nợ
                 messages.success(request, f'Hóa đơn phòng {phong_info} tháng {thang_nam} đã được thanh toán một phần. Đã trả: {total_paid:,.0f} VNĐ, Còn nợ: {remaining_amount:,.0f} VNĐ')
             
             # Cập nhật tổng số tiền đã trả
@@ -1480,3 +1489,400 @@ def xem_hoa_don(request, chi_so_id):
     }
     
     return render(request, 'HTML/xuathoadon.html', {'hoa_don': hoa_don_info})
+
+def login_khach_hang(request):
+    if request.method == 'POST':
+        ten_dang_nhap = request.POST['ten_dang_nhap']
+        mat_khau = request.POST['mat_khau']
+        try:
+            tai_khoan = TaiKhoan.objects.get(Email=ten_dang_nhap) # Hoặc Email nếu bạn sử dụng email
+            if tai_khoan.MatKhau == mat_khau:  # So sánh mật khẩu
+                # Lưu thông tin khách hàng vào session
+                request.session['khach_hang_id'] = tai_khoan.KhachHangID.KhachHangID
+                request.session['ho_ten_khach_hang'] = tai_khoan.KhachHangID.HoTenKhachHang
+                request.session.set_expiry(86400)  # Session hết hạn sau 24 giờ
+                messages.success(request, 'Đăng nhập thành công!')
+                return redirect('trang_chu_khach_hang')  # Chuyển hướng đến trang k_trangchu.html
+            else:
+                messages.error(request, 'Sai mật khẩu!')
+                return redirect('login_khach_hang')
+        except TaiKhoan.DoesNotExist:
+            messages.error(request, 'Tên đăng nhập không tồn tại!')
+            return redirect('login_khach_hang')
+    
+    return render(request, 'HTML/k_dangnhap.html')  # Đảm bảo render lại form nếu không phải POST
+
+def trang_chu_khach_hang(request):
+    # Kiểm tra xem người dùng đã đăng nhập chưa
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    khach_hang_id = request.session['khach_hang_id']
+    try:
+        khach_hang = KhachHang.objects.get(KhachHangID=khach_hang_id)
+        hop_dong = HopDong.objects.filter(KhachHangID=khach_hang, TrangThaiHopDong='HoatDong').first()
+        chi_so = ChiSoDienNuoc.objects.filter(PhongID=hop_dong.PhongID, TrangThaiThanhToan='N').order_by('-ThangNam').first() if hop_dong else None
+
+        # Lấy lịch sử giao dịch
+        lich_su_giao_dich = ChiSoDienNuoc.objects.filter(
+            PhongID__hopdong__KhachHangID=khach_hang
+        ).order_by('-ThangNam')[:5]
+        tong_tien_no = ChiSoDienNuoc.objects.filter(PhongID__hopdong__KhachHangID=khach_hang).aggregate(Sum('TienNo'))['TienNo__sum'] or 0
+        context = {
+            'ho_ten_khach_hang': khach_hang.HoTenKhachHang,
+            'hop_dong': hop_dong,
+            'chi_so': chi_so,
+            'lich_su_giao_dich': lich_su_giao_dich,
+            'tong_tien_no': tong_tien_no,  # Truyền tổng tiền nợ vào context
+        }
+        return render(request, 'HTML/k_trangchu.html', context)
+    except KhachHang.DoesNotExist:
+        messages.error(request, 'Không tìm thấy thông tin khách hàng!')
+        return redirect('login_khach_hang')
+
+def k_thong_tin(request):
+    # Kiểm tra xem người dùng đã đăng nhập chưa
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    # Lấy ID khách hàng từ session
+    khach_hang_id = request.session['khach_hang_id']
+
+    try:
+        # Lấy thông tin khách hàng
+        khach_hang = KhachHang.objects.get(KhachHangID=khach_hang_id)
+
+        # Lấy hợp đồng gần nhất của khách hàng
+        hop_dong = HopDong.objects.filter(KhachHangID=khach_hang).order_by('-NgayBatDau').first()
+
+        # Lấy thông tin phòng từ hợp đồng (nếu có)
+        phong = hop_dong.PhongID if hop_dong else None
+
+        context = {
+            'khach_hang': khach_hang,
+            'hop_dong': hop_dong,
+            'phong': phong,
+        }
+        return render(request, 'HTML/k_thongtin.html', context)
+
+    except KhachHang.DoesNotExist:
+        messages.error(request, 'Khách hàng không tồn tại!')
+        return redirect('login_khach_hang')
+    except Exception as e:
+        messages.error(request, f'Có lỗi xảy ra: {str(e)}')
+        return redirect('trang_chu_khach_hang')
+
+def lien_he(request):
+    # Kiểm tra xem người dùng đã đăng nhập chưa
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    # Lấy ID khách hàng từ session
+    khach_hang_id = request.session['khach_hang_id']
+
+    # Lấy khách hàng từ database
+    try:
+        khach_hang = KhachHang.objects.get(KhachHangID=khach_hang_id)
+    except KhachHang.DoesNotExist:
+        messages.error(request, 'Không tìm thấy thông tin khách hàng.')
+        return redirect('login_khach_hang')
+
+    # Lấy hợp đồng hoạt động để lấy PhongID
+    try:
+        hop_dong = HopDong.objects.get(
+            KhachHangID=khach_hang,
+            TrangThaiHopDong='HoatDong'
+        )
+        phong_id = hop_dong.PhongID
+    except HopDong.DoesNotExist:
+        messages.error(request, 'Bạn chưa có hợp đồng hoạt động nào để liên hệ.')
+        return render(request, 'k_dangnhap.html')
+
+    if request.method == 'POST':
+        reason = request.POST.get('reason')
+        message = request.POST.get('message')
+
+        # Ánh xạ giá trị reason từ form sang tiếng Việt
+        reason_mapping = {
+            'ho-tro': 'Hỗ trợ kỹ thuật',
+            'thanh-toan': 'Vấn đề thanh toán',
+            'phong-tro': 'Hỏi về phòng trọ',
+            'khac': 'Lý do khác',
+        }
+        ly_do_lien_he = reason_mapping.get(reason, 'Lý do khác')
+
+        # Tạo và lưu bản ghi LienHe
+        lien_he = LienHe(
+            KhachHangID=khach_hang,
+            PhongID=phong_id,
+            LyDoLienHe=ly_do_lien_he,
+            NoiDung=message,
+            TrangThai='Chưa xử lý'
+        )
+        lien_he.save()
+
+        messages.success(request, 'Tin nhắn của bạn đã được gửi thành công!')
+        return render(request, 'k_lienhemail.html')
+
+
+    # Nếu là GET, hiển thị form
+    return render(request, 'k_lienhemail.html', {
+        'khach_hang': khach_hang,
+        'phong': phong_id,  # Truyền thông tin phòng để hiển thị nếu cần
+    })
+def hop_dong(request):
+    # Kiểm tra xem người dùng đã đăng nhập chưa
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    # Lấy thông tin hợp đồng của khách hàng
+    khach_hang_id = request.session['khach_hang_id']
+    hop_dong_list = HopDong.objects.filter(KhachHangID__KhachHangID=khach_hang_id)
+
+    context = {
+        'hop_dong_list': hop_dong_list,
+    }
+    
+    return render(request, 'HTML/k_hopdong.html', context)
+
+def k_hoa_don(request):
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    khach_hang_id = request.session['khach_hang_id']
+    
+    try:
+        khach_hang = KhachHang.objects.get(KhachHangID=khach_hang_id)
+    except KhachHang.DoesNotExist:
+        messages.error(request, 'Không tìm thấy thông tin khách hàng!')
+        return redirect('login_khach_hang')
+
+    hop_dong = HopDong.objects.filter(KhachHangID=khach_hang).order_by('-NgayBatDau').first()
+    phong = hop_dong.PhongID if hop_dong else None
+    ngay_vao = hop_dong.NgayBatDau if hop_dong else "Không có hợp đồng"
+    chi_so_list = ChiSoDienNuoc.objects.filter(PhongID=phong).order_by('-ThangNam') if phong else []
+
+    # Tính toán các giá trị
+    for chi_so in chi_so_list:
+        chi_so.SoDienDaTieuThu = (chi_so.ChiSoDienMoi - chi_so.ChiSoDienCu) if chi_so.ChiSoDienMoi is not None and chi_so.ChiSoDienCu is not None else (chi_so.SoDienDaTieuThu or 0)
+        chi_so.SoNuocDaTieuThu = (chi_so.ChiSoNuocMoi - chi_so.ChiSoNuocCu) if chi_so.ChiSoNuocMoi is not None and chi_so.ChiSoNuocCu is not None else (chi_so.SoNuocDaTieuThu or 0)
+
+        # Tính tiền điện và tiền nước
+        chi_so.tien_dien = (chi_so.SoDienDaTieuThu * chi_so.GiaDienMoi) if chi_so.GiaDienMoi is not None else 0
+        chi_so.tien_nuoc = (chi_so.SoNuocDaTieuThu * chi_so.GiaNuocMoi) if chi_so.GiaNuocMoi is not None else 0
+
+        # Tính tổng tiền
+        chi_so.TongTien = (chi_so.TienPhong or 0) + chi_so.tien_dien + chi_so.tien_nuoc + (chi_so.TongDichVu or 0)
+
+    tong_tien_no = chi_so_list.aggregate(Sum('TienNo'))['TienNo__sum'] or 0
+
+    context = {
+        'khach_hang': khach_hang,
+        'phong': phong,
+        'hop_dong': hop_dong,
+        'ngay_vao': ngay_vao,
+        'chi_so_list': chi_so_list,
+        'tong_tien_no': tong_tien_no,
+    }
+
+    return render(request, 'HTML/k_hoadon.html', context)
+def k_hop_dong(request):
+    # Kiểm tra xem người dùng đã đăng nhập chưa
+    if 'khach_hang_id' not in request.session:
+        messages.error(request, 'Vui lòng đăng nhập trước khi truy cập trang này!')
+        return redirect('login_khach_hang')
+
+    # Lấy ID khách hàng từ session
+    khach_hang_id = request.session['khach_hang_id']
+
+    try:
+        # Lấy thông tin khách hàng
+        khach_hang = KhachHang.objects.get(KhachHangID=khach_hang_id)
+
+        # Lấy hợp đồng gần nhất của khách hàng
+        hop_dong = HopDong.objects.filter(KhachHangID=khach_hang).order_by('-NgayBatDau').first()
+
+        if not hop_dong:
+            messages.error(request, 'Bạn chưa có hợp đồng nào!')
+            return redirect('menu')
+
+        # Lấy thông tin phòng và quản lý từ hợp đồng
+        phong = hop_dong.PhongID
+        quan_li = hop_dong.QuanLiID  # Lấy thông tin quản lý (có thể là None)
+
+        context = {
+            'hop_dong': hop_dong,
+            'khach_hang': khach_hang,
+            'phong': phong,
+            'quan_li': quan_li,  # Thêm thông tin quản lý vào context
+        }
+        return render(request, 'k_hopdong.html', context)
+
+    except KhachHang.DoesNotExist:
+        messages.error(request, 'Khách hàng không tồn tại!')
+        return redirect('login_khach_hang')
+    except Exception as e:
+        messages.error(request, f'Có lỗi xảy ra: {str(e)}')
+        return redirect('menu')
+def logout_khach_hang(request):
+    if 'khach_hang_id' in request.session:
+        del request.session['khach_hang_id']  # Xóa session
+    messages.success(request, 'Đăng xuất thành công!')
+    return redirect('login_khach_hang')
+
+def thong_bao(request):
+    lien_he_list = LienHe.objects.select_related('KhachHangID', 'PhongID').all()
+
+    context = {
+        'lien_he_list': lien_he_list,
+    }
+    return render(request, 'thongbao.html', context)
+def view_contact_detail(request, lien_he_id):
+    # Fetch the specific LienHe record with related data
+    lien_he = get_object_or_404(LienHe, LienHeID=lien_he_id)
+    if lien_he.TrangThai != "Đã xem":
+        lien_he.TrangThai = "Đã xem"
+        lien_he.save()
+    context = {
+        'lien_he': lien_he,
+    }
+    return render(request, 'xemtin.html', context)
+
+def submit_contact(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        room_number = request.POST.get('room-number')
+        reason = request.POST.get('tenant-name')
+        note = request.POST.get('note', '')  # Default to empty string if not provided
+
+        # Step 1: Query TaiKhoan by Email to get KhachHangID
+        try:
+            tai_khoan = TaiKhoan.objects.get(Email=email)
+            khach_hang = tai_khoan.KhachHangID  # Access linked KhachHang object
+        except TaiKhoan.DoesNotExist:
+            messages.error(request, "Không tìm thấy tài khoản với email này.")
+            return render(request, 'k_lienhe.html')
+
+        # Step 2: Query Phong by SoPhong
+        try:
+            phong = Phong.objects.get(SoPhong=room_number)
+        except Phong.DoesNotExist:
+            messages.error(request, "Không tìm thấy phòng với số phòng này.")
+            return render(request, 'k_lienhe.html')
+
+        # Step 3: Create and save LienHe record
+        lien_he = LienHe(
+            KhachHangID=khach_hang,  # ForeignKey expects the KhachHang object
+            PhongID=phong,          # ForeignKey expects the Phong object
+            LyDoLienHe=reason,
+            NoiDung=note,
+            TrangThai='Chưa xử lý'  # Default status
+        )
+        lien_he.save()
+
+        messages.success(request, "Tin nhắn của bạn đã được gửi thành công!")
+        return render(request, 'k_dangnhap.html')
+
+    # If GET request, render the form
+    return render(request, 'k_lienhe.html')
+
+import hmac
+import hashlib
+import json
+import requests
+import uuid
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from datetime import datetime
+import random
+
+def generate_order_id():
+    timestamp = datetime.now().strftime("%Y%m%d")  # Lấy 8 số đầu là ngày hiện tại (YYYYMMDD)
+    random_part = str(random.randint(100000, 999999))  # Thêm một số ngẫu nhiên 6 chữ số
+    return f"{timestamp}{random_part}"
+
+# Thông tin API MoMo (Thay bằng thông tin thật của bạn)
+# Thông tin MoMo
+PARTNER_CODE = "MOMO"
+ACCESS_KEY = "F8BBA842ECF85"
+SECRET_KEY = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
+ENDPOINT = "https://test-payment.momo.vn/v2/gateway/api/create"
+RETURN_URL = "http://127.0.0.1:8000/k-hoa-don/"
+NOTIFY_URL = "http://localhost:8000/payment/notify/"
+
+def generate_order_id():
+    timestamp = datetime.now().strftime("%Y%m%d")  # Lấy 8 số đầu là YYYYMMDD
+    random_part = str(random.randint(100000, 999999))  # Số ngẫu nhiên 6 chữ số
+    return f"{timestamp}{random_part}"  # Kết hợp thành order_id
+
+def generate_signature(order_id, amount, order_info):
+    raw_signature = (
+        f"accessKey={ACCESS_KEY}&amount={amount}&extraData=&ipnUrl={NOTIFY_URL}"
+        f"&orderId={order_id}&orderInfo={order_info}&partnerCode={PARTNER_CODE}"
+        f"&redirectUrl={RETURN_URL}&requestId={order_id}&requestType=captureWallet"
+    )
+    h = hmac.new(SECRET_KEY.encode('utf-8'), raw_signature.encode('utf-8'), hashlib.sha256)
+    return h.hexdigest()
+
+def process_payment(request):
+    if request.method == "POST":
+        order_id = generate_order_id()  # Gọi hàm tạo order_id với 8 số đầu là ngày hiện tại
+        amount = request.POST.get("amount")
+        order_info = "Thanh toán MoMo"
+
+        if not amount:
+            messages.error(request, "Thông tin không hợp lệ!")
+            return render(request, 'k_hoadon.html')
+
+        try:
+            amount = int(float(amount.strip()))
+        except ValueError:
+            messages.error(request, "Số tiền không hợp lệ!")
+            return redirect('process_payment')
+
+        signature = generate_signature(order_id, amount, order_info)
+
+        payment_data = {
+            "partnerCode": PARTNER_CODE,
+            "accessKey": ACCESS_KEY,
+            "requestId": order_id,
+            "amount": str(amount),
+            "orderId": order_id,
+            "orderInfo": order_info,
+            "redirectUrl": RETURN_URL,
+            "ipnUrl": NOTIFY_URL,
+            "requestType": "captureWallet",
+            "extraData": "",
+            "signature": signature
+        }
+
+        response = requests.post(ENDPOINT, json=payment_data)
+        result = response.json()
+
+        if result.get("resultCode") == 0:
+            ChiSoDienNuoc.objects.filter(ChiSoID=order_id).update(TrangThaiThanhToan='Y')
+            return redirect(result.get("payUrl"))
+        else:
+            messages.error(request, f"Lỗi: {result.get('message', 'Unknown error')}")
+            return render(request, 'k_hoadon.html')
+
+    return render(request, 'k_hoadon.html')
+
+@csrf_exempt
+def payment_return(request):
+    data = request.GET
+    return render(request, 'payment/result.html', {'data': data})
+
+@csrf_exempt
+def payment_notify(request):
+    data = request.POST
+    print("--------------------NOTIFY DATA----------------")
+    print(data)
+    return HttpResponse(status=200)

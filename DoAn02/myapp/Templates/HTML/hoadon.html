@@ -2,235 +2,233 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Khách Hàng</title>
-    <link rel="stylesheet" href="{% static 'CSS/hoadon.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản Lý Khách Hàng</title>
+<link rel="stylesheet" href="{% static 'CSS/hoadon.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
+<!--css-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
+<link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
+<link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
+<!-- js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
+<script src="{% static 'app/js/s3.js' %}"> </script>
+<script src="{% static 'app/js/all.min.js' %}"> </script>
+<script src="{% static 'app/js/mýcript.js' %}"> </script>
 
-   <!--css-->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   <link href="{% static 'app/css/style.css' %}" rel="stylesheet" />
-   <link href="{% static 'app/css/owl.caroysel.min.css' %}" rel="stylesheet" />
-   <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
-   <!-- js -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
- 
-   <script src="{% static 'app/js/s3.js' %}"> </script>
-   <script src="{% static 'app/js/all.min.js' %}"> </script>
-   <script src="{% static 'app/js/mýcript.js' %}"> </script>
-
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <div class="menu-toggle">☰</div>
-        <div class="header-title">Nhà trọ Cần Thơ</div>
-        <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm..." />
-            <button class="timkiem" type="submit">🔍</button>
-        </div>
+<header class="header">
+    <div class="menu-toggle">☰</div>
+    <div class="header-title">Nhà trọ Cần Thơ</div>
+    {% comment %} <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm..." />
+        <button class="timkiem" type="submit">🔍</button>
+    </div> {% endcomment %}
 
-          
-
-    </header><br><br>
-    <div class="sidebar">
-        <div class="logo_content">
-            <div class="logo">
-                <div class="icon">
-                    <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
-                </div>
-                <div class="logo_name">Xin chào, admin</div>
-            </div>
-        </div>
-        <ul class="nav_list">
-            <li>
-              <a href="{% url 'menu' %}">
-                <span class="icon">🏠</span>
-                <span class="link_name">Trang chủ</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'quan_ly_khach_hang' %}">
-                <span class="icon">🧑‍💼</span>
-                <span class="link_name">Quản lý khách hàng</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'doanh_thu' %}">
-                <span class="icon">💰</span>
-                <span class="link_name">Doanh thu</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'dich_vu' %}">
-                <span class="icon">💡</span>
-                <span class="link_name">Dịch vụ</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'hoa_don' %}">
-                <span class="icon">🧾</span>
-                <span class="link_name">Hóa đơn</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'quan_li_hop_dong' %}">
-                <span class="icon">📂</span>
-                <span class="link_name">Quản lý hợp đồng</span>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'dang_xuat' %}" class="logout-link">
-                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-                <span class="link_name">Đăng Xuất</span>
-              </a>
-            </li>
-          </ul>
-    </div>
-
-    <div class="content container">
-        <div class="mt-4">
-          <div class="rong">   
-            
-    <div class="cf-title-12">
-      <h3>DANH SÁCH HÓA ĐƠN</h3>
-      </div>
-            <div class="room-list-header">   
-            <nav class="doi">
-              <div class="select-container">
-                <i class="bi bi-house-door icon"></i>
-              <select id="dayFilter" onchange="filterInvoices()">
-                  <option value="Tất cả" disabled selected hidden>Dãy</option>
-                  <option value="Tất cả">Tất cả</option>
-                  {% for day in day_phong_list %}
-                  <option value="{{ day }}">{{ day }}</option>
-                  {% endfor %}
-              </select>
-            </div><br>
-            <div class="select-container">
-              <i class="fa-solid fa-list-ol ico"></i> 
-              <select id="roomFilter" onchange="filterInvoices()">
-                  <option value="Tất cả" disabled selected hidden>Số phòng</option>
-                  <option value="Tất cả">Tất cả</option>
-                  {% for room in so_phong_list %}
-                  <option value="{{ room }}">{{ room }}</option>
-                  {% endfor %}
-              </select>
-          </div><br>
-
-                   <div class="search-container">
-                    <button class="search-btn">
-                        <i style="font-weight: bold;">Go</i>
-                    </button>
-                    <!--<button class="themphong" onclick="document.location='themphong.html'">+ Thêm phòng</button>  --> 
-                 </div>
-          </div>
-
-             
-          </nav>
-          
-        </div>
-
-
-
-    <div class="content flex-grow-1 p-4">
-        <!-- Thanh công cụ phía trên -->
-        <div class="topbar d-flex justify-content-between align-items-center mb-4">
-         
-            <div>
-   
-            </div>
-        </div>
     
-    <div class="container mt-4">
-        <div class="khachhang">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Dãy</th>
-                        <th>Phòng</th>
-                        <th>Tên</th>
-                        <th>Số Điện Thoại</th>
-                        <th>Tiền trọ/Tiền nợ</th>
-                        <th>Hành Động</th>
-                    </tr>
-                </thead>
-                <tbody id="invoiceTable">
-                    {% for hoa_don in hoa_don_data %}
-                    <tr class="invoice-row" data-day="{{ hoa_don.day_phong }}" data-room="{{ hoa_don.so_phong }}">
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ hoa_don.day_phong }}</td>
-                        <td>{{ hoa_don.so_phong }}</td>
-                        <td>{{ hoa_don.ten_khach_hang }}</td>
-                        <td>{{ hoa_don.so_dien_thoai }}</td>
-                        <td>
-                            Tiền trọ: {{ hoa_don.tien_phong|floatformat:0 }} VNĐ
-                            {% if hoa_don.tien_no > 0 %}
-                            <br><span class="text-danger">Tiền nợ: {{ hoa_don.tien_no|floatformat:0 }} VNĐ</span>
-                            <br><span class="text-success">Đã trả: {{ hoa_don.tien_tra|floatformat:0 }} VNĐ</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{% url 'xem_hoa_don' hoa_don.chi_so_id %}" class="btn xemchitiet">Xem Hóa Đơn</a>
-                            {% if not hoa_don.da_thanh_toan %}
-                            <button class="thanhtoan-btn" onclick="showPaymentForm(this, {{ hoa_don.chi_so_id }}, {{ hoa_don.tong_tien }})">Thanh Toán</button>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7" class="text-center">Không có dữ liệu hóa đơn</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+</header><br><br>
+<div class="sidebar">
+    <div class="logo_content">
+        <div class="logo">
+            <div class="icon">
+                <img src="{% static '/imag/moi.jpg' %}" alt="Logo">
+            </div>
+            <div class="logo_name">Xin chào, admin</div>
+        </div>
     </div>
+    <ul class="nav_list">
+        <li>
+        <a href="{% url 'menu' %}">
+            <span class="icon">🏠</span>
+            <span class="link_name">Trang chủ</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'quan_ly_khach_hang' %}">
+            <span class="icon">🧑‍💼</span>
+            <span class="link_name">Quản lý khách hàng</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'doanh_thu' %}">
+            <span class="icon">💰</span>
+            <span class="link_name">Doanh thu</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'dich_vu' %}">
+            <span class="icon">💡</span>
+            <span class="link_name">Dịch vụ</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'hoa_don' %}">
+            <span class="icon">🧾</span>
+            <span class="link_name">Hóa đơn</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'quan_li_hop_dong' %}">
+            <span class="icon">📂</span>
+            <span class="link_name">Quản lý hợp đồng</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'dang_xuat' %}" class="logout-link">
+            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+            <span class="link_name">Đăng Xuất</span>
+        </a>
+        </li>
+    </ul>
+</div>
+
+<div class="content container">
+    <div class="mt-4">
+    <div class="rong">   
+        
+<div class="cf-title-12">
+<h3>DANH SÁCH HÓA ĐƠN</h3>
+</div>
+        <div class="room-list-header">   
+        <nav class="doi">
+        <div class="select-container">
+            <i class="bi bi-house-door icon"></i>
+        <select id="dayFilter" onchange="filterInvoices()">
+            <option value="Tất cả" disabled selected hidden>Dãy</option>
+            <option value="Tất cả">Tất cả</option>
+            {% for day in day_phong_list %}
+            <option value="{{ day }}">{{ day }}</option>
+            {% endfor %}
+        </select>
+        </div><br>
+        <div class="select-container">
+        <i class="fa-solid fa-list-ol ico"></i> 
+        <select id="roomFilter" onchange="filterInvoices()">
+            <option value="Tất cả" disabled selected hidden>Số phòng</option>
+            <option value="Tất cả">Tất cả</option>
+            {% for room in so_phong_list %}
+            <option value="{{ room }}">{{ room }}</option>
+            {% endfor %}
+        </select>
+    </div><br>
+
+            <div class="search-container">
+                <button class="search-btn">
+                    <i style="font-weight: bold;">Go</i>
+                </button>
+                <!--<button class="themphong" onclick="document.location='themphong.html'">+ Thêm phòng</button>  --> 
+            </div>
+    </div>
+
+        
+    </nav>
+    
+    </div>
+
+
+
+<div class="content flex-grow-1 p-4">
+    <!-- Thanh công cụ phía trên -->
+    <div class="topbar d-flex justify-content-between align-items-center mb-4">
+    
+        <div>
+
+        </div>
+    </div>
+
+<div class="container mt-4">
+    <div class="khachhang">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Dãy</th>
+                    <th>Phòng</th>
+                    <th>Tên</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Tiền trọ/Tiền nợ</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="invoiceTable">
+                {% for hoa_don in hoa_don_data %}
+                <tr class="invoice-row" data-day="{{ hoa_don.day_phong }}" data-room="{{ hoa_don.so_phong }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ hoa_don.day_phong }}</td>
+                    <td>{{ hoa_don.so_phong }}</td>
+                    <td>{{ hoa_don.ten_khach_hang }}</td>
+                    <td>{{ hoa_don.so_dien_thoai }}</td>
+                    <td>
+                        Tiền trọ: {{ hoa_don.tien_phong|floatformat:0 }} VNĐ
+                        {% if hoa_don.tien_no > 0 %}
+                        <br><span class="text-danger">Tiền nợ: {{ hoa_don.tien_no|floatformat:0 }} VNĐ</span>
+                        <br><span class="text-success">Đã trả: {{ hoa_don.tien_tra|floatformat:0 }} VNĐ</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'xem_hoa_don' hoa_don.chi_so_id %}" class="btn xemchitiet">Xem Hóa Đơn</a>
+                        {% if not hoa_don.da_thanh_toan %}
+                        <button class="thanhtoan-btn" onclick="showPaymentForm(this, {{ hoa_don.chi_so_id }}, {{ hoa_don.tong_tien }})">Thanh Toán</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">Không có dữ liệu hóa đơn</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
 </div>
 <div id="paymentForm" class="thanh">
-    <h3>Thanh Toán</h3>
-    <form id="payment-form" method="POST" action="">
-        {% csrf_token %}
-        <input type="hidden" id="chi_so_id" name="chi_so_id">
-        <label><input class="da" type="radio" name="payment_status" value="completed" checked> Đã Thanh Toán Đầy Đủ</label><br>
-        <label><input type="radio" name="payment_status" value="pending"> Thanh Toán Một Phần (Ghi Nợ)</label><br>
-        <div id="debtDetails" style="display:none;">
-            <label>Tổng tiền hóa đơn:</label>
-            <input type="number" id="totalAmount" name="total_amount" readonly><br>
-            
-            <div id="previousPaymentInfo" style="display:none;">
-                <label>Đã thanh toán trước đó:</label>
-                <input type="number" id="previousAmount" name="previous_amount" readonly><br>
-            </div>
-            
-            <label>Số tiền khách đưa:</label>
-            <input type="number" id="debtAmount" name="paid_amount" placeholder="Nhập số tiền khách đưa" oninput="calculateRemaining()"><br>
-            
-            <label>Số tiền sẽ ghi nợ:</label>
-            <input class="conlai" type="text" id="total" placeholder="Số tiền nợ (VNĐ)" readonly><br>
-            
-            <label>Hạn trả:</label>
-            <input type="date" id="dueDate" name="due_date" lang="vi"><br>
+<h3>Thanh Toán</h3>
+<form id="payment-form" method="POST" action="">
+    {% csrf_token %}
+    <input type="hidden" id="chi_so_id" name="chi_so_id">
+    <label><input class="da" type="radio" name="payment_status" value="completed" checked> Đã Thanh Toán Đầy Đủ</label><br>
+    <label><input type="radio" name="payment_status" value="pending"> Thanh Toán Một Phần (Ghi Nợ)</label><br>
+    <div id="debtDetails" style="display:none;">
+        <label>Tổng tiền hóa đơn:</label>
+        <input type="number" id="totalAmount" name="total_amount" readonly><br>
+        
+        <div id="previousPaymentInfo" style="display:none;">
+            <label>Đã thanh toán trước đó:</label>
+            <input type="number" id="previousAmount" name="previous_amount" readonly><br>
         </div>
-        <div class="button-container">
-            <button type="button" onclick="submitPayment()">Xác nhận</button>   
-            <button type="button" onclick="cancelPayment()">Hủy</button>
-        </div>
-    </form>
+        
+        <label>Số tiền khách đưa:</label>
+        <input type="number" id="debtAmount" name="paid_amount" placeholder="Nhập số tiền khách đưa" oninput="calculateRemaining()"><br>
+        
+        <label>Số tiền sẽ ghi nợ:</label>
+        <input class="conlai" type="text" id="total" placeholder="Số tiền nợ (VNĐ)" readonly><br>
+        
+        <label>Hạn trả:</label>
+        <input type="date" id="dueDate" name="due_date" lang="vi"><br>
+    </div>
+    <div class="button-container">
+        <button type="button" onclick="submitPayment()">Xác nhận</button>   
+        <button type="button" onclick="cancelPayment()">Hủy</button>
+    </div>
+</form>
 </div>
 
 
@@ -238,176 +236,176 @@
 </div>  
 </div>
 <script> 
-    const toggle = document.querySelector('.menu-toggle');
-    const sidebar = document.querySelector('.sidebar');
+const toggle = document.querySelector('.menu-toggle');
+const sidebar = document.querySelector('.sidebar');
 
-    toggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-  </script>
+toggle.addEventListener('click', () => {
+sidebar.classList.toggle('active');
+});
+</script>
 
 <script>
-    function calculateRemaining() {
-        const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
-        const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-        const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
-        
-        // Calculate remaining debt based on total, previous payments, and current payment
-        const remainingAmount = totalAmount - previousAmount - debtAmount;
+function calculateRemaining() {
+    const debtAmount = parseFloat(document.getElementById('debtAmount').value) || 0;
+    const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+    const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
     
-        document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    // Calculate remaining debt based on total, previous payments, and current payment
+    const remainingAmount = totalAmount - previousAmount - debtAmount;
+
+    document.getElementById('total').value = remainingAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+}
+
+let currentButton;
+let currentChiSoId;
+let currentRow;
+
+function showPaymentForm(button, chiSoId, totalAmount) {
+    currentButton = button;
+    currentChiSoId = chiSoId;
+    currentRow = button.closest('tr');
+
+    // Kiểm tra nếu nút đã là "Đã Thanh Toán" thì không mở form
+    if (currentButton.textContent === 'Đã Thanh Toán') {
+        alert('Hóa đơn này đã được thanh toán và không thể sửa đổi!');
+        return;
     }
+
+    // Hiển thị form thanh toán
+    document.getElementById('paymentForm').style.display = 'block';
     
-    let currentButton;
-    let currentChiSoId;
-    let currentRow;
+    // Cập nhật ID hóa đơn và tổng tiền
+    document.getElementById('chi_so_id').value = chiSoId;
+    document.getElementById('totalAmount').value = totalAmount;
     
-    function showPaymentForm(button, chiSoId, totalAmount) {
-        currentButton = button;
-        currentChiSoId = chiSoId;
-        currentRow = button.closest('tr');
-    
-        // Kiểm tra nếu nút đã là "Đã Thanh Toán" thì không mở form
-        if (currentButton.textContent === 'Đã Thanh Toán') {
-            alert('Hóa đơn này đã được thanh toán và không thể sửa đổi!');
-            return;
-        }
-    
-        // Hiển thị form thanh toán
-        document.getElementById('paymentForm').style.display = 'block';
+    // Check if there are previous payments
+    const previousPaymentText = currentRow.querySelector('.text-success');
+    if (previousPaymentText) {
+        const previousPaymentInfo = document.getElementById('previousPaymentInfo');
+        previousPaymentInfo.style.display = 'block';
         
-        // Cập nhật ID hóa đơn và tổng tiền
-        document.getElementById('chi_so_id').value = chiSoId;
-        document.getElementById('totalAmount').value = totalAmount;
+        // Extract the amount from the text "Đã trả: X VNĐ"
+        const previousAmountStr = previousPaymentText.textContent.replace(/[^\d]/g, '');
+        const previousAmount = parseInt(previousAmountStr, 10) || 0;
         
-        // Check if there are previous payments
-        const previousPaymentText = currentRow.querySelector('.text-success');
-        if (previousPaymentText) {
-            const previousPaymentInfo = document.getElementById('previousPaymentInfo');
-            previousPaymentInfo.style.display = 'block';
-            
-            // Extract the amount from the text "Đã trả: X VNĐ"
-            const previousAmountStr = previousPaymentText.textContent.replace(/[^\d]/g, '');
-            const previousAmount = parseInt(previousAmountStr, 10) || 0;
-            
-            document.getElementById('previousAmount').value = previousAmount;
-        } else {
-            document.getElementById('previousPaymentInfo').style.display = 'none';
-            document.getElementById('previousAmount').value = 0;
-        }
-    
-        document.querySelectorAll('input[name="payment_status"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                document.getElementById('debtDetails').style.display = radio.value === 'pending' ? 'block' : 'none';
-                if (radio.value === 'pending') calculateRemaining(); // Tính lại khi chọn "Còn Nợ"
-            });
-        });
-    
-        // Tính lại ngay khi mở form nếu đã có debtAmount
-        calculateRemaining();
-        
-        // Set ngày hôm nay làm mặc định cho hạn trả
-        const today = new Date();
-        const nextMonth = new Date(today);
-        nextMonth.setMonth(today.getMonth() + 1);
-        const formattedDate = nextMonth.toISOString().split('T')[0];
-        document.getElementById('dueDate').value = formattedDate;
-    }
-    
-    function submitPayment() {
-        const form = document.getElementById('payment-form');
-        const status = document.querySelector('input[name="payment_status"]:checked')?.value;
-    
-        if (!status) {
-            alert('Vui lòng chọn trạng thái thanh toán!');
-            return;
-        }
-        
-        // Kiểm tra dữ liệu nếu thanh toán một phần
-        if (status === 'pending') {
-            const debtAmount = document.getElementById('debtAmount').value;
-            const dueDate = document.getElementById('dueDate').value;
-            
-            if (!debtAmount || !dueDate) {
-                alert('Vui lòng nhập đầy đủ số tiền khách đưa và hạn trả!');
-                return;
-            }
-            
-            // Kiểm tra số tiền hợp lệ
-            const debtAmountValue = parseFloat(debtAmount);
-            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
-            const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
-            
-            if (debtAmountValue <= 0) {
-                alert('Số tiền thanh toán phải lớn hơn 0!');
-                return;
-            }
-            
-            if (debtAmountValue + previousAmount > totalAmount) {
-                alert('Tổng số tiền thanh toán không thể lớn hơn tổng tiền hóa đơn!');
-                return;
-            }
-            
-            // If payment would fully cover the invoice, suggest marking as completed
-            if (debtAmountValue + previousAmount >= totalAmount) {
-                if (confirm('Số tiền thanh toán đủ để thanh toán toàn bộ hóa đơn. Bạn có muốn đánh dấu là đã thanh toán đầy đủ?')) {
-                    document.querySelector('input[value="completed"]').checked = true;
-                    document.getElementById('debtDetails').style.display = 'none';
-                }
-            }
-        }
-        
-        // Cập nhật action URL của form để gửi dữ liệu lên server
-        form.action = '{% url "process_payment" 0 %}'.replace('0', currentChiSoId);
-        
-        // Gửi form
-        form.submit();
-    }
-    
-    function cancelPayment() {
-        const form = document.getElementById('paymentForm');
-        form.style.display = 'none';
-    
-        // Reset form
-        document.getElementById('chi_so_id').value = '';
-        document.getElementById('debtAmount').value = '';
-        document.getElementById('total').value = '';
-        document.getElementById('dueDate').value = '';
-        document.getElementById('previousAmount').value = '';
-        document.getElementById('debtDetails').style.display = 'none';
+        document.getElementById('previousAmount').value = previousAmount;
+    } else {
         document.getElementById('previousPaymentInfo').style.display = 'none';
-        document.querySelector('input[value="completed"]').checked = true;
+        document.getElementById('previousAmount').value = 0;
     }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.thanhtoan-btn').forEach(button => {
-            const row = button.closest('tr');
-            const hiddenInput = row.querySelector('#hiddenInput');
-    
-            if (hiddenInput && hiddenInput.value === 'Đã Thanh Toán') {
-                button.textContent = 'Đã Thanh Toán';
-                button.disabled = true; // Vô hiệu hóa nút khi tải trang
-            }
+
+    document.querySelectorAll('input[name="payment_status"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.getElementById('debtDetails').style.display = radio.value === 'pending' ? 'block' : 'none';
+            if (radio.value === 'pending') calculateRemaining(); // Tính lại khi chọn "Còn Nợ"
         });
     });
 
-    function filterInvoices() {
-        const dayFilter = document.getElementById('dayFilter').value;
-        const roomFilter = document.getElementById('roomFilter').value;
-        const rows = document.querySelectorAll('#invoiceTable .invoice-row');
+    // Tính lại ngay khi mở form nếu đã có debtAmount
+    calculateRemaining();
+    
+    // Set ngày hôm nay làm mặc định cho hạn trả
+    const today = new Date();
+    const nextMonth = new Date(today);
+    nextMonth.setMonth(today.getMonth() + 1);
+    const formattedDate = nextMonth.toISOString().split('T')[0];
+    document.getElementById('dueDate').value = formattedDate;
+}
 
-        rows.forEach(row => {
-            const day = row.getAttribute('data-day');
-            const room = row.getAttribute('data-room');
+function submitPayment() {
+    const form = document.getElementById('payment-form');
+    const status = document.querySelector('input[name="payment_status"]:checked')?.value;
 
-            // Show all rows if "Tất cả" is selected in either filter
-            if ((dayFilter === 'Tất cả' || day === dayFilter) && (roomFilter === 'Tất cả' || room === roomFilter)) {
-                row.style.display = ''; // Show row
-            } else {
-                row.style.display = 'none'; // Hide row
-            }
-        });
+    if (!status) {
+        alert('Vui lòng chọn trạng thái thanh toán!');
+        return;
     }
+    
+    // Kiểm tra dữ liệu nếu thanh toán một phần
+    if (status === 'pending') {
+        const debtAmount = document.getElementById('debtAmount').value;
+        const dueDate = document.getElementById('dueDate').value;
+        
+        if (!debtAmount || !dueDate) {
+            alert('Vui lòng nhập đầy đủ số tiền khách đưa và hạn trả!');
+            return;
+        }
+        
+        // Kiểm tra số tiền hợp lệ
+        const debtAmountValue = parseFloat(debtAmount);
+        const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+        const previousAmount = parseFloat(document.getElementById('previousAmount').value) || 0;
+        
+        if (debtAmountValue <= 0) {
+            alert('Số tiền thanh toán phải lớn hơn 0!');
+            return;
+        }
+        
+        if (debtAmountValue + previousAmount > totalAmount) {
+            alert('Tổng số tiền thanh toán không thể lớn hơn tổng tiền hóa đơn!');
+            return;
+        }
+        
+        // If payment would fully cover the invoice, suggest marking as completed
+        if (debtAmountValue + previousAmount >= totalAmount) {
+            if (confirm('Số tiền thanh toán đủ để thanh toán toàn bộ hóa đơn. Bạn có muốn đánh dấu là đã thanh toán đầy đủ?')) {
+                document.querySelector('input[value="completed"]').checked = true;
+                document.getElementById('debtDetails').style.display = 'none';
+            }
+        }
+    }
+    
+    // Cập nhật action URL của form để gửi dữ liệu lên server
+    form.action = '{% url "process_payment" 0 %}'.replace('0', currentChiSoId);
+    
+    // Gửi form
+    form.submit();
+}
+
+function cancelPayment() {
+    const form = document.getElementById('paymentForm');
+    form.style.display = 'none';
+
+    // Reset form
+    document.getElementById('chi_so_id').value = '';
+    document.getElementById('debtAmount').value = '';
+    document.getElementById('total').value = '';
+    document.getElementById('dueDate').value = '';
+    document.getElementById('previousAmount').value = '';
+    document.getElementById('debtDetails').style.display = 'none';
+    document.getElementById('previousPaymentInfo').style.display = 'none';
+    document.querySelector('input[value="completed"]').checked = true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.thanhtoan-btn').forEach(button => {
+        const row = button.closest('tr');
+        const hiddenInput = row.querySelector('#hiddenInput');
+
+        if (hiddenInput && hiddenInput.value === 'Đã Thanh Toán') {
+            button.textContent = 'Đã Thanh Toán';
+            button.disabled = true; // Vô hiệu hóa nút khi tải trang
+        }
+    });
+});
+
+function filterInvoices() {
+    const dayFilter = document.getElementById('dayFilter').value;
+    const roomFilter = document.getElementById('roomFilter').value;
+    const rows = document.querySelectorAll('#invoiceTable .invoice-row');
+
+    rows.forEach(row => {
+        const day = row.getAttribute('data-day');
+        const room = row.getAttribute('data-room');
+
+        // Show all rows if "Tất cả" is selected in either filter
+        if ((dayFilter === 'Tất cả' || day === dayFilter) && (roomFilter === 'Tất cả' || room === roomFilter)) {
+            row.style.display = ''; // Show row
+        } else {
+            row.style.display = 'none'; // Hide row
+        }
+    });
+}
 </script>
 </body>
 </html>

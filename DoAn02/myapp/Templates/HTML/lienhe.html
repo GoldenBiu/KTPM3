@@ -1,82 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" href="../CSS/lienhe.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../CSS/lienhe.css" />
     <title>Login Form</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="form-container">
-        <h1>Liên Hệ</h1>
-        <form>
-            <div class="field">
-                <span class="fas fa-user"></span>
-               <!-- <label for="full-name">Họ và tên</label>-->
-                <input type="text" id="full-name" name="full-name" placeholder="Nhập họ và tên" required>
-            </div>
-            <div class="field">
-                <span class="fas fa-envelope"></span>
-             <!--   <label for="email">Email</label>-->
-                <input type="email" id="email" name="email" placeholder="Nhập email" required>
-            </div>
-            <div class="field">
-                <span class="fas fa-phone"></span>
-              <!--  <label for="phone">Số điện thoại</label>-->
-                <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
-            </div>
-            <div class="field">
-                <span class="fas fa-address-book"></span>
-             <!--   <label for="room-number">Số phòng</label>-->
-                <input type="text" id="room-number" name="room-number" placeholder="Nhập số phòng" required>
-            </div>
+      <h1>Liên Hệ</h1>
+      <form>
+        <div class="field">
+          <span class="fas fa-user"></span>
+          <!-- <label for="full-name">Họ và tên</label>-->
+          <input
+            type="text"
+            id="full-name"
+            name="full-name"
+            placeholder="Nhập họ và tên"
+            required
+          />
+        </div>
+        <div class="field">
+          <span class="fas fa-envelope"></span>
+          <!--   <label for="email">Email</label>-->
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Nhập email"
+            required
+          />
+        </div>
+        <div class="field">
+          <span class="fas fa-phone"></span>
+          <!--  <label for="phone">Số điện thoại</label>-->
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Nhập số điện thoại"
+            required
+          />
+        </div>
+        <div class="field">
+          <span class="fas fa-address-book"></span>
+          <!--   <label for="room-number">Số phòng</label>-->
+          <input
+            type="text"
+            id="room-number"
+            name="room-number"
+            placeholder="Nhập số phòng"
+            required
+          />
+        </div>
 
-            <div class="field">
-                <!--   <label for="tenant-name"> *</label>-->
-               <span class="fas fa-info-circle"></span>
-                <input type="text" id="tenant-name" name="tenant-name" placeholder="Lý do gửi tin" list="reasons">
-                <datalist id="reasons" >
-                    <option value="Quên mật khẩu">
-                    <option value="Thay đổi số điện thoại">
-                    <option value="Khác">
-                </datalist>
-            </div>
+        <div class="field">
+          <!--   <label for="tenant-name"> *</label>-->
+          <span class="fas fa-info-circle"></span>
+          <input
+            type="text"
+            id="tenant-name"
+            name="tenant-name"
+            placeholder="Lý do gửi tin"
+            list="reasons"
+          />
+          <datalist id="reasons">
+            <option value="Quên mật khẩu"></option>
+            <option value="Thay đổi số điện thoại"></option>
+            <option value="Khác"></option>
+          </datalist>
+        </div>
 
-            <div id="note-field" class="field" style="display: none;">
-                <label for="note"> *</label>
-                <span class="fas fa-clipboard"></span>
-                <input type="text" id="note" name="note" placeholder="Nhập thay đổi">
-            </div>
+        <div id="note-field" class="field" style="display: none">
+          <label for="note"> *</label>
+          <span class="fas fa-clipboard"></span>
+          <input
+            type="text"
+            id="note"
+            name="note"
+            placeholder="Nhập thay đổi"
+          />
+        </div>
 
-            <button type="submit">Gửi</button>   
-        </form>
+        <button type="submit">Gửi</button>
+      </form>
     </div>
 
-<script>
-    document.getElementById('tenant-name').addEventListener('input', function () {
-        const noteField = document.getElementById('note-field');
-        if (this.value.trim().toLowerCase() === 'thay đổi số điện thoại') {
-            noteField.style.display = 'block'; // Hiện ô ghi chú
-        } else {
-            noteField.style.display = 'none'; // Ẩn ô ghi chú
-        }
-    });
-    
-    
-</script>
-<script>//thông báo  nuts gửi
-    document.addEventListener("DOMContentLoaded", function () {
+    <script>
+      document
+        .getElementById("tenant-name")
+        .addEventListener("input", function () {
+          const noteField = document.getElementById("note-field");
+          if (this.value.trim().toLowerCase() === "thay đổi số điện thoại") {
+            noteField.style.display = "block"; // Hiện ô ghi chú
+          } else {
+            noteField.style.display = "none"; // Ẩn ô ghi chú
+          }
+        });
+    </script>
+    <script>
+      //thông báo  nuts gửi
+      document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");
 
         form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn form gửi thật sự
+          event.preventDefault(); // Ngăn form gửi thật sự
 
-            alert("Gửi thành công!"); // Hiển thị thông báo
-            
-            form.reset(); // Xóa toàn bộ thông tin trong form
+          alert("Gửi thành công!"); // Hiển thị thông báo
+
+          form.reset(); // Xóa toàn bộ thông tin trong form
         });
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>
