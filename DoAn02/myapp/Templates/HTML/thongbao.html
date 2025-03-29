@@ -166,7 +166,6 @@
           </li>
         </ul>
 
-        <!-- Tab content -->
         <div class="tab-content" id="messageTabsContent">
           <!-- Tab 1: Tin nhắn mới -->
           <div
@@ -176,39 +175,38 @@
             aria-labelledby="new-messages-tab"
           >
             <div class="room-list-container">
-              {% for lien_he in lien_he_list %} {% if lien_he.TrangThai == "Chưa
-              xử lý" %}
-              <div class="room-item {% cycle 'alternate-row' '' %}">
-                <h3>STT: {{ forloop.counter }}</h3>
-                <div class="info-row">
-                  <p><strong>Dãy:</strong> {{ lien_he.PhongID.DayPhong }}</p>
-                  <p><strong>Phòng:</strong> {{ lien_he.PhongID.SoPhong }}</p>
-                  <p>
-                    <strong>Tên:</strong> {{ lien_he.KhachHangID.HoTenKhachHang
-                    }}
-                  </p>
-                  <p><strong>Lý do:</strong> {{ lien_he.LyDoLienHe }}</p>
-                  <p><strong>Nội Dung:</strong> {{ lien_he.NoiDung }}</p>
-                  <p>
-                    <strong>Thời gian:</strong> {{ lien_he.Time|date:"d/m/Y
-                    H:i:s" }}
-                  </p>
-                </div>
-                <div class="action-buttons">
-                  <button
-                    class="btn btn-detail"
-                    onclick="window.location.href='{% url 'xemtinnhan' lien_he.LienHeID %}'"
-                  >
-                    Xem tin
-                  </button>
-                </div>
-              </div>
-              {% endif %} {% empty %}
-              <p>Chưa có tin nhắn mới nào</p>
+              {% for lien_he in lien_he_list %}
+                {% if lien_he.TrangThai == "Chưa xử lý" %}
+                  <div class="room-item {% cycle 'alternate-row' '' %}">
+                    <h3>STT: {{ forloop.counter }}</h3>
+                    <div class="info-row">
+                      <p><strong>Dãy:</strong> {{ lien_he.PhongID.DayPhong }}</p>
+                      <p><strong>Phòng:</strong> {{ lien_he.PhongID.SoPhong }}</p>
+                      <p>
+                        <strong>Tên:</strong> {{ lien_he.KhachHangID.HoTenKhachHang }}
+                      </p>
+                      <p><strong>Lý do:</strong> {{ lien_he.LyDoLienHe }}</p>
+                      <p><strong>Nội Dung:</strong> {{ lien_he.NoiDung }}</p>
+                      <p>
+                        <strong>Thời gian:</strong> {{ lien_he.Time|date:"d/m/Y H:i:s" }}
+                      </p>
+                    </div>
+                    <div class="action-buttons">
+                      <button
+                        class="btn btn-detail"
+                        onclick="window.location.href='{% url 'xemtinnhan' lien_he.LienHeID %}'"
+                      >
+                        Xem tin
+                      </button>
+                    </div>
+                  </div>
+                {% endif %}
+              {% empty %}
+                <p>Chưa có tin nhắn mới nào</p>
               {% endfor %}
             </div>
           </div>
-
+        
           <!-- Tab 2: Tất cả tin nhắn -->
           <div
             class="tab-pane fade"
@@ -218,33 +216,31 @@
           >
             <div class="room-list-container">
               {% for lien_he in lien_he_list %}
-              <div class="room-item {% cycle 'alternate-row' '' %}">
-                <h3>STT: {{ forloop.counter }}</h3>
-                <div class="info-row">
-                  <p><strong>Dãy:</strong> {{ lien_he.PhongID.DayPhong }}</p>
-                  <p><strong>Phòng:</strong> {{ lien_he.PhongID.SoPhong }}</p>
-                  <p>
-                    <strong>Tên:</strong> {{ lien_he.KhachHangID.HoTenKhachHang
-                    }}
-                  </p>
-                  <p><strong>Lý do:</strong> {{ lien_he.LyDoLienHe }}</p>
-                  <p><strong>Nội Dung:</strong> {{ lien_he.NoiDung }}</p>
-                  <p>
-                    <strong>Thời gian:</strong> {{ lien_he.Time|date:"d/m/Y
-                    H:i:s" }}
-                  </p>
+                <div class="room-item {% cycle 'alternate-row' '' %}">
+                  <h3>STT: {{ forloop.counter }}</h3>
+                  <div class="info-row">
+                    <p><strong>Dãy:</strong> {{ lien_he.PhongID.DayPhong }}</p>
+                    <p><strong>Phòng:</strong> {{ lien_he.PhongID.SoPhong }}</p>
+                    <p>
+                      <strong>Tên:</strong> {{ lien_he.KhachHangID.HoTenKhachHang }}
+                    </p>
+                    <p><strong>Lý do:</strong> {{ lien_he.LyDoLienHe }}</p>
+                    <p><strong>Nội Dung:</strong> {{ lien_he.NoiDung }}</p>
+                    <p>
+                      <strong>Thời gian:</strong> {{ lien_he.Time|date:"d/m/Y H:i:s" }}
+                    </p>
+                  </div>
+                  <div class="action-buttons">
+                    <button
+                      class="btn btn-detail"
+                      onclick="window.location.href='{% url 'xemtinnhan' lien_he.LienHeID %}'"
+                    >
+                      Xem tin
+                    </button>
+                  </div>
                 </div>
-                <div class="action-buttons">
-                  <button
-                    class="btn btn-detail"
-                    onclick="window.location.href='{% url 'xemtinnhan' lien_he.LienHeID %}'"
-                  >
-                    Xem tin
-                  </button>
-                </div>
-              </div>
               {% empty %}
-              <p>Chưa có tin nhắn liên hệ nào.</p>
+                <p>Chưa có tin nhắn liên hệ nào.</p>
               {% endfor %}
             </div>
           </div>
