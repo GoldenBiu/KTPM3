@@ -207,7 +207,7 @@ body {
 }
 
 .search-bar input:focus {
-  width: 270px;
+  width: 312.5px;
 }
 
 .search-bar button {
@@ -318,10 +318,6 @@ body {
   font-weight: bold;
   color: #333;
 }
-.rong h6{
-  font-size: 20px;
-  padding-left: 20px;
-}
 
 
 .doi {
@@ -422,6 +418,10 @@ h6 {
 } 
 
 
+.rong h6{
+  font-size: 20px;
+  padding-left: 20px;
+}
 
 /* ============================ */
 /*     icon tìm kiếm phía dưới */

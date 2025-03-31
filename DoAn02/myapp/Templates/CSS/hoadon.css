@@ -41,41 +41,102 @@ body {
 }
 
 /* Sidebar dọc */
-/* Sidebar dọc */
+
+
+/* ===================================+++++THAY++++++======================================= */
+/* Thanh bên dọc */
 .sidebar {
   position: fixed;
   top: 60px;
   left: 0;
   height: calc(100% - 60px);
-  width: 60px; /* Chiều rộng mặc định */
+  width: 60px;
   background: #fff;
   margin-left: 6px;
   padding: 10px 5px;
-  transition: width 0.3s ease; /* Hiệu ứng mở rộng mượt mà */
+  transition: width 0.3s ease;
   box-shadow: 5px 3px 30px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   z-index: 900;
+  overflow: hidden; /* Ngăn nội dung tràn ra ngoài khi thu lại */
 }
 
 .sidebar.active {
-  width: 240px; /* Chiều rộng khi mở rộng */
+  width: 240px;
+  overflow: visible; /* Cho phép nội dung hiển thị đầy đủ khi mở */
+}
+
+/* Danh sách điều hướng */
+.nav_list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.nav_list li {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin: 26px 0;
+}
+
+.nav_list li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  padding: 0 8px;
+  transition: font-weight 0.3s ease, transform 0.3s ease;
+  position: relative; /* Để kiểm soát vùng nhấn */
+}
+
+/* Khi sidebar không active, chỉ icon được nhấn */
+.sidebar:not(.active) .nav_list li a {
+  pointer-events: none; /* Vô hiệu hóa toàn bộ thẻ a */
+}
+
+.sidebar:not(.active) .nav_list li a .icon {
+  pointer-events: auto; /* Chỉ bật vùng nhấn cho icon */
+}
+
+/* Icon */
+.nav_list li .icon {
+  font-size: 24px;
+  width: 40px;
+  text-align: center;
+  min-width: 40px; /* Đảm bảo kích thước cố định */
+}
+
+/* Link name */
+.link_name {
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .link_name {
+  opacity: 1;
 }
 
 /* Nội dung chính */
 .content {
-  margin-top: 10px;
-  margin-left: 70px; /* Khoảng cách ban đầu lớn hơn width của sidebar (60px + padding) */
+  margin-top: 60px;
+  margin-left: 60px;
   padding: 20px;
   flex-grow: 1;
-  transition: margin-left 0.3s ease; /* Chỉ điều chỉnh margin-left */
-  width: calc(100% -70px); /* Đảm bảo chiếm toàn bộ chiều rộng còn lại */
-  max-width: calc(100vw - 70px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  width: calc(100% - 60px);
+  max-width: calc(100vw - 60px);
+  position: relative;
+  z-index: 800;
 }
 
 .sidebar.active ~ .content {
-  margin-left: 170px; /* Dịch sang phải tương ứng với sidebar mở rộng (240px + padding) */
-  width: calc(100% - 250px); /* Điều chỉnh lại chiều rộng */
-  max-width: calc(100vw - 250px);
+  margin-left: 180px;
+  width: calc(100% - 240px);
+  max-width: calc(100vw - 240px);
 }
 .logo_content {
   display: flex;
@@ -106,53 +167,13 @@ body {
 .sidebar.active .logo_name {
   opacity: 1;
 }
-
-.nav_list {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 10px;
-}
-
-.nav_list li {
-  display: flex;
-  align-items: center;
-  height: 50px; /* Giảm height để khoảng cách đều hơn */
-  margin: 26px 0; /* Khoảng cách giữa các mục */
-}
-
-.nav_list li a {
-  text-decoration: none;
-  color: #333;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  font-weight: 700;
-  padding: 0 10px; /* Khoảng cách bên trong thẻ a */
-  transition: font-weight 0.3s ease, transform 0.3s ease; /* Thêm transition cho hiệu ứng */
-}
-.nav_list li a:hover {
-  transform: scale(1.05); /* Phóng to 5% khi hover */
-}
-.nav_list li .icon {
-  font-size: 24px; /* Icon đồng đều kích thước */
-  width: 40px; /* Đảm bảo icon căn đều */
-  text-align: center;
-}
-
-.link_name {
-  font-size: 16px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sidebar.active .link_name {
-  opacity: 1;
-}
+/* ==========================THAY===================================== */
+/* ==========================THAY===================================== */
 
 /* Nội dung chính */
 .content {
   margin-top: 10px;
-  margin-left: 60px;
+  margin-left: 30px;
   padding: 20px;
   flex-grow: 1;
   transition: margin-left 0.3s ease, width 0.3s ease;
@@ -545,7 +566,7 @@ tr.pending {
   }
   .rong {
     font-size: 20px;
-    padding-left: 20px;
+    padding-right: 1px;
   }
   
   

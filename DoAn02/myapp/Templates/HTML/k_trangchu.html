@@ -21,7 +21,7 @@
     </div>
 
     <div class="welcome">
-      <h1>Chào mừng, {{ ho_ten_khach_hang }}!</h1>
+      {% comment %} <h1>Chào mừng, {{ ho_ten_khach_hang }}!</h1> {% endcomment %}
     </div>
 
     <div class="container">
@@ -35,8 +35,7 @@
             <p><strong>Phòng:</strong> {{ hop_dong.PhongID.SoPhong }}</p>
             {% if tong_tien_no != 0 %}
             <p>
-              <strong>Số Tiền Cần Thanh Toán:</strong> {{
-              tong_tien_no|floatformat:0 }} VND
+              <strong>Số Tiền Cần Thanh Toán:</strong> {{ tong_tien_no|floatformat:0 }} VND
             </p>
             <button class="btn" id="show-payment-methods">
               Thanh Toán Ngay
@@ -54,16 +53,22 @@
     <!-- Phần phương thức thanh toán -->
     <div class="invoice-right" id="payment-popup">
       <h2>Phương thức thanh toán</h2>
-      <div class="payment-methods">
+      <form action="{% url 'process_payment' %}" method="POST">
+        <div class="payment-methods">
         <label class="payment-option">
+          {% csrf_token %}
+          {% for giao_dich in lich_su_giao_dich %}
+            <input type="hidden"   name="amount" value="{{ giao_dich.TongTien|default:0|floatformat:0 }}" ></input>
+          {% endfor %}
           <input type="radio" name="payment" value="zalopay" /> Thanh toán qua
-          ZaloPay
+          MoMo
         </label>
       </div>
       <div class="buttons">
-        <button class="pay-btn">Thanh toán ngay</button>
+        <button type="submit" class="pay-btn">Thanh toán ngay</button>
         <button class="close-btn" id="close-payment-popup">Đóng</button>
       </div>
+    </form>
     </div>
 
     <div class="history">
@@ -83,13 +88,10 @@
           {% for giao_dich in lich_su_giao_dich %}
           <tr>
             <td>{{ giao_dich.ChiSoID }}</td>
-            <td>{{ giao_dich.Tientra|default:0|floatformat:0 }} VND</td>
+            <td>{{ giao_dich.TongTien|default:0|floatformat:0 }} VND</td>
             <td>{{ giao_dich.ThangNam }}</td>
             <td>
-              {% if giao_dich.TrangThaiThanhToan == 'Y' %} Đã thanh toán {% elif
-              giao_dich.TrangThaiThanhToan == 'N' %} Chưa thanh toán {% elif
-              giao_dich.TrangThaiThanhToan == 'T' %} Còn nợ {% else %} Không xác
-              định {% endif %}
+              {% if giao_dich.TrangThaiThanhToan == 'Y' %} Đã thanh toán {% elif giao_dich.TrangThaiThanhToan == 'N' %} Chưa thanh toán {% elif giao_dich.TrangThaiThanhToan == 'T' %} Còn nợ {% else %} Không xác định {% endif %}
             </td>
           </tr>
           {% empty %}

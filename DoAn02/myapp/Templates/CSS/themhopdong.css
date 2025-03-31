@@ -42,63 +42,131 @@
     font-weight: 600;
   }
   
-  /* Sidebar dọc */
-  .sidebar {
-    position: fixed;
-    top: 65px; /* Dưới header khoảng cách của bảng dọc */
-    left: 0;
-    height: calc(100% - 60px);
-    width: 60px;
-    background: #fff;
-   
-    margin-left: 6px;
-    padding: 2px 1px 0px ;
-    transition: width 0.1s ease;
-    box-shadow: 5px 3px 30px rgba(0, 0, 0, 0.1);
-    border-radius:25px; /*bo góc*/
-  }
-  
-  .sidebar.active {
-    width: 240px;
-  }
-  
-  
-  
-  .logo_content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-  }
-  
-  .logo {
-    display: flex; /* Bố cục ngang */
-    align-items: center; /* Canh giữa theo chiều dọc */
-    gap: 10px; /* Khoảng cách giữa các phần tử */
-  }
-  
-  .logo .icon img {
-    width: 52px; /* Kích thước hình ảnh */
-    height: auto; /* Giữ tỷ lệ ảnh */
-    margin-left: 29px;
-  }
-  
-  .logo_name {
-    display: inline-block; /* Tránh bị xếp dọc */
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0; /* Xóa margin thừa */
-  
-    display: none; /* Ẩn hoàn toàn phần tử */
-  }
-  
-  
-  
-  
-  .sidebar.active .logo_name {
-    opacity: 1;
-   
-  }
+  /* ===================================+++++THAY++++++======================================= */
+/* Thanh bên dọc */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100% - 60px);
+  width: 60px;
+  background: #fff;
+  margin-left: 6px;
+  padding: 10px 5px;
+  transition: width 0.3s ease;
+  box-shadow: 5px 3px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  z-index: 900;
+  overflow: hidden; /* Ngăn nội dung tràn ra ngoài khi thu lại */
+}
+
+.sidebar.active {
+  width: 240px;
+  overflow: visible; /* Cho phép nội dung hiển thị đầy đủ khi mở */
+}
+
+/* Danh sách điều hướng */
+.nav_list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.nav_list li {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin: 26px 0;
+}
+
+.nav_list li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  padding: 0 8px;
+  transition: font-weight 0.3s ease, transform 0.3s ease;
+  position: relative; /* Để kiểm soát vùng nhấn */
+}
+
+/* Khi sidebar không active, chỉ icon được nhấn */
+.sidebar:not(.active) .nav_list li a {
+  pointer-events: none; /* Vô hiệu hóa toàn bộ thẻ a */
+}
+
+.sidebar:not(.active) .nav_list li a .icon {
+  pointer-events: auto; /* Chỉ bật vùng nhấn cho icon */
+}
+
+/* Icon */
+.nav_list li .icon {
+  font-size: 24px;
+  width: 40px;
+  text-align: center;
+  min-width: 40px; /* Đảm bảo kích thước cố định */
+}
+
+/* Link name */
+.link_name {
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .link_name {
+  opacity: 1;
+}
+
+/* Nội dung chính */
+.content {
+  margin-top: 60px;
+  margin-left: 60px;
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  width: calc(100% - 60px);
+  max-width: calc(100vw - 60px);
+  position: relative;
+  z-index: 800;
+}
+
+.sidebar.active ~ .content {
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  max-width: calc(100vw - 240px);
+}
+.logo_content {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo .icon img {
+  width: 40px; /* Kích thước logo nhỏ hơn và đồng đều */
+  height: 40px;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+.logo_name {
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.active .logo_name {
+  opacity: 1;
+}
+/* ==========================THAY===================================== */
   
   .nav_list {
     margin-top: 5px;
@@ -475,7 +543,9 @@ h3 scan{
 /* 3 nút button  */
 /* ======================= */
 .tren{
-  margin-left:980px;
+  margin-left:1170px;
+  height:45px;
+  width:90px;
  
 }
 /* .tren .quaylai{

@@ -35,8 +35,7 @@
             <p class="date">Ngày thu: <span>{{ chi_so.ThangNam }}</span></p>
             <div class="info">
               <p>
-                <strong>Họ tên:</strong> {{
-                chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
+                <strong>Họ tên:</strong> {{ chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
               </p>
               <p><strong>Dãy:</strong> {{ chi_so.DayPhong }}</p>
               <p><strong>Phòng:</strong> {{ chi_so.PhongID.SoPhong }}</p>
@@ -49,15 +48,13 @@
               </div>
               <div class="cost-item">
                 <p class="service">
-                  Điện ({{ chi_so.SoDienDaTieuThu|default:0 }} kWh x {{
-                  chi_so.GiaDienMoi|floatformat:0 }} VND):
+                  Điện ({{ chi_so.SoDienDaTieuThu|default:0 }} kWh x {{ chi_so.GiaDienMoi|floatformat:0 }} VND):
                 </p>
                 <p class="amount">{{ chi_so.tien_nuoc|floatformat:0 }} VND</p>
               </div>
               <div class="cost-item">
                 <p class="service">
-                  Nước ({{ chi_so.SoNuocDaTieuThu|default:0 }} m³ x {{
-                  chi_so.GiaNuocMoi|floatformat:0 }} VND):
+                  Nước ({{ chi_so.SoNuocDaTieuThu|default:0 }} m³ x {{ chi_so.GiaNuocMoi|floatformat:0 }} VND):
                 </p>
                 <p class="amount">{{ chi_so.tien_dien|floatformat:0 }} VND</p>
               </div>
@@ -74,8 +71,7 @@
             </div>
             <div class="footer">
               <p>
-                Người thanh toán: {{
-                chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
+                Người thanh toán: {{ chi_so.PhongID.hopdong_set.last.KhachHangID.HoTenKhachHang }}
               </p>
             </div>
             {% endfor %} {% else %}
@@ -103,8 +99,8 @@
             </div>
             <div class="buttons">
               <form action="{% url 'process_payment' %}" method="POST">
-                {% if chi_so_list %} {% for chi_so in chi_so_list %} {%
-                csrf_token %}
+                {% if chi_so_list %} {% for chi_so in chi_so_list %}
+                {% csrf_token %}
                 <input
                   type="hidden"
                   name="order_id"

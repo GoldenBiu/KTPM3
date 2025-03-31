@@ -36,36 +36,36 @@
       </div>
       <div class="profile-info">
         <div class="info-item">
-          <label>Số Điện Thoại</label>
-          <span>{{ khach_hang.SoDienThoai|default:"Chưa cung cấp" }}</span>
+            <label>Số Điện Thoại</label>
+            <span>{{ khach_hang.SoDienThoai|default:"Chưa cung cấp" }}</span>
         </div>
         <div class="info-item">
-          <label>CMND/CCCD</label>
-          <span>{{ khach_hang.SoCCCD }}</span>
+            <label>CMND/CCCD</label>
+            <span>{{ khach_hang.SoCCCD|default_if_none:"Chưa cung cấp" }}</span>
         </div>
         <div class="info-item">
-          <label>Ngày Sinh</label>
-          <span>{{ khach_hang.NgaySinh|date:"d/m/Y" }}</span>
+            <label>Ngày Sinh</label>
+            <span>{{ khach_hang.NgaySinh|date:"d/m/Y"|default:"Chưa cập nhật" }}</span>
         </div>
         <div class="info-item">
-          <label>Công Việc</label>
-          <span>{{ khach_hang.CongViec }}</span>
+            <label>Công Việc</label>
+            <span>{{ khach_hang.CongViec|default_if_none:"Chưa cập nhật" }}</span>
         </div>
         <div class="info-item">
-          <label>Ngày Thuê</label>
-          <span
-            >{{ hop_dong.NgayBatDau|date:"d/m/Y"|default:"Chưa có hợp đồng"
-            }}</span
-          >
+            <label>Ngày Thuê</label>
+            <span>{{ hop_dong.NgayBatDau|default_if_none:"Chưa có hợp đồng"|date:"d/m/Y" }}</span>
         </div>
         <div class="info-item">
-          <label>Địa Chỉ</label>
-          <span
-            >{{ khach_hang.DiaChiCuThe }}, {{ khach_hang.PhuongXa }}, {{
-            khach_hang.QuanHuyen }}, {{ khach_hang.TinhThanh }}</span
-          >
+            <label>Địa Chỉ</label>
+            <span>
+                {{ khach_hang.DiaChiCuThe|default_if_none:"" }}, 
+                {{ khach_hang.PhuongXa|default_if_none:"" }}, 
+                {{ khach_hang.QuanHuyen|default_if_none:"" }}, 
+                {{ khach_hang.TinhThanh|default_if_none:"" }}
+            </span>
         </div>
-      </div>
+    </div>
+    
       <a
         href="{% url 'logout_khach_hang' %}"
         class="logout-btn"

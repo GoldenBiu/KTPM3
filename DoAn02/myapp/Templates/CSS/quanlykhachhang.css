@@ -186,38 +186,44 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  height: 38.5px;
+  margin-left: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid #5E3582;
 }
 
 .search-bar input {
-  flex: 1;
-  padding: 6px;
   border: none;
-  border-radius: 4px;
-  font-size: 13px;
-  height: 32px;
   outline: none;
-  background-color: #f5f5f5;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 90px;
+  transition: width 0.3s ease;
 }
 
-.search-bar select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.search-bar input:focus {
+  width: 270px;
 }
 
 .search-bar button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: #eeaff3;
   border: none;
-  border-radius: 4px;
+  color: #1c1919;
+  padding: 5px 10px;
+  height: 28px;
+  border-radius: 10px;
+  font-size: 14px;
   cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .search-bar button:hover {
-  background-color: #0056b3;
+  background-color: #f186f1;
 }
 
 /* Button group */
@@ -227,43 +233,19 @@ body {
   padding-left: 10px;
 }
 
-.button-group .btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.3s ease;
-}
-
-.button-group .dathue {
-  background-color: #28a745;
-  color: white;
-}
-
 .button-group .dathue:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-}
-
-.button-group .phongtrong {
-  background-color: #ffc107;
+  background: rgb(167, 222, 214);
   color: black;
 }
 
 .button-group .phongtrong:hover {
-  background-color: #e0a800;
-  transform: translateY(-2px);
-}
-
-.button-group .hientatca {
-  background-color: #17a2b8;
-  color: white;
+  background: rgb(246, 237, 156);
+  color: black;
 }
 
 .button-group .hientatca:hover {
-  background-color: #138496;
-  transform: translateY(-2px);
+  background: rgba(249, 205, 158, 0.952);
+  color: black;
 }
 
 /* Đăng xuất */
@@ -477,31 +459,33 @@ tr.rieng td {
 /*                                     3 nút button                         */
 /* ============================================================================================ */
 .btn.chinhsua {
-    background-color: #ffc107;
-    color: black;
-}
-
-.btn.chinhsua:hover {
-    background-color: #e9b47c;
+    background: #f4cda1e8; /* Baby Blue */
+    width: 150px;
+    color: #353434;
+  }
+  
+  .btn.chinhsua:hover {
+    background: #e9b47c;
     color:#343333 ;
     transform: translateY(-2px);
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-
-
-/* Nút xem hợp đồng - Xanh nước biển nhạt */
-.btn.taotaikhoan {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn.taotaikhoan:hover {
-  background-color: #98f5c8;
-  transform: translateY(-2px);
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
+  }
+  
+  
+  
+  /* Nút xem hợp đồng - Xanh nước biển nhạt */
+  .btn.taotaikhoan {
+    background: #87f3a9d0; /* Light Sky Blue */
+    width: 150px;
+    color: #252424;
+  }
+  
+  .btn.taotaikhoan:hover {
+    background: #98f5c8;
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
 /* =============================== */
 
 .message-box{
@@ -777,6 +761,7 @@ min-width: 100px;
   flex-wrap: wrap;  /* Để đảm bảo responsive */
   align-items: center;  /* Căn giữa theo chiều dọc */
   gap: 9px; /* Tăng khoảng cách giữa các nhóm label + select */
+
   padding-left: 60px;/* Khoảng cách giữa menu với hàng dãy */
 
 }
@@ -828,7 +813,7 @@ select:focus {
 .select-container {
   position: relative;
   display: inline-block;
-  margin-right: 37px; /* Tạo khoảng cách giữa các dropdown */
+  margin-right: 17px; /* Tạo khoảng cách giữa các dropdown */
 }
 .select-container select {
   padding-left: 56px;
@@ -857,6 +842,9 @@ select:focus {
 /*     icon tìm kiếm phía dưới */
 /* ============================= */
 
+
+
+
 .search-btn {
   background-color: #FDDC9B;
   border: none;
@@ -883,57 +871,80 @@ transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
 
-/* tìm kiếm thanh phía trên */
-/* Phong cách cho thanh tìm kiếm */
+/* Thanh tìm kiếm */
 .search-bar {
-  display: flex; /* Sắp xếp theo chiều ngang */
-  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
-  height: 38px;
-  margin-left: auto; /* Đẩy thanh tìm kiếm sang bên phải */
-  background-color: #fff; /* Nền trắng */
-  border-radius: 15px; /* Bo góc thanh tìm kiếm */
-  padding: 5px; /* Khoảng cách giữa các phần tử bên trong */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
-  border: 2px solid #5E3582; /* Viền màu tím đậm */
+  display: flex;
+  align-items: center;
+  height: 38.5px;
+  margin-left: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid #5E3582;
 }
 
-/* Phong cách cho ô nhập liệu */
 .search-bar input {
-  border: none; /* Loại bỏ viền */
-  outline: none; /* Loại bỏ viền xanh khi chọn */
-  padding: 5px 5px; /* Khoảng cách bên trong ô nhập liệu */
-  border-radius: 8px; /* Bo góc ô nhập liệu */
-  font-size: 14px; /* Kích thước chữ */
-  width: 200px; /* Chiều rộng ô tìm kiếm */
-  
-  transition: width 0.3s ease; /* Hiệu ứng khi nhập */
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 90px;
+  transition: width 0.3s ease;
 }
 
-/* Khi ô nhập được chọn, mở rộng chiều rộng */
 .search-bar input:focus {
-  width: 300px;
+  width: 290px;
 }
 
-/* Phong cách cho nút tìm kiếm */
 .search-bar button {
-  background-color: #eeaff3; /* Màu hồng đậm */
-  border: none; /* Loại bỏ viền */
-  color: #1c1919; /* Màu chữ trắng */
-  padding: 5px 10px; /* Khoảng cách nút */
-height: 28px;
-  border-radius: 10px; /* Bo góc nút */
-  font-size: 14px; /* Kích thước chữ */
-  cursor: pointer; /* Con trỏ thành bàn tay khi hover */
-  margin-left: 5px; /* Khoảng cách giữa nút và ô nhập liệu */
-  transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+  background-color: #eeaff3;
+  border: none;
+  color: #1c1919;
+  padding: 5px 10px;
+  height: 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.3s ease;
 }
 
-/* Hiệu ứng hover cho nút tìm kiếm */
 .search-bar button:hover {
-  background-color: #f186f1; /* Màu hồng đậm hơn khi hover */
- 
+  background-color: #f186f1;
 }
 
-.search-bar :active:hover {
-  background-color: white; /* Màu hồng đậm hơn khi hover */
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.button-group .dathue:hover {
+  background: rgb(167, 222, 214);
+  color: black;
+}
+
+.button-group .phongtrong:hover {
+  background: rgb(246, 237, 156);
+  color: black;
+}
+
+.button-group .hientatca:hover {
+  background: rgba(249, 205, 158, 0.952);
+  color: black;
+}
+h6 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff; /* Chữ màu trắng */
+  text-shadow: 0 0 10px #bae3f2, 0 0 20px #dee7ef, 0 0 30px #b0d7fa;
+} 
+
+
+.rong h6{
+  font-size: 20px;
+ margin-right: 990px;
 }

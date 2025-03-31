@@ -356,7 +356,7 @@ function submitPayment() {
     }
     
     // Cập nhật action URL của form để gửi dữ liệu lên server
-    form.action = '{% url "process_payment" 0 %}'.replace('0', currentChiSoId);
+    form.action = '{% url "process_payment1" 0 %}'.replace('0', currentChiSoId);
     
     // Gửi form
     form.submit();

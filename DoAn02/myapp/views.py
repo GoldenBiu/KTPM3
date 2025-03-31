@@ -497,9 +497,10 @@ def quan_ly_khach_hang(request):
     
     return render(request, 'HTML/quanlykhachhang.html', context)
 
+
 def doanh_thu(request):
     try:
-        # Get month and year from request (default to current month/year)
+        # Lấy tháng và năm từ request (mặc định là tháng/năm hiện tại)
         if request.method == "POST":
             month = int(request.POST.get("month", timezone.now().month))
             year = int(request.POST.get("year", timezone.now().year))
@@ -507,27 +508,27 @@ def doanh_thu(request):
             month = timezone.now().month
             year = timezone.now().year
 
-        logger.info(f"Processing request for month: {month}, year: {year}")
+        logger.info(f"Xử lý dữ liệu cho tháng: {month}, năm: {year}")
 
         # Tạo key cho cache dựa trên năm
         cache_key = f"doanh_thu_{year}"
         cached_data = cache.get(cache_key)
 
         if cached_data:
-            logger.info(f"Cache hit for year: {year}")
+            logger.info(f"Dữ liệu cache có sẵn cho năm {year}")
             monthly_revenue = cached_data['monthly_revenue']
             monthly_expenses = cached_data['monthly_expenses']
             yearly_revenue = cached_data['yearly_revenue']
             yearly_expenses = cached_data['yearly_expenses']
             years = cached_data['years']
         else:
-            logger.info(f"Cache miss for year: {year}, calculating data...")
+            logger.info(f"Không tìm thấy cache, tính toán dữ liệu cho năm {year}...")
 
-            # Initialize lists to hold monthly data
+            # Khởi tạo danh sách doanh thu và chi phí theo tháng
             monthly_revenue = []
             monthly_expenses = []
 
-            # Tối ưu truy vấn: Lấy tất cả dữ liệu của năm một lần duy nhất
+            # Truy vấn tất cả dữ liệu theo năm một lần
             chi_so_list_year = ChiSoDienNuoc.objects.filter(
                 ThangNam__endswith=f"/{year}"
             ).values('ThangNam', 'TongTien', 'TongDichVu', 'GiaDienMoi', 'SoDienDaTieuThu', 'GiaNuocMoi', 'SoNuocDaTieuThu')
@@ -553,14 +554,13 @@ def doanh_thu(request):
                 monthly_revenue.append(float(monthly_data[key]['revenue']))
                 monthly_expenses.append(float(monthly_data[key]['expenses']))
 
-            # Calculate yearly revenue and expenses for the last 7 years
+            # Tính doanh thu và chi phí hàng năm cho 7 năm gần nhất
             current_year = timezone.now().year
             years = list(range(current_year - 6, current_year + 1))
             yearly_revenue = []
             yearly_expenses = []
 
             for y in years:
-                # Tối ưu truy vấn: Lấy dữ liệu một lần cho mỗi năm
                 chi_so_list = ChiSoDienNuoc.objects.filter(
                     ThangNam__endswith=f"/{y}"
                 ).values('TongTien', 'TongDichVu', 'GiaDienMoi', 'SoDienDaTieuThu', 'GiaNuocMoi', 'SoNuocDaTieuThu')
@@ -589,14 +589,22 @@ def doanh_thu(request):
                 'years': years,
             }, timeout=3600)
 
-        # Get selected month's revenue, expenses, and debt
-        current_total_revenue = monthly_revenue[month - 1] if monthly_revenue else 0
-        current_total_expenses = monthly_expenses[month - 1] if monthly_expenses else 0
+        # 👉 **Cập nhật lại cách tính tổng doanh thu theo tháng**
+        current_total_revenue = ChiSoDienNuoc.objects.filter(
+            ThangNam=f"{month:02d}/{year}"
+        ).aggregate(Sum('TongTien'))['TongTien__sum'] or 0
+
+        # 👉 **Cập nhật lại cách tính tổng chi phí theo tháng**
+        current_total_expenses = ChiSoDienNuoc.objects.filter(
+            ThangNam=f"{month:02d}/{year}"
+        ).aggregate(Sum('TongDichVu'))['TongDichVu__sum'] or 0
+
+        # 👉 **Tính tổng nợ của tháng**
         total_debt = ChiSoDienNuoc.objects.filter(
             ThangNam=f"{month:02d}/{year}"
         ).aggregate(Sum('TienNo'))['TienNo__sum'] or 0
 
-        # If this is an AJAX request, return JSON data
+        # Trả về JSON nếu là AJAX request
         if request.method == "POST":
             return JsonResponse({
                 'current_total_revenue': current_total_revenue,
@@ -606,7 +614,7 @@ def doanh_thu(request):
                 'monthly_expenses': monthly_expenses,
             })
 
-        # Otherwise, render the page
+        # Render template nếu không phải AJAX
         context = {
             'monthly_revenue': json.dumps(monthly_revenue),
             'monthly_expenses': json.dumps(monthly_expenses),
@@ -619,13 +627,12 @@ def doanh_thu(request):
             'yearly_expenses': json.dumps(yearly_expenses),
             'years': json.dumps(years),
         }
-        
+
         return render(request, 'HTML/doanhthu.html', context)
 
     except Exception as e:
-        logger.error(f"Error in doanh_thu view: {str(e)}")
+        logger.error(f"Lỗi trong doanh_thu: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
-
 def dich_vu(request):
     # Lấy tất cả dịch vụ từ database
     services = DichVu.objects.all()
@@ -1340,7 +1347,7 @@ def xoa_gia_dien_nuoc(request, gia_id):
     
     return redirect('dich_vu')
 
-def process_payment(request, chi_so_id):
+def process_payment1(request, chi_so_id):
     """
     Xử lý thanh toán hóa đơn
     """
@@ -1802,7 +1809,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from datetime import datetime
 import random
-
+from django.db.models import F
 def generate_order_id():
     timestamp = datetime.now().strftime("%Y%m%d")  # Lấy 8 số đầu là ngày hiện tại (YYYYMMDD)
     random_part = str(random.randint(100000, 999999))  # Thêm một số ngẫu nhiên 6 chữ số
@@ -1833,10 +1840,11 @@ def generate_signature(order_id, amount, order_info):
 
 def process_payment(request):
     if request.method == "POST":
+
         order_id = generate_order_id()  # Gọi hàm tạo order_id với 8 số đầu là ngày hiện tại
         amount = request.POST.get("amount")
         order_info = "Thanh toán MoMo"
-
+        print(amount)
         if not amount:
             messages.error(request, "Thông tin không hợp lệ!")
             return render(request, 'k_hoadon.html')
@@ -1867,7 +1875,12 @@ def process_payment(request):
         result = response.json()
 
         if result.get("resultCode") == 0:
-            ChiSoDienNuoc.objects.filter(ChiSoID=order_id).update(TrangThaiThanhToan='Y')
+            # Cập nhật trạng thái thanh toán và số tiền
+            ChiSoDienNuoc.objects.filter(ChiSoID=order_id).update(
+                TrangThaiThanhToan='Y',
+                TienNo=0,  # Đặt Tiền Nợ về 0
+                Tientra=F('TongTien')  # Cập nhật TienTra bằng giá trị của TongTien
+            )
             return redirect(result.get("payUrl"))
         else:
             messages.error(request, f"Lỗi: {result.get('message', 'Unknown error')}")
